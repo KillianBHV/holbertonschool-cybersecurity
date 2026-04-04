@@ -21,3 +21,18 @@
 - [PURPOSE] Hide sensible informations, in this case IPs
 - [COMMAND USED] sed
 - [GETTING FLAG] `Yes`
+
+### TASK 4
+- [PURPOSE] Get large files in a directory
+- [COMMANDS USED] ls; awk
+- [GETTING FLAG] `Yes`
+
+### TASK 5
+- [PURPOSE] Lock access of out employees 
+- [COMMANDS USED] read; id; usermod
+- [GETTING FLAG] `Yes`
+
+### TASK 6
+- [PURPOSE] Waiting Web Server is connected
+- [COMMAND USED] nc (netcat); echo; sleep 
+- [GETTING FLAG] `Yes`
