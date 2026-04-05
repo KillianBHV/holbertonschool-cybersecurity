@@ -39,5 +39,5 @@
 
 ### TASK 7
 - [PURPOSE] Create backups
-- [COMMAND USED] 
-- [GETTING FLAG] `No`
+- [COMMAND USED] mkdir; wc; cut; gzip; mv; echo 
+- [GETTING FLAG] `Yes`
