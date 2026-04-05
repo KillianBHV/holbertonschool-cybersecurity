@@ -36,3 +36,8 @@
 - [PURPOSE] Waiting Web Server is connected
 - [COMMAND USED] nc (netcat); echo; sleep 
 - [GETTING FLAG] `Yes`
+
+### TASK 7
+- [PURPOSE] Create backups
+- [COMMAND USED] 
+- [GETTING FLAG] `No`
