@@ -17,7 +17,19 @@
 - [GETTING FLAG] `Yes`
 
 ### TASK 3
+- [PURPOSE] Check and Fix SSH Configuration
+- [COMMANDS USED] sed; sshd + /etc/init.d/ssh
+- [GETTING FLAG] `Yes`
+
 ### TASK 4
+- [PURPOSE] Configure a password policy
+- [COMMANDS USED] dkpg; apt; echo
+- [GETTING FLAG] `Yes`
+
 ### TASK 5
+- [PURPOSE] Search for weak hashed passwords
+- [COMMAND USED] awk
+- [GETTING FLAG] `Yes`
+
 ### TASK 6
 ### TASK 7
