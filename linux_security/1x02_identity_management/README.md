@@ -32,4 +32,11 @@
 - [GETTING FLAG] `Yes`
 
 ### TASK 6
+- [PURPOSE] Configure SSH connexion without password
+- [COMANDS USED] useradd; passwd; mkdir; chmod; chown; echo
+- [GETTING FLAG] `Yes`
+
 ### TASK 7
+- [PURPOSE] Control granted access with sudoers
+- [COMMANDS USED] mkdir; echo; chmod; visudo
+- [GETTING FLAG] `Yes`
