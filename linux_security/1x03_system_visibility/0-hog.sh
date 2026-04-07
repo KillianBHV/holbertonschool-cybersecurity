@@ -1,2 +1,2 @@
 #!/bin/bash
-ps -eo pid,euser --no-headers --sort=pcpu | awk -F' ' 'NR==1 {print $1 " " $2}'
+ps -eo pid,pcpu,comm --sort=-pcpu --no-headers | awk 'NR==1 {print $1 " " $3}'
