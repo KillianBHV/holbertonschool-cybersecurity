@@ -13,8 +13,8 @@
 
 ### TASK 2
 - [PURPOSE] Get near-privilege root users
-- [COMMANDS USED] Add later...
-- [GETTING FLAG] `No`
+- [COMMANDS USED] id; read; echo; awk; grep 
+- [GETTING FLAG] `Yes`
 
 ### TASK 3
 ### TASK 4
