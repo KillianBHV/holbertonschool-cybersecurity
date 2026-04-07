@@ -10,7 +10,7 @@ while IFS=: read -r name _ gid _; do
 	done
 done < <(getent group)
 
-awk -F: '($3 >= 1000) {print $1 ":" $4}' "$1" | while IFS=: read -r user gid; do
+awk -F: '($3 >= 1000) {print $1 ":" $4}' "$1" | while read -r user gid; do
 	if [ -n "${GID_TO_GROUPS[$gid]}" ]; then
 		echo "$user:${GID_TO_GROUPS[$gid]}"
 	fi
