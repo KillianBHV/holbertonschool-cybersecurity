@@ -1,2 +1,2 @@
 #!/bin/bash
-kill -23 $1
+kill -SIGSTOP $1
