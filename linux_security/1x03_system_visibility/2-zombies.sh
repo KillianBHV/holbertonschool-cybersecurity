@@ -1,2 +1,2 @@
 #!/bin/bash
-ps -eo pid,s | awk -F' ' '$2 == "Z" {print $1}'
+ps -eo pid,state | awk -F' ' '$2 == "Z" {print $1}'
