@@ -33,7 +33,7 @@ check_integrity () {
 		file_hash=$(md5sum "$file" | cut -d' ' -f1)
 
 		if [ $file_hash != $gold_hash ]; then
-			cat "/var/backups/sentinel/sshd_config.gold" > "$file"
+			cp "/var/backups/sentinel/${file##*/}.gold" "$file"
 			echo "FIXED: Restored $file"
 		else
 			echo "OK: $file integrity verified"
