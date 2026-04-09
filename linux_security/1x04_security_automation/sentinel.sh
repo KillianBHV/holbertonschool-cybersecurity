@@ -19,11 +19,14 @@ check_services () {
 
 			if [ $? -ne 0 ]; then
 				echo "ERROR: Unable to restart $svc"
+				log "SERVICE" "$svc" "ALERT" "Unable to restart"
 			else
 				echo "FIXED: Restarted service $svc"
+				log "SERVICE" "$svc" "FIXED" "Restarted Service"
 			fi
 		else
 			echo "OK: $svc is running"
+			log "SERVICE" "$svc" "OK" "Service is running"
 		fi
 	done
 }
@@ -36,8 +39,10 @@ check_integrity () {
 		if [ $file_hash != $gold_hash ]; then
 			cp "/var/backups/sentinel/${file##*/}.gold" "$file"
 			echo "FIXED: Restored $file"
+			log "INTEGRITY" "$file" "FIXED" "Restored $file"
 		else
 			echo "OK: $file integrity verified"
+			log "INTEGRITY" "$file" "OK" "Integrity verified"
 		fi
 	done
 }
@@ -53,10 +58,18 @@ check_ports () {
 		done
 
 		if [[ $present -ne 1 ]]; then
-			kill -SIGKILL $current_port
+			kill -SIGKILL $current_port 2>/dev/null
 			echo "ALERT: Killed rogue process on port $current_port"
+			log "PORT" "$p" "ALERT" "Killed process rogue" 
+		else
+			log "PORT" "$p" "OK" "Port allowed"
 		fi
 	done < <(ss -ltnpH 2>/dev/null | awk '{split($4,a,":"); print a[length(a)]}')
+}
+
+log () {
+	timestamp=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+	echo "{\"timestamp\": \"$timestamp\", \"component\": \"$1\", \"target\": \"$2\", \"status\": \"$3\", \"details\": \"$4\"}" >> /var/log/sentinel.log
 }
 
 check_services
