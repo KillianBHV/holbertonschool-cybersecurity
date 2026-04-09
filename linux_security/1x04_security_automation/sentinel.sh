@@ -10,6 +10,7 @@ if [ -z $FILES_TO_WATCH ] || [ -z $SERVICES ]; then
 fi
 
 check_services () {
+	# START_SERVICES
 	for svc in "${SERVICES[@]}"; do
 		pgrep -f "$svc" > /dev/null
 
