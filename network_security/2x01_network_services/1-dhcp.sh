@@ -1,2 +1,2 @@
 #!/bin/bash
-nmcli device show eth0 | grep "^IP4.GATEWAY" | awk -F' ' '{print $2}'
+grep "option routers" /var/lib/dhcp/dhclient*.leases | tail -n 1 | awk '{print $3}' | tr -d ';'
