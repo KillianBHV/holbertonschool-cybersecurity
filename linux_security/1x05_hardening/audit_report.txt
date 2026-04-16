@@ -1,0 +1,16 @@
+===============================================
+ HARDENING AUDIT REPORT - Friu Apr  10 13:35:53 UTC 2026
+===============================================
+
+[INFO] Hardening procedure completed successfully.
+[INFO] SSH configured on port 2222.
+[INFO] Firewall policy created: /etc/hardening/firewall.rules
+[INFO] Kernel hardened: ip_forward=0, icmp_echo_ignore_all=1
+[INFO] Password policy: minlen=12, complexity enforced, max 90 days
+[INFO] Faillock: deny=5 attempts
+[INFO] Root account locked
+[INFO] 0 unauthorized users removed
+
+===============================================
+ COMPLIANCE STATUS: PASS
+===============================================
