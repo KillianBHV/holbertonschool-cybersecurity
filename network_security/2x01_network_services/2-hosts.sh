@@ -1,2 +1,2 @@
 #!/bin/bash
-cat /etc/hosts | grep "localhost" | awk -F' ' '$0 ~ /\./ {print $1}'
+cat /etc/hosts | grep "localhost" | awk -F' ' '$0 ~ /\./ {print $1}' | tr -d '\n'
