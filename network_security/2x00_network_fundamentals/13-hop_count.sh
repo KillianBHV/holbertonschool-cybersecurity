@@ -1,1 +1,2 @@
-traceroute google.com | tail -n 1 | awk -F' ' '{print $1}'
+#!/bin/bash
+traceroute "$1" | tail -n 1 | awk -F' ' '{print $1}'
