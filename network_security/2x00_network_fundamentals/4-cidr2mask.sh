@@ -1,2 +1,2 @@
 #!/bin/bash
-dec=$(printf "%d" "$(echo "ibase=2; $(for i in $(seq 1 "$1"); do echo -n "1"; done; for i in $(seq 1 "$((32 - $1))"); do echo -n "0"; done)" | bc)"); echo "$(( dec >> 24 )).$(( dec >> 16 & 0xFF)).$(( dec >> 8 & 0xFF )).$(( dec & 0xFF))"
+n=$1; b1=$((n>=8?255:0)); b2=$((n>=16?255:0)); b3=$((n>=24?255:0)); b4=$((n>24?255-((1<<(32-n))-1):0)); printf "%d.%d.%d.%d" "$b1" "$b2" "$b3" "$b4"
