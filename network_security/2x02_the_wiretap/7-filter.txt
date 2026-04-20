@@ -1,1 +1,1 @@
-ip.dst == 10.10.10.80 && tcp.flags.syn == 1
+ip.dst == 10.10.10.80 && tcp.flags.syn == 1 || http
