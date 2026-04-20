@@ -1,0 +1,1 @@
+tcp.flags == 0x002 || tcp.flags == 0x004 || tcp.flags == 0x012 ||  tcp.flags == 0x001
