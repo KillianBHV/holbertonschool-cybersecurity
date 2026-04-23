@@ -1,1 +1,1 @@
-tcp port (80 or 443)
+host and (port 80 or port 443)
