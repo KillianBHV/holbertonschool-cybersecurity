@@ -1,2 +1,3 @@
 #!/bin/bash
-tshark -r $1 -T fields -e frame.number -Y 'frame contains "/bin/sh"'
+tshark -r $1 -Y 'frame contains "/bin/sh"' -T fields -e frame.number
+
