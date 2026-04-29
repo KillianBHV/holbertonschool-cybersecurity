@@ -1,3 +1,3 @@
 #!/bin/bash
-tshark -r "$1" -T fields -e frame.time -Y 'ip.addr' | awk 'NR==1; END{print}'
+tshark -r "$1" -Y 'ip.addr' -T fields -e frame.time | awk 'NR==1; END{print}'
 
