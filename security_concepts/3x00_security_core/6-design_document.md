@@ -1,48 +1,49 @@
+# ApexVault - Security Design Document
 ## Executive Summary
-#### REDACTION SPACE - MODIFICATIONS STATE: ONGOING...
-
+As a secure storage system design for VIP clients, ApexVault requires strict confidentiality, integrity and restrictive administrative access.<br>The system follows a `zero-trust security model` (no internal component is inherently trusted, including administrators and infrastructure) and enforces strong cryptographic protections to ensure that sensitive data remains inaccessible to unauthorized parties.
 
 ## 1. Authentication Strategy
-**Global Section Goal:** Clearly identify **`who`** performs actions.
 
-**The Gold Rule:** Passwords are banned. 
+### Selected Technology
+We use `FIDO2 / WebAuthn` (passwordless authentication using crypptographic key pairs stored on a secure user device such as a hardware token or biometric system like fingerprint/face recognition).
 
-- ### **Selected Technology**
-*Specify if it's a solution or not and reason(s)*<br>
+### Justification
+This method is selected because it provides phishing-resistant auhtentication (credentials cannot be reused or intercepted like passwords or SMS codes).<br>Compared to traditional authentication methods:<br>
+- Passwords: vulnerable to leaks, reuse, brute force attacks.
+- SMS OTP: vulnerable to interception and SIM swapping.
+- FIDO2/WebAuthn: authentication is bound to the physical device and cryptographic challenge-response.
 
-|Name|Security Properties|Reason|Selected|
-|:-:|:-:|:-------|:-------:|
-|***Password-Based***|Knowledge|Violation of the gold rule, therefore this method is not allowed.|X|
-|**OTP (One-Time Passcode)**|Knowledge/Possession Technology|Seen as an alternative to One-Time Password and password itself, it is useful if used as a last-step process and an approach by randomness and variable length code.|✓|
-|***SSO***|Knowledge/Possession Technology|Centralized login process not safely applicable for financial activities.|X|
-|**Biometric**|Inherence|Combined with factor method, biometric authentication is very useful because of the difficulty to duplicate biometric owner *(at that time)*.|✓|
-|***Retina Scan***|Inherence|Even with sensitive level information, this access control model enforces strict restrictions used in highly sensitive environments *(e.g. governments datacenters)*. In the context of a commercial VIP storage system, it may introduce unnecessary operational constraints.|X|
-|**FIDO2**|Knowledge/Possession Technology|Combined with at least one other security property, this method is excellent for sensitive informations like financial ones.|✓|
-|***Voice Recognition***|Possession|Very important: this method could be efficient a few years ago, but that is not the case anymore. Because of the improvments of *A.I. and specialized tools*, our voices can be replicate with much more accurate as time continues. So, this method is no longer efficient for sensitive information.|X|
-
-- **Final Choice (better for implementation):** `Biometric combined to FIDO2 and OTP`.<br>It respects the chain "something ***you know***, something ***you have***, something you ***are***". It will be always possible to break through the process, but this combination stays very solid at that time.
-- This combination enforces the strength of authentication sequence, inherited from password and SMS code, with much more security. While passwords and SMS are more likely plain, raw information, this combination is much more specific information to have or to obtain, actng as a better and enforcement authentication method.
+### Final Result
+No reusable secret exists on the server side, significantly reducing attack surface.
 
 ## 2. Authorization Model
-**Global Section Goal:** Clearly identify **`what`** actions a user is allow to perform.
 
-**The Gold Rule:** Even the SysAdmin cannot read client files, only manage the server
+### Model Selected
+We use `**RBAC** (Role-Based Access Control: permissions are assigned based on predefined roles such as user, auditor, admin)` combined with `client-side encryption (data is encrypted before leaving the user's device)`.
 
-- ### **Model Selected:** `RBAC (Role-Based Access Control)`
-    - RBAC is the better choice in this case because it provides clear role separation while remaining manageable in an enterprise environment.
-    - ABAC offers fine-grained access control, it introduces additional policy complexity and administrative overhead.
-    - Even if VIP context works with sensitive data, MAC provides extremely strict access enforcement much more oriented for governement or high-related systems. It is not necessary in our situation to be as strict as this level.
+### Admin Restriction
+Even system administrators cannot access client data because of a `zero-knowledge architecture (the system never stores or has access to decryption keys)`.
 
-*An admin stays a user, he has to be on the same ruleset than other users.*
+### Technical Enforcement
+- Data is encrypted on the client side before upload.
+- Encryption keys are generated and stored only on the client side.
+- The server stores only encrypted blobs (unreadable ciphertext).
 
-### ***Admin Restrictions - Concepts***
-- Contents must be **`encrypted`** on either client side and server side.
-- Never act directly as a root user, use correctly configured **`administration accounts`** instead.
-- You can even **`deactivate`** the main root session on your system with the previous requirement .
-- Be sure that **`only administration processes`** can be done with these accounts.
-- Apply **`right permissions`** as you do it with other account units *(individuals, groups)*. Administrators are not supposed to see, access and/or modify data that does not concern them, or does not implied them.
-- Remember the *least privilege principle*, administrators are not exception to this model.
+### Final Result
+Administrators can manage infrastructure but cannot decrypt or read client data under any circumstances 
 
 ## 3. Accounting Architecture
-**Global Section Goal:** Follow actions to establish an efficient timeline of events, very useful for **`tracability`** and **`non-repudiation`**.
-#### REDACTION SPACE - MODIFICATIONS STATE: ONGOING...
+
+### Storage Location
+Logs are stored in a **`centralized logging system (dedicated infrastructure separated from user-level servers to prevent tampering and isolation of audit data)`**
+
+### Integrity Mechanism
+We ensure log integrity using:
+#### 1) Append-only logging, immuable logs.
+#### 2) Cryptographic hash chaining, previous entry hash for linking.
+#### 3) WORM  storage (Write Once Read Many): stored in a system that physically prevents modification or deletion.
+
+### Final Result
+- Tampering becomes directly detectable
+- Deletion attempts are blocked or leave forensic traces
+- Full audit trail is preserved
