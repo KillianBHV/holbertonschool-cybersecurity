@@ -1,0 +1,33 @@
+/usr/sbin/nginx {
+# Core binary, config file
+/usr/sbin/nginx r,
+/etc/nginx/** r,
+
+# Static web content, SecureHealth plugin files
+/usr/share/nginx/html/** r,
+/opt/securehealth/plugin.conf r,
+/opt/securehealth/data/** r,
+
+# Logging, Runtime files
+/var/log/ngin/** rw,
+/run/nginx.pid rw,
+/run/nginx/** rw,
+
+# Dynamically loaded system libraries
+/lib/** rm,
+/usr/lib/** rm,
+
+# Network access
+network inet stream,
+network inet dgram,
+
+# Hostname resolution
+/etc/hosts r,
+/etc/hostname r,
+/etc/resolv.conf r,
+/etc/nsswicth.conf r,
+
+# Needed if HTTPS is enabled
+/etc/ssl/** r,
+/etc/letsencrypt/** r,
+}
