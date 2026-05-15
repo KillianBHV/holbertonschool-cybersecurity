@@ -9,7 +9,7 @@
 /opt/securehealth/data/** r,
 
 # Logging, Runtime files
-/var/log/ngin/** rw,
+/var/log/nginx/** rw,
 /run/nginx.pid rw,
 /run/nginx/** rw,
 
