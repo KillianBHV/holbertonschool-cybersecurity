@@ -1,6 +1,6 @@
-> ## **Section 4.2: Prohibited Activities**
-> Users shall not engage in any activity that compromises the security, integrity, or intended use of BioHealth information systems. This includes, but is not limited to, the installation, execution, or facilitation of unauthorized software on company infrastructure.
+> ### **Section 4.2: Prohibited Activities**
+> Users shall not install, execute, or use any software, scripts, agents, or services on BioHealth systems without prior explicit approval from the Information Technology (IT) Department. All software deployments must follow the official software request and approval process, including security review and authorization before installation on any company device, server, or cloud environment. Unauthorized software installation, including but not limited to user-downloaded applications, unapproved tools, or hidden background services, is strictly prohibited.
 >
-> The use of company resources—whether on-premises or cloud-based—for cryptocurrency mining, blockchain validation, or any similar computational resource exploitation is **``strictly prohibited without prior written authorization``** from the Information Security and IT Governance teams.
+> The use of BioHealth computing resources for cryptocurrency mining, blockchain validation, or any form of unauthorized computational resource exploitation is **``strictly forbidden under all circumstances``**.
 >
-> Any violation of this policy may result in **``disciplinary action``** up to and including termination of employment or contract, removal of system access, and potential legal action where applicable under organizational policy and relevant laws.
+> Any violation of this section will result in **``immediate revocation of system access and may lead to disciplinary action``** up to and including termination of employment or contract, as well as potential legal proceedings in accordance with applicable laws and internal governance policies.
