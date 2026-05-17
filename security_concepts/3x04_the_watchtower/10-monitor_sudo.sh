@@ -5,4 +5,3 @@ tail -f /var/log/auth.log | while read line; do
         echo "ALERT: Sudo violation detected!"
     fi
 done
-
