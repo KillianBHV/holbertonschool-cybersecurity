@@ -1,2 +1,4 @@
+# Don't push cache files
 __pycache__/*
-env/*
+# Don't push venv files
+venv/*
