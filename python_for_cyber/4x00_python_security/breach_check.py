@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import argparse
+import re
 import sys
 
 
@@ -33,6 +34,9 @@ def main():
     input_file = read_file(args.file)
     input_file = clean_data(input_file)
 
+    for data in input_file:
+        validate_line(data)
+
 
 def read_file(filename: str) -> list:
     """ Checks if file exists and its rights
@@ -59,6 +63,19 @@ def clean_data(lines: list) -> list:
             final_data.append(lines[i].strip())
 
     return final_data
+
+
+def validate_line(line: str) -> bool:
+    pattern_line = r"^[^:]+:[^:]+$"
+
+    if re.match(pattern_line, line):
+        pattern_mail = r"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$"
+
+        if re.match(pattern_mail, line.split(':')[0]):
+            return True
+        return False
+    else:
+        return False
 
 
 if __name__ == '__main__':
