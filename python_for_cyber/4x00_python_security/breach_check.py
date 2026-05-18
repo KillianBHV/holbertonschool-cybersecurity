@@ -9,8 +9,8 @@ import sys
 """ FRAMEWORK - BreachCheck - v1.0
 """
 
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
+root_logger = logging.getLogger(__name__)
+root_logger.setLevel(logging.DEBUG)
 
 formatter = logging.Formatter("%(asctime)s - %(levelname)s - %(message)s")
 
@@ -22,15 +22,15 @@ stream_handler = logging.StreamHandler()
 stream_handler.setLevel(logging.INFO)
 stream_handler.setFormatter(formatter)
 
-logger.addHandler(file_handler)
-logger.addHandler(stream_handler)
+root_logger.addHandler(file_handler)
+root_logger.addHandler(stream_handler)
 
 
 def main():
     """ Mainline execution process
     """
 
-    logger.info("BreachCheck v1.0 startup...")
+    logging.info("BreachCheck v1.0 startup...")
 
     parser = argparse.ArgumentParser()
     fwrite_help = "Write into file. If not specified, standard output"
@@ -46,15 +46,15 @@ def main():
                         nargs='?', default=sys.stdout,
                         help=fwrite_help)
 
-    logger.info("Command parsing...")
+    logging.info("Command parsing...")
     args = parser.parse_args()
 
-    logger.info("File processing...")
-    logger.debug("Opening file...")
+    logging.info("File processing...")
+    logging.debug("Opening file...")
     input_file = read_file(args.file)
 
-    logger.debug("File opened successfully.")
-    logger.debug("Data extraction...")
+    logging.debug("File opened successfully.")
+    logging.debug("Data extraction...")
     input_file = clean_data(input_file)
 
     for data in input_file:
@@ -69,10 +69,10 @@ def read_file(filename: str) -> list:
         with open(filename, "r") as file:
             return file.readlines()
     except FileNotFoundError:
-        logger.error(f"File not found: {filename}")
+        logging.error(f"File not found: {filename}")
         exit(1)
     except PermissionError:
-        logger.error(f"Permission denied: {filename}")
+        logging.error(f"Permission denied: {filename}")
         exit(1)
 
 
