@@ -29,7 +29,9 @@ def main():
                         help=fwrite_help)
 
     args = parser.parse_args()
+
     input_file = read_file(args.file)
+    input_file = clean_data(input_file)
 
 
 def read_file(filename: str) -> list:
@@ -45,6 +47,18 @@ def read_file(filename: str) -> list:
     except PermissionError:
         print(f"[ERROR] Permission denied: {filename}", file=sys.stderr)
         exit(1)
+
+
+def clean_data(lines: list) -> list:
+    """Clean characters
+    """
+    final_data = []
+
+    for i in range(len(lines)):
+        if lines[i] and not lines[i].startswith("#"):
+            final_data.append(lines[i].strip())
+
+    return final_data
 
 
 if __name__ == '__main__':
