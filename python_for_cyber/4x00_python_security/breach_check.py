@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import argparse
+import logging
 import re
 import sys
 
@@ -8,12 +9,28 @@ import sys
 """ FRAMEWORK - BreachCheck - v1.0
 """
 
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
+
+formatter = logging.Formatter("%(asctime)s - %(levelname)s - %(message)s")
+
+file_handler = logging.FileHandler("breach_check.log")
+file_handler.setLevel(logging.DEBUG)
+file_handler.setFormatter(formatter)
+
+stream_handler = logging.StreamHandler()
+stream_handler.setLevel(logging.INFO)
+stream_handler.setFormatter(formatter)
+
+logger.addHandler(file_handler)
+logger.addHandler(stream_handler)
+
 
 def main():
     """ Mainline execution process
     """
 
-    print("BreachCheck v1.0 startup...")
+    logger.info("BreachCheck v1.0 startup...")
 
     parser = argparse.ArgumentParser()
     fwrite_help = "Write into file. If not specified, standard output"
@@ -29,9 +46,15 @@ def main():
                         nargs='?', default=sys.stdout,
                         help=fwrite_help)
 
+    logger.info("Command parsing...")
     args = parser.parse_args()
 
+    logger.info("File processing...")
+    logger.debug("Opening file...")
     input_file = read_file(args.file)
+
+    logger.debug("File opened successfully.")
+    logger.debug("Data extraction...")
     input_file = clean_data(input_file)
 
     for data in input_file:
@@ -46,10 +69,10 @@ def read_file(filename: str) -> list:
         with open(filename, "r") as file:
             return file.readlines()
     except FileNotFoundError:
-        print(f"[ERROR] File not found: {filename}", file=sys.stderr)
+        logger.error(f"File not found: {filename}")
         exit(1)
     except PermissionError:
-        print(f"[ERROR] Permission denied: {filename}", file=sys.stderr)
+        logger.error(f"Permission denied: {filename}")
         exit(1)
 
 
