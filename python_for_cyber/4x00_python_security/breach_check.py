@@ -41,7 +41,7 @@ def read_file(filename: str) -> list:
     except FileNotFoundError:
         print(f"[ERROR] File not found: {filename}", file=sys.stderr)
         exit(1)
-    except FileNotFoundError:
+    except PermissionError:
         print(f"[ERROR] Permission denied: {filename}", file=sys.stderr)
         exit(1)
 
