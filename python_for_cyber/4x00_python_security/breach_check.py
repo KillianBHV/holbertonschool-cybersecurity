@@ -29,6 +29,7 @@ def main():
                         help=fwrite_help)
 
     args = parser.parse_args()
+    input_file = read_file(args.file)
 
 
 def read_file(filename: str) -> list:
