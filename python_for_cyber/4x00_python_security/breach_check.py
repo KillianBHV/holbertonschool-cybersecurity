@@ -57,8 +57,11 @@ def main():
     logging.debug("Data extraction...")
     input_file = clean_data(input_file)
 
+    logging.debug("Weak-Passwords research...")
+    logging.info("Password analysis...")
     for data in input_file:
-        validate_line(data)
+        if validate_line(data):
+            check_policy(data.split(':')[1])
 
 
 def read_file(filename: str) -> list:
@@ -89,6 +92,8 @@ def clean_data(lines: list) -> list:
 
 
 def validate_line(line: str) -> bool:
+    """Checks string:string presence and mail-specific
+    """
     pattern_line = r"^[^:]+:[^:]+$"
 
     if re.match(pattern_line, line):
@@ -99,6 +104,27 @@ def validate_line(line: str) -> bool:
         return False
     else:
         return False
+
+
+def check_policy(password: str) -> str:
+    """Checks passwords strength level
+    """
+    if len(password) < 8 or password.isalpha():
+        return 'WEAK'
+
+    COMMON_PASSWORD = {
+        "admin",
+        "password",
+        "123456",
+        "qwerty",
+        "azerty",
+        "pass"
+    }
+
+    if password.lower() in COMMON_PASSWORD:
+        return 'WEAK'
+
+    return 'COMPLIANT'
 
 
 if __name__ == '__main__':
