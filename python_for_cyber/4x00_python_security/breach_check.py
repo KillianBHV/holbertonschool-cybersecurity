@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 
 import argparse
-import os
 import sys
 
 
@@ -30,12 +29,21 @@ def main():
                         help=fwrite_help)
 
     args = parser.parse_args()
+
+
+def read_file(filename: str) -> list:
+    """ Checks if file exists and its rights
+    """
+
     try:
-        if not os.path.isfile(args.file):
-            print("[ERROR] Is not a regular file")
-            exit(1)
+        with open(filename, "r") as file:
+            return file.readlines()
     except FileNotFoundError:
-        print("[ERROR] File not found or does not exist.", file=sys.stderr)
+        print(f"[ERROR] File not found: {filename}", file=sys.stderr)
+        exit(1)
+    except FileNotFoundError:
+        print(f"[ERROR] Permission denied: {filename}", file=sys.stderr)
+        exit(1)
 
 
 if __name__ == '__main__':
