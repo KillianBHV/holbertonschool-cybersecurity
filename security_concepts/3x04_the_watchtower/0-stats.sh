@@ -1,4 +1,4 @@
 #!/bin/bash
-files=("auth.log" "syslog" "kern.log")
-for file in "${files[@]}"; do echo "File: /var/log/$file - Lines:" $(cat "/var/log/$file" | wc -l); done
-
+echo "File: /var/log/auth.log - Lines:" $(cat "/var/log/auth.log" | wc -l)
+echo "File: /var/log/syslog - Lines:" $(cat "/var/log/syslog" | wc -l)
+echo "File: /var/log/kern.log - Lines:" $(cat "/var/log/kern.log" | wc -l)
