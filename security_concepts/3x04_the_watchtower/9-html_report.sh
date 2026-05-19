@@ -1,7 +1,7 @@
 #!/bin/bash
 rows=$(
 awk '
-/Failed Password/ {
+/Failed password/ {
 	match($0, /from ([0-9.]+)/, a)
     ip = a[1]
     attacks[ip]++
