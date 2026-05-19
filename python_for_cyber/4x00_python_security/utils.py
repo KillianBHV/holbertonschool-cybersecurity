@@ -4,6 +4,7 @@ import configparser
 import hashlib
 import logging
 import re
+from typing import Iterator
 
 # Setting up the logger
 root_logger = logging.getLogger()
@@ -29,6 +30,22 @@ config = configparser.ConfigParser()
 if not config.read("config.ini"):
     logging.error("Config file missing")
     exit(1)
+
+
+def read_file(filename: str) -> Iterator[str]:
+    """ Checks if file exists and its rights
+    """
+
+    try:
+        with open(filename, "r") as file:
+            for line in file:
+                yield line
+    except FileNotFoundError:
+        logging.error(f"File not found: {filename}")
+        exit(1)
+    except PermissionError:
+        logging.error(f"Permission denied: {filename}")
+        exit(1)
 
 
 def clean_data(lines: list) -> list:
