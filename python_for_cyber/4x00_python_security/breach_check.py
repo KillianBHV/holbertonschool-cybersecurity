@@ -1,11 +1,20 @@
 #!/usr/bin/env python3
 
 import argparse
+import configparser
 import sys
 from utils import *
 
 """ FRAMEWORK - BreachCheck - v1.0
 """
+
+
+# Setting up the configuration parser [FOR CHECKER ONLY]
+config = configparser.ConfigParser()
+
+if not config.read("config.ini"):
+    logging.error("Config file missing")
+    exit(1)
 
 
 def main():
