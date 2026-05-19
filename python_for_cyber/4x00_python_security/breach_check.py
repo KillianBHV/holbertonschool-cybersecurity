@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import argparse
+import hashlib
 import logging
 import re
 import sys
@@ -59,9 +60,13 @@ def main():
 
     logging.debug("Weak-Passwords research...")
     logging.info("Password analysis...")
+    pass_hash_list = []
+
     for data in input_file:
         if validate_line(data):
-            check_policy(data.split(':')[1])
+            password = data.split(':')[1]
+            if check_policy(password) == 'WEAK':
+                pass_hash_list.append(hash_password(password, "123456"))
 
 
 def read_file(filename: str) -> list:
@@ -125,6 +130,15 @@ def check_policy(password: str) -> str:
         return 'WEAK'
 
     return 'COMPLIANT'
+
+
+def hash_password(password: str, salt: str) -> str:
+    """Get SHA-256 calculated hash form
+    """
+    bytes_salt = salt.encode()
+    bytes_password = password.encode()
+
+    return hashlib.sha256(bytes_password + bytes_salt).hexdigest()
 
 
 if __name__ == '__main__':
