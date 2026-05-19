@@ -1,12 +1,8 @@
 #!/bin/bash
-awk '{
-	ip = $1
-	status = $9
-	if (status ~ /4[0-9][0-9]$/) { errors[ip]++ }
-}
-END {
-	for (ip in errors) {
-		if (errors[ip] > 5) { print "ALERT : IP " ip " is scanning us!" }
-	}
-}' "$1"
+for ip in $(grep -E ' 40[34] ' "$1" | awk '{print $1}' | sort | uniq); do
+    count=$(grep "$ip" "$1" | grep -E ' 40[34] ' | wc -l)
 
+    if [ "$count" -gt 5 ]; then
+        echo "ALERT: IP $ip is scanning us!"
+    fi
+done
