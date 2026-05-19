@@ -28,7 +28,7 @@ if not root_logger.handlers:
 config = configparser.ConfigParser()
 
 if not config.read("config.ini"):
-    logging.error("Config file missing")
+    logging.error("config file missing")
     exit(1)
 
 
