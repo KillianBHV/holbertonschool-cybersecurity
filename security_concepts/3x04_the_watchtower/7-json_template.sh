@@ -1,5 +1,5 @@
 #!/bin/bash
-cat > /etc/rsyslog.conf << 'EOF'
+cat << 'EOF'
 'template(name="json_fmt" type="string" string='{"time":"%timestamp%", "host":"%hostname%", "msg":"%msg%"}\n')'
-EOF
+EOF | tee -a /etc/rsyslog.conf
 
