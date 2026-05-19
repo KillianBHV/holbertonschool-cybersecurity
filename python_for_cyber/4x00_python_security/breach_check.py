@@ -1,30 +1,12 @@
 #!/usr/bin/env python3
 
 import argparse
-import hashlib
-import logging
-import re
 import sys
-
+from typing import Iterator
+from utils import *
 
 """ FRAMEWORK - BreachCheck - v1.0
 """
-
-root_logger = logging.getLogger(__name__)
-root_logger.setLevel(logging.DEBUG)
-
-formatter = logging.Formatter("%(asctime)s - %(levelname)s - %(message)s")
-
-file_handler = logging.FileHandler("breach_check.log")
-file_handler.setLevel(logging.DEBUG)
-file_handler.setFormatter(formatter)
-
-stream_handler = logging.StreamHandler()
-stream_handler.setLevel(logging.INFO)
-stream_handler.setFormatter(formatter)
-
-root_logger.addHandler(file_handler)
-root_logger.addHandler(stream_handler)
 
 
 def main():
@@ -55,90 +37,32 @@ def main():
     input_file = read_file(args.file)
 
     logging.debug("File opened successfully.")
-    logging.debug("Data extraction...")
-    input_file = clean_data(input_file)
-
     logging.debug("Weak-Passwords research...")
     logging.info("Password analysis...")
     pass_hash_list = []
 
-    for data in input_file:
+    for data in clean_data(input_file):
         if validate_line(data):
             password = data.split(':')[1]
             if check_policy(password) == 'WEAK':
-                pass_hash_list.append(hash_password(password, "123456"))
+                salt = config["SECURITY"]["Salt"]
+                pass_hash_list.append(hash_password(password, salt))
 
 
-def read_file(filename: str) -> list:
+def read_file(filename: str) -> Iterator[str]:
     """ Checks if file exists and its rights
     """
 
     try:
         with open(filename, "r") as file:
-            return file.readlines()
+            for line in file:
+                yield line
     except FileNotFoundError:
         logging.error(f"File not found: {filename}")
         exit(1)
     except PermissionError:
         logging.error(f"Permission denied: {filename}")
         exit(1)
-
-
-def clean_data(lines: list) -> list:
-    """Clean characters
-    """
-    final_data = []
-
-    for i in range(len(lines)):
-        if lines[i] and not lines[i].startswith("#"):
-            final_data.append(lines[i].strip())
-
-    return final_data
-
-
-def validate_line(line: str) -> bool:
-    """Checks string:string presence and mail-specific
-    """
-    pattern_line = r"^[^:]+:[^:]+$"
-
-    if re.match(pattern_line, line):
-        pattern_mail = r"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$"
-
-        if re.match(pattern_mail, line.split(':')[0]):
-            return True
-        return False
-    else:
-        return False
-
-
-def check_policy(password: str) -> str:
-    """Checks passwords strength level
-    """
-    if len(password) < 8 or password.isalpha():
-        return 'WEAK'
-
-    COMMON_PASSWORD = {
-        "admin",
-        "password",
-        "123456",
-        "qwerty",
-        "azerty",
-        "pass"
-    }
-
-    if password.lower() in COMMON_PASSWORD:
-        return 'WEAK'
-
-    return 'COMPLIANT'
-
-
-def hash_password(password: str, salt: str) -> str:
-    """Get SHA-256 calculated hash form
-    """
-    bytes_salt = salt.encode()
-    bytes_password = password.encode()
-
-    return hashlib.sha256(bytes_password + bytes_salt).hexdigest()
 
 
 if __name__ == '__main__':
