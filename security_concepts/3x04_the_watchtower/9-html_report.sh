@@ -16,7 +16,7 @@ do
 done
 )
 
-cat > "$2" <<EOF
+cat <<EOF
 <!DOCTYPE html>
 <html>
 <head><title>Security Report</title></head>
@@ -31,5 +31,5 @@ cat > "$2" <<EOF
 </table>
 </body>
 </html>
-EOF
+EOF | tee -a "$1"
 
