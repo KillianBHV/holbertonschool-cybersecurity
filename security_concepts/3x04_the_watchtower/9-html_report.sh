@@ -31,5 +31,5 @@ cat <<EOF
 </table>
 </body>
 </html>
-EOF | tee -a "$2"
+EOF | tee -a $2
 
