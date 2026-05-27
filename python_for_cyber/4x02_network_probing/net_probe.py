@@ -12,7 +12,7 @@ def check_port(ip: str, port: int) -> bool:
     """
     try:
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        s.settimeout(5)
+        s.settimeout(1)
 
         s.connect((ip, port))
         return True
