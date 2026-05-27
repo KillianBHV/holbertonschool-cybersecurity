@@ -22,10 +22,13 @@ def check_port(ip: str, port: int) -> bool:
         s.close()
 
 
+def ping_sweep(subnet: str) -> list:
+    return [f"{subnet}.{k}" for k in range(136, 149) if check_port(f"{subnet}.{k}", 8000)]
+
+
 def main():
     logger.info("NetProbe v1.0 initialized...")
-    print(f"Port 80 is open: {check_port('google.com', 80)}")
-    print(f"Port 81 is open: {check_port('google.com', 81)}")
+    print(ping_sweep("192.168.248"))
 
 
 if __name__ == '__main__':
