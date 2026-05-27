@@ -34,7 +34,7 @@ def ping_sweep(subnet: str) -> list:
 
 def main():
     logger.info("NetProbe v1.0 initialized...")
-    print(ping_sweep("192.168.1"))
+    print(ping_sweep("192.168.56"))
 
 
 if __name__ == '__main__':
