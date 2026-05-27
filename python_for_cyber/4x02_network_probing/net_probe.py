@@ -14,7 +14,8 @@ def check_port(ip: str, port: int) -> bool:
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         s.settimeout(5)
 
-        return s.connect((ip, port)) == 0
+        s.connect((ip, port))
+        return True
     except socket.error:
         return False
     finally:
@@ -23,10 +24,9 @@ def check_port(ip: str, port: int) -> bool:
 
 def main():
     logger.info("NetProbe v1.0 initialized...")
-    print(f"Port 8000 is open: {check_port('localhost', 8000)}")
-    print(f"Port 8001 is open: {check_port('localhost', 8001)}")
+    print(f"Port 80 is open: {check_port('google.com', 80)}")
+    print(f"Port 81 is open: {check_port('google.com', 81)}")
 
 
 if __name__ == '__main__':
     main()
-    check_port("localhost", 8000)
