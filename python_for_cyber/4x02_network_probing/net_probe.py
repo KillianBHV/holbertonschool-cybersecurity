@@ -24,7 +24,7 @@ def check_port(ip: str, port: int) -> bool:
 
 def ping_sweep(subnet: str) -> list:
     ips = []
-    for k in range(1, 254):
+    for k in range(1, 255):
         ip = f"{subnet}.{k}"
         if check_port(ip, 80):
             ips.append(ip)
