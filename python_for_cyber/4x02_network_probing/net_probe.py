@@ -8,13 +8,14 @@ logger = logging.getLogger()
 
 
 def check_port(ip: str, port: int) -> bool:
+    """Checks if specified port on ip is open
+    """
     try:
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        client_read, client_write, except_hands = select.select([s], [], [], 5)
+        s.settimeout(5)
 
-        s.connect((ip, port))
-        return True
-    except select.error:
+        return s.connect((ip, port)) == 0
+    except socket.error:
         return False
     finally:
         s.close()
