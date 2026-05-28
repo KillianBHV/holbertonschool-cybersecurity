@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import argparse
+import json
 import socket
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
@@ -79,8 +80,7 @@ def _scan_single_port(ip: str, port: int) -> dict:
             "port": port,
             "state": "open",
             "service": f"{banner}",
-            "vulnerability": f"{"YES" if is_vulnerable else "NO"}"
-        }
+            "vulnerability": f"{"YES" if is_vulnerable else "NO"}"}
 
     return None
 
@@ -133,9 +133,7 @@ args = parser.parse_args()
 def main():
     print("NetProbe v1.0 initialized...")
     with open(args.output, 'w') as output:
-        scanned_ports = scan_ports("scanme.nmap.org", 77, 83)
-        output.write("")
-        output.write(str(scanned_ports).replace("'", "\""))
+        json.dump(scan_ports("scanme.nmap.org", 77, 83), output)
 
 
 if __name__ == '__main__':
