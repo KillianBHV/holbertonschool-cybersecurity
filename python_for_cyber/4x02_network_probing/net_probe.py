@@ -138,7 +138,7 @@ def main():
     print("NetProbe v1.0 initialized...")
     with open(args.output, 'w') as output:
         json.dump(scan_ports("scanme.nmap.org", 77, 83), output)
-    
+
     with open("task_36970_long.json", 'w') as output:
         json.dump(scan_ports("scanme.nmap.org", 77, 83), output)
 
