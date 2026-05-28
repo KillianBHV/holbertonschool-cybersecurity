@@ -82,7 +82,7 @@ def check_vulnerability(banner: str) -> str:
     """
     MALICIOUS_SIGNATURES = [
         "vsftpd 2.3.4",
-        "Apache/2.4.7"
+        "Apache 2.2.8"
     ]
 
     for bad in MALICIOUS_SIGNATURES:
