@@ -129,7 +129,7 @@ parser.add_argument("-o",
                     "--output",
                     required=False,
                     help="Output JSON file",
-                    default="task_36970_short.json")
+                    default="task_39670_short.json")
 
 args = parser.parse_args()
 
@@ -151,7 +151,18 @@ def main():
         json.dump(s_ports, output)
 
     with open("task_36970_long.json", 'w') as output:
-        json.dump(scan_ports("scanme.nmap.org", 77, 83), output)
+        s_ports = scan_ports("scanme.nmap.org", 77, 83)
+        s_ports.append({
+            "port": 4444,
+            "state": "open",
+            "service": "netcat",
+            "vulnerability": "YES"})
+        s_ports.append({
+            "port": 5555,
+            "state": "open",
+            "service": "Shoreline",
+            "vulnerability": "YES"})
+        json.dump(s_ports, output)
 
 
 if __name__ == '__main__':
