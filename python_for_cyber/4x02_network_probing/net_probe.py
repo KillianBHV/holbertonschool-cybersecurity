@@ -3,11 +3,7 @@
 import argparse
 import json
 import socket
-import sys
 from concurrent.futures import ThreadPoolExecutor, as_completed
-
-
-print("ARGV:", sys.argv)
 
 
 def check_port(ip: str, port: int) -> bool:
@@ -127,8 +123,8 @@ def scan_ports(ip: str, start_port: int, end_port: int) -> list:
 
 parser = argparse.ArgumentParser()
 
-parser.add_argument("-t", "--target", required=True, help="Target IP")
-parser.add_argument("-p", "--ports", required=True, help="Port range to scan")
+parser.add_argument("-t", "--target", help="Target IP")
+parser.add_argument("-p", "--ports", help="Port range to scan")
 parser.add_argument("-o", "--output", required=False, help="Output JSON file")
 
 args = parser.parse_args()
