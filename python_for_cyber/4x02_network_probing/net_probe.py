@@ -1,11 +1,7 @@
 #!/usr/bin/env python3
 
-import logging
-import re
-import select
 import socket
-
-logger = logging.getLogger()
+from concurrent.futures import ThreadPoolExecutor, as_completed
 
 
 def check_port(ip: str, port: int) -> bool:
@@ -41,7 +37,7 @@ def get_banner(ip: str, port: int) -> str:
     """
     try:
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        s.settimeout(1)
+        s.settimeout(2)
         s.connect((ip, port))
 
         s.send(b"HEAD / HTTP/1.0\r\n\r\n")
@@ -58,24 +54,40 @@ def get_banner(ip: str, port: int) -> str:
             s.close()
 
 
+def _scan_single_port(ip: str, port: int) -> dict:
+    if check_port(ip, port):
+        banner = get_banner(ip, port)
+        print(f"[+] Port {port} Open: {banner}")
+        return {'port': port, 'service': banner}
+
+    return None
+
+
 def scan_ports(ip: str, start_port: int, end_port: int) -> list:
     """Get open ports
     """
     ports = []
 
-    for port in range(start_port, end_port+1):
-        if check_port(ip, port):
-            banner = get_banner(ip, port)
-            print(f"Scanning {ip} from {start_port} to {end_port}...")
-            print(f"[+] Port {port} Open: {banner}")
-            ports.append({'port': port, 'service': banner})
+    print(f"Scanning {ip} from {start_port} to {end_port}...")
+
+    with ThreadPoolExecutor(max_workers=50) as executor:
+        futures = []
+
+        for port in range(start_port, end_port+1):
+            future = executor.submit(_scan_single_port, ip, port)
+            futures.append(future)
+
+        for future in as_completed(futures):
+            result = future.result()
+            if result:
+                ports.append(result)
 
     return ports
 
 
 def main():
-    logger.info("NetProbe v1.0 initialized...")
-    print(get_banner("scanme.nmap.org", 22))
+    print("NetProbe v1.0 initialized...")
+    print(scan_ports("scanme.nmap.org", 77, 83))
 
 
 if __name__ == '__main__':
