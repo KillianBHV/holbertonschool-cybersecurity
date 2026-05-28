@@ -52,13 +52,13 @@ def get_banner(ip: str, port: int) -> str:
                 if line.find('Server') != -1:
                     return line[8:].strip()
             return "Unknown"
-        elif port == 22:
-            data = s.recv(1024)
-            if not data:
-                return "Unknown"
 
-            banner = data.decode().strip()
-            return banner.split()[0] if banner else "Unknown"
+        data = s.recv(1024)
+        if not data:
+            return "Unknown"
+
+        banner = data.decode().strip()
+        return banner.split()[0] if banner else "Unknown"
 
         return "Unknown"
     except socket.error:
