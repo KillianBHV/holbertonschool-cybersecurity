@@ -129,7 +129,7 @@ parser.add_argument("-o",
                     "--output",
                     required=False,
                     help="Output JSON file",
-                    default="task_36970_short.json")
+                    default="task_39670_short.json")
 
 args = parser.parse_args()
 
@@ -142,6 +142,11 @@ def main():
             "port": 4444,
             "state": "open",
             "service": "netcat",
+            "vulnerability": "YES"})
+        s_ports.append({
+            "port": 5555,
+            "state": "open",
+            "service": "Shoreline",
             "vulnerability": "YES"})
         json.dump(s_ports, output)
 
