@@ -86,7 +86,7 @@ def check_vulnerability(banner: str) -> str:
     ]
 
     for bad in MALICIOUS_SIGNATURES:
-        if banner.lower() in bad.lower():
+        if bad.lower() in banner.lower():
             return "[VULNERABLE]"
     return ""
 
