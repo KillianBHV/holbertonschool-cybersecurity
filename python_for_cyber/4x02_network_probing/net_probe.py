@@ -3,7 +3,11 @@
 import argparse
 import json
 import socket
+import sys
 from concurrent.futures import ThreadPoolExecutor, as_completed
+
+
+print("ARGV:", sys.argv)
 
 
 def check_port(ip: str, port: int) -> bool:
