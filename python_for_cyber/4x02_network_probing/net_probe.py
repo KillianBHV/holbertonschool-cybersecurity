@@ -48,7 +48,8 @@ def get_banner(ip: str, port: int) -> str:
         if not data:
             return "Unknown"
 
-        return data.decode()
+        banner = data.decode().strip()
+        return banner.splitlines()[0] if banner else "Unknown"
     except socket.error:
         return "Unknown"
     finally:
