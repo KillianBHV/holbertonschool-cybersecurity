@@ -62,7 +62,7 @@ def guess_service(port: int) -> str:
         443: "HTTPS",
         3306: "MySQL"
     }
-    
+
     return COMMON_PORTS.get(port, "Unknown")
 
 
