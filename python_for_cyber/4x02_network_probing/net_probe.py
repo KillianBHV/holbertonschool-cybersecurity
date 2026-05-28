@@ -125,7 +125,7 @@ parser = argparse.ArgumentParser()
 
 parser.add_argument("-t", "--target", help="Target IP")
 parser.add_argument("-p", "--ports", help="Port range to scan")
-parser.add_argument("-o", "--output", required=False, help="Output JSON file")
+parser.add_argument("-o", "--output", required=False, help="Output JSON file", default="scan_results.json")
 
 args = parser.parse_args()
 
