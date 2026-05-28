@@ -67,12 +67,28 @@ def guess_service(port: int) -> str:
 
 
 def _scan_single_port(ip: str, port: int) -> dict:
+    """Checks ONE port
+    """
     if check_port(ip, port):
         banner = get_banner(ip, port)
-        print(f"[+] Port {port} Open: {banner}")
+        print(f"[+] Port {port} Open: {banner} {check_vulnerability(banner)}")
         return {'port': port, 'service': banner}
 
     return None
+
+
+def check_vulnerability(banner: str) -> str:
+    """Search for known bad signatures
+    """
+    MALICIOUS_SIGNATURES = [
+        "vsftpd 2.3.4",
+        "Apache/2.4.7"
+    ]
+
+    for bad in MALICIOUS_SIGNATURES:
+        if banner.lower() in bad.lower():
+            return "[VULNERABLE]"
+    return ""
 
 
 def scan_ports(ip: str, start_port: int, end_port: int) -> list:
