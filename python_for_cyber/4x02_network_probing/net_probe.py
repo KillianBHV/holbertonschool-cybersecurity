@@ -58,16 +58,19 @@ def get_banner(ip: str, port: int) -> str:
                 return "Unknown"
 
             banner = data.decode().strip()
-            return banner.splitlines()[0] if banner else "Unknown"
+            return banner.split()[0] if banner else "Unknown"
+
+        return "Unknown"
     except socket.error:
         return "Unknown"
     finally:
-        s.close()
+        if s:
+            s.close()
 
 
 def main():
     logger.info("NetProbe v1.0 initialized...")
-    print(get_banner("scanme.nmap.org", 80))
+    print(get_banner("scanme.nmap.org", 22))
 
 
 if __name__ == '__main__':
