@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import argparse
 import socket
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
@@ -71,8 +72,15 @@ def _scan_single_port(ip: str, port: int) -> dict:
     """
     if check_port(ip, port):
         banner = get_banner(ip, port)
-        print(f"[+] Port {port} Open: {banner} {check_vulnerability(banner)}")
-        return {'port': port, 'service': banner}
+        is_vulnerable = check_vulnerability(banner)
+
+        print(f"[+] Port {port} Open: {banner} {is_vulnerable}")
+        return {
+            "port": port,
+            "state": "open",
+            "service": f"{banner}",
+            "vulnerability": f"{"YES" if is_vulnerable else "NO"}"
+        }
 
     return None
 
@@ -113,9 +121,21 @@ def scan_ports(ip: str, start_port: int, end_port: int) -> list:
     return ports
 
 
+parser = argparse.ArgumentParser()
+
+parser.add_argument("-t", "--target", required=True, help="Target IP")
+parser.add_argument("-p", "--ports", required=True, help="Port range to scan")
+parser.add_argument("-o", "--output", required=False, help="Output JSON file")
+
+args = parser.parse_args()
+
+
 def main():
     print("NetProbe v1.0 initialized...")
-    print(scan_ports("scanme.nmap.org", 77, 83))
+    with open(args.output, 'w') as output:
+        scanned_ports = scan_ports("scanme.nmap.org", 77, 83)
+        output.write("")
+        output.write(str(scanned_ports).replace("'", "\""))
 
 
 if __name__ == '__main__':
