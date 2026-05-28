@@ -73,14 +73,14 @@ def _scan_single_port(ip: str, port: int) -> dict:
     """
     if check_port(ip, port):
         banner = get_banner(ip, port)
-        is_vulnerable = check_vulnerability(banner)
+        is_vulnerable = "YES" if check_vulnerability(banner) else "NO"
 
         print(f"[+] Port {port} Open: {banner} {is_vulnerable}")
         return {
             "port": port,
             "state": "open",
             "service": f"{banner}",
-            "vulnerability": f"{"YES" if is_vulnerable else "NO"}"}
+            "vulnerability": f"{is_vulnerable}"}
 
     return None
 
