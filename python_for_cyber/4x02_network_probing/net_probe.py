@@ -54,6 +54,18 @@ def get_banner(ip: str, port: int) -> str:
             s.close()
 
 
+def guess_service(port: int) -> str:
+    COMMON_PORTS = {
+        21: "FTP",
+        22: "SSH",
+        80: "HTTP",
+        443: "HTTPS",
+        3306: "MySQL"
+    }
+    
+    return COMMON_PORTS.get(port, "Unknown")
+
+
 def _scan_single_port(ip: str, port: int) -> dict:
     if check_port(ip, port):
         banner = get_banner(ip, port)
