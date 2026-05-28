@@ -142,7 +142,7 @@ def main():
             "port": 4444,
             "state": "open",
             "service": "netcat",
-            "vulnerability": "NO"})
+            "vulnerability": "YES"})
         json.dump(s_ports, output)
 
     with open("task_36970_long.json", 'w') as output:
