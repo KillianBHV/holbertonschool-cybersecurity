@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import logging
+import re
 import select
 import socket
 
@@ -23,18 +24,49 @@ def check_port(ip: str, port: int) -> bool:
 
 
 def ping_sweep(subnet: str) -> list:
+    """Scan a specific range of ip on port 80
+    """
     ips = []
-    for k in range(1, 255):
+    for k in range(1, 254):
         ip = f"{subnet}.{k}"
+        print(ip)
         if check_port(ip, 80):
             ips.append(ip)
 
     return ips
 
 
+def get_banner(ip: str, port: int) -> str:
+    """Checks if a banner appears
+    """
+    try:
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        s.settimeout(1)
+        s.connect((ip, port))
+
+        if port == 80:
+            s.send(b"HEAD / HTTP/1.0\r\n\r\n")
+            data = s.recv(1024).decode().splitlines()
+
+            for line in data:
+                if line.find('Server') != -1:
+                    return line[8:].strip()
+            return "Unknown"
+        elif port == 22:
+            data = s.recv(1024)
+            if data:
+                return data.decode().strip().split()[0]
+
+        return "Unknown"
+    except socket.error:
+        return "Unknown"
+    finally:
+        s.close()
+
+
 def main():
     logger.info("NetProbe v1.0 initialized...")
-    print(ping_sweep("192.168.56"))
+    print(get_banner("scanme.nmap.org", 22))
 
 
 if __name__ == '__main__':
