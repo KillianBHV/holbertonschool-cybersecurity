@@ -44,16 +44,16 @@ def get_banner(ip: str, port: int) -> str:
         s.settimeout(1)
         s.connect((ip, port))
 
-        if port == 80:
+        if port == 8080:
             s.send(b"HEAD / HTTP/1.0\r\n\r\n")
-            data = s.recv(1024).decode()
+            data = s.recv(1024)
 
-            for line in data.splitlines():
+            for line in data.decode().splitlines():
                 if line.find('Server') != -1:
                     return line[8:].strip()
             return "Unknown"
         elif port == 22:
-            data = s.recv(1024).decode()
+            data = s.recv(1024)
             if not data:
                 return "Unknown"
 
@@ -67,7 +67,7 @@ def get_banner(ip: str, port: int) -> str:
 
 def main():
     logger.info("NetProbe v1.0 initialized...")
-    print(get_banner("scanme.nmap.org", 22))
+    print(get_banner("localhost", 8080))
 
 
 if __name__ == '__main__':
