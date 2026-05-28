@@ -129,7 +129,7 @@ parser.add_argument("-o",
                     "--output",
                     required=False,
                     help="Output JSON file",
-                    default="task_39670_short.json")
+                    default="task_36970_short.json")
 
 args = parser.parse_args()
 
