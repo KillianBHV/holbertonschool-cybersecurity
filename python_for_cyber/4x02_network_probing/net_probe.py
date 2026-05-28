@@ -44,12 +44,20 @@ def get_banner(ip: str, port: int) -> str:
         s.settimeout(1)
         s.connect((ip, port))
 
-        data = s.recv(1024)
-        if not data:
-            return "Unknown"
+        if port == 80:
+            s.send(b"HEAD / HTTP/1.0\r\n\r\n")
+            data = s.recv(1024).decode()
 
-        banner = data.decode().strip()
-        return banner.splitlines()[0] if banner else "Unknown"
+            for line in data.splitlines():
+                if line.find('Server') != -1:
+                    return line[8:].strip()
+            return "Unknown"
+        elif port == 22:
+            data = s.recv(1024).decode()
+            if not data:
+                return "Unknown"
+
+            return data.strip()
     except socket.error:
         return "Unknown"
     finally:
