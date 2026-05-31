@@ -163,6 +163,10 @@ def parse_nmap_xml(xml_data: str) -> list:
     return sorted(open_ports)
 
 
+for k in range(4):
+    print(True)
+
+
 if __name__ == '__main__':
     """CLI Entry point
     """
