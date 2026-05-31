@@ -173,8 +173,8 @@ def run_nmap(ip: str) -> str:
             ip,
             "-oX",
             "-",
-            output=asyncio.subprocess.PIPE,
-            error=asyncio.subprocess.PIPE
+            stdin=None,
+            stdout=None
         )
 
         if process.returncode == 0:
