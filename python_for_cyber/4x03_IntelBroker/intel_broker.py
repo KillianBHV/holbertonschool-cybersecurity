@@ -88,6 +88,27 @@ def query_abuseipdb(ip: str) -> dict["str", any]:
         return {}
 
 
+def query_shodan(ip: str) -> dict["str", any]:
+    """Query the Shodan AbuseIPDB API
+
+    Args:
+        ip: IPv4 or IPv6 string
+
+    Returns:
+        Parsed JSON or empty dict if it fails
+    """
+    async def _query() -> dict[str, any]:
+        url = f"{MOCK_BASE_API}/shodan/{ip}"
+        async with aiohttp.ClientSession() as session:
+            return await fetch_api(ip, url)
+
+    url = f"{MOCK_BASE_API}/shodan/{ip}"
+    try:
+        return asyncio.run(_query())
+    except RuntimeError:
+        return {}
+
+
 async def fetch_api(session, url):
     """Fetch JSON using aiohttp
     """
@@ -111,6 +132,24 @@ async def fetch_api(session, url):
     except requests.exceptions.RequestException as ex:
         print(f"[ERROR] AbuseIPDB request failed: {ex}", file=sys.stderr)
         return {}
+
+
+async def gather_intel(
+    ip: str
+) -> tuple(dict(str, any), dict(str, any), dict(str, any), str):
+    """Fetch API and NMap at the same time
+    """
+    url_vt = f"{MOCK_BASE_API}/virustotal/{ip}"
+    url_shodan = f"{MOCK_BASE_API}/shodan/{ip}"
+    url_abuseipdb = f"{MOCK_BASE_API}/abuseipdb/{ip}"
+
+    vt_data, shodan_data, abuseipdb_data, nmap_xml = await asyncio.gather(
+        fetch_api(ip, url_vt),
+        fetch_api(ip, url_shodan),
+        fetch_api(ip, url_abuseipdb),
+    )
+
+    return vt_data, shodan_data, abuseipdb_data
 
 
 def run_nmap(ip: str) -> str:
