@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 
 import requests
+import subprocess
+import sys
+import xml.etree.ElementTree as mod_ET
 
 
 MOCK_BASE_API = "http://localhost:5000"
@@ -57,6 +60,69 @@ def query_abuseipdb(ip: str) -> dict["str", any]:
         print(f"[ERROR] AbuseIPDB request failed: {ex}")
 
 
-if __name__ == '__main__':
-    print(query_virustotal('1.2.3.4'))
-    print(query_abuseipdb('9.8.7.6'))
+def run_namp(ip: str) -> str:
+    """Run nmap on common ports
+
+    Args:
+        ip: IPv4 or IPv6 to scan ports
+
+    Returns:
+        Raw XML output given by -oX Nmap option
+
+    Raises:
+        RuntimeError: If NMAP exits with non-zero return code
+        FileNotFoundError: nmap binary not installed or unable to find
+    """
+    try:
+        result = subprocess.run(
+            ["nmap", "-p", "22,80", ip, "-oX", "-"],
+            capture_output=True,
+            check=False,
+            text=True
+        )
+        if result.returncode == 0:
+            return result.stdout
+        else:
+            err = result.stderr.strip() or "Unknown Error"
+            raise RuntimeError(
+                f"[ERROR] NMAP failed, exit with status {result.returncode}: "
+                f"{err}"
+            )
+    except FileNotFoundError:
+        print(
+            "[ERROR] NMap not found. Please install/reinstall and try again",
+            file=sys.stderr
+        )
+        raise
+
+
+def parse_nmap_xml(xml_data: str) -> list:
+    """Run nmap on common ports
+
+    Args:
+        xml_data: Raw XML data get from nmap
+
+    Returns:
+        List of open ports (numbers - e.g. [22, 80])
+    """
+    open_ports = []
+
+    try:
+        root = mod_ET.fromstring(xml_data)
+        for host in root.findall("hosts"):
+            ports = host.find("ports")
+            if ports is None:
+                continue
+
+            for p in ports.findall("port"):
+                state = port.find("state")
+                if state is None or state.get("state") != "open":
+                    continue
+
+                port_id = port.get("portid")
+                if port_id is not None:
+                    open_ports.append(int(port_id))
+    except mod_ET.ParseError as ex:
+        print(f"[ERROR] Failed to parse Nmap XML: {ex}")
+
+    return sorted(open_ports)
