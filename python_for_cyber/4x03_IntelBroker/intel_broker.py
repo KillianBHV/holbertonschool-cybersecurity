@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 
+import aiohttp
 import argparse
-import requests
+import asyncio
 import subprocess
 import sys
 import xml.etree.ElementTree as mod_ET
@@ -54,20 +55,16 @@ def query_virustotal(ip: str) -> dict["str", any]:
     Returns:
         Parsed JSON or empty dict if it fails
     """
+    async def _query() -> dict[str, any]:
+        url = f"{MOCK_BASE_API}/virustotal/{ip}"
+        async with aiohttp.ClientSession() as session:
+            return await fetch_api(ip, url)
+
     url = f"{MOCK_BASE_API}/virustotal/{ip}"
     try:
-        response = requests.get(url, timeout=REQUEST_TIMEOUT)
-        if response.status_code == 200:
-            return response.json()
-
-        print(f"[ERROR] VirusTotal API returned status ", end='')
-        print(response.status_code)
-
+        return asyncio.run(_query())
+    except RuntimeError:
         return {}
-    except requests.exceptions.ConnectionError:
-        print("[ERROR] Could not connet at localhost:5000")
-    except requests.exceptions.RequestException as ex:
-        print(f"[ERROR] VirusTotal request failed: {ex}")
 
 
 def query_abuseipdb(ip: str) -> dict["str", any]:
@@ -79,20 +76,41 @@ def query_abuseipdb(ip: str) -> dict["str", any]:
     Returns:
         Parsed JSON or empty dict if it fails
     """
+    async def _query() -> dict[str, any]:
+        url = f"{MOCK_BASE_API}/virustotal/{ip}"
+        async with aiohttp.ClientSession() as session:
+            return await fetch_api(ip, url)
+
     url = f"{MOCK_BASE_API}/abuseipdb/{ip}"
     try:
-        response = requests.get(url, timeout=REQUEST_TIMEOUT)
-        if response.status_code == 200:
-            return response.json()
-
-        print(f"[ERROR] AbuseIPDB API returned status ", end='')
-        print(response.status_code)
-
+        return asyncio.run(_query())
+    except RuntimeError:
         return {}
-    except requests.exceptions.ConnectionError:
-        print("[ERROR] Could not connet at localhost:5000")
+
+
+async def fetch_api(session, url):
+    """Fetch JSON using aiohttp
+    """
+    timeout = aiohttp.ClientTimeout(total=REQUEST_TIMEOUT)
+    try:
+        async with session.get(url, timeout=timeout) as response:
+            if response.status == 200:
+                return await response.json()
+
+            print(
+                f"[ERROR] Returned status: {response.status}"
+                f" for {url}", file=sys.stderr
+            )
+            return {}
+    except aiohttp.ClientConnectorError:
+        print(
+            "[ERROR] Could not connet at localhost:5000",
+            file=sys.stderr
+        )
+        return {}
     except requests.exceptions.RequestException as ex:
-        print(f"[ERROR] AbuseIPDB request failed: {ex}")
+        print(f"[ERROR] AbuseIPDB request failed: {ex}", file=sys.stderr)
+        return {}
 
 
 def run_nmap(ip: str) -> str:
@@ -161,10 +179,6 @@ def parse_nmap_xml(xml_data: str) -> list:
         print(f"[ERROR] Failed to parse Nmap XML: {ex}")
 
     return sorted(open_ports)
-
-
-for k in range(4):
-    print(True)
 
 
 if __name__ == '__main__':
