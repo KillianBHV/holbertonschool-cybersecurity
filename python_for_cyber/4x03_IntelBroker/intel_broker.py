@@ -60,7 +60,7 @@ def query_abuseipdb(ip: str) -> dict["str", any]:
         print(f"[ERROR] AbuseIPDB request failed: {ex}")
 
 
-def run_namp(ip: str) -> str:
+def run_nmap(ip: str) -> str:
     """Run nmap on common ports
 
     Args:
