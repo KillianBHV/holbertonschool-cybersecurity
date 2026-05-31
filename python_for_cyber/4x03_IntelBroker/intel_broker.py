@@ -4,6 +4,7 @@ import aiohttp
 import argparse
 import asyncio
 import subprocess
+import os
 import sys
 import xml.etree.ElementTree as mod_ET
 
@@ -227,6 +228,10 @@ def parse_nmap_xml(xml_data: str) -> list:
         print(f"[ERROR] Failed to parse Nmap XML: {ex}")
 
     return sorted(open_ports)
+
+
+sys.stdout.flush()
+os.system('clear')
 
 
 if __name__ == '__main__':
