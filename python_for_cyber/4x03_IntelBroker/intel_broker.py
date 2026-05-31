@@ -88,7 +88,7 @@ def query_abuseipdb(ip: str) -> dict["str", any]:
         return {}
 
 
-def query_shodan(ip: str) -> dict["str", any]:
+def query_shodan(ip: str) -> dict[str, any]:
     """Query the Shodan AbuseIPDB API
 
     Args:
@@ -166,18 +166,23 @@ def run_nmap(ip: str) -> str:
         FileNotFoundError: nmap binary not installed or unable to find
     """
     try:
-        result = subprocess.run(
-            ["nmap", "-p", "22,80", ip, "-oX", "-"],
-            capture_output=True,
-            check=False,
-            text=True
+        process = await asyncio.create_subprocess_exec(
+            "nmap",
+            "-p",
+            "22,80",
+            ip,
+            "-oX",
+            "-",
+            output=asyncio.subprocess.PIPE,
+            error=asyncio.subprocess.PIPE
         )
-        if result.returncode == 0:
-            return result.stdout
+
+        if process.returncode == 0:
+            return process.stdout
         else:
-            err = result.stderr.strip() or "Unknown Error"
+            err = process.stderr.strip() or "Unknown Error"
             raise RuntimeError(
-                f"[ERROR] NMAP failed, exit with status {result.returncode}: "
+                f"[ERROR] NMAP failed, status {process.returncode}: "
                 f"{err}"
             )
     except FileNotFoundError:
@@ -185,6 +190,10 @@ def run_nmap(ip: str) -> str:
             "[ERROR] NMap not found. Please install/reinstall and try again",
             file=sys.stderr
         )
+        raise
+    except asyncio.TimeoutError:
+        process.kill()
+        await process.wait()
         raise
 
 
