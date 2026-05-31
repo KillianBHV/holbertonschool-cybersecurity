@@ -3,6 +3,7 @@
 import aiohttp
 import argparse
 import asyncio
+import datetime
 import subprocess
 import os
 import sys
@@ -19,7 +20,8 @@ class TargetDossier:
     def __init__(self, ip: str):
         self.ip = ip
         self.vt_data = query_virustotal(ip)
-        self.vt_abuse = query_abuseipdb(ip)
+        self.abuse_data = query_abuseipdb(ip)
+        self.shodan_data = query_shodan(ip)
         self.nmap_ports = []
 
         try:
@@ -32,7 +34,7 @@ class TargetDossier:
         """
         score_vt = self.vt_data.get("reputation_score", "N/A")
         malicious_vt = self.vt_data.get("malicious", "N/A")
-        score_abuse = self.vt_data.get("abuse_confidence_score", "N/A")
+        score_abuse = self.vt_abuse.get("abuse_confidence_score", "N/A")
         reports_abuse = self.vt_data.get("reports", "N/A")
 
         print(f"= IntelBroker Dossier For <{self.ip}> =")
@@ -45,6 +47,23 @@ class TargetDossier:
             f"reports={reports_abuse}"
         )
         print(f"Nmap open ports: {self.nmap_ports}")
+
+    def generate_report(self, file: str) -> None:
+        """Generate report and save into file
+        """
+        report = {
+            "target": self.ip,
+            "timestamp": datetime.now().isoformat(),
+            "intelligence": {
+                "virustotal": self.vt_data,
+                "abuseipdb": self.abuse_data,
+                "shodan": self.shodan_data,
+                "nmap_ports": self.nmap_ports
+            }
+        }
+
+        with open(file, "w") as file:
+            json.dump(report, file, indent=4)
 
 
 def query_virustotal(ip: str) -> dict["str", any]:
@@ -230,16 +249,16 @@ def parse_nmap_xml(xml_data: str) -> list:
     return sorted(open_ports)
 
 
-sys.stdout.flush()
-os.system('clear')
-
-
 if __name__ == '__main__':
     """CLI Entry point
     """
     parser = argparse.ArgumentParser()
     parser.add_argument("ip", help="Target IP address for investigation")
+    parser.add_argument("-o", "--output", help="Write report JSON to the file")
     args = parser.parse_args()
 
     dossier = TargetDossier(args.ip)
     dossier.print_summary()
+
+    if args.output:
+        dossier.generate_report("report.json")
