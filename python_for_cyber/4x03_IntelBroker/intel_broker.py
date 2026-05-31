@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import argparse
 import requests
 import subprocess
 import sys
@@ -8,6 +9,40 @@ import xml.etree.ElementTree as mod_ET
 
 MOCK_BASE_API = "http://localhost:5000"
 REQUEST_TIMEOUT = 5
+
+
+class TargetDossier:
+    """Group VirusTotal, AbuseIPDB and NMAP in order
+    """
+    def __init__(self, ip: str):
+        self.ip = ip
+        self.vt_data = query_virustotal(ip)
+        self.vt_abuse = query_abuseipdb(ip)
+        self.nmap_ports = []
+
+        try:
+            self.nmap_ports = parse_nmap_xml(run_nmap(ip))
+        except (FileNotFoundError, RuntimeError):
+            self.nmap_ports = []
+
+    def print_summary(self) -> None:
+        """Prints human-readable summary
+        """
+        score_vt = self.vt_data.get("reputation_score", "N/A")
+        malicious_vt = self.vt_data.get("malicious", "N/A")
+        score_abuse = self.vt_data.get("abuse_confidence_score", "N/A")
+        reports_abuse = self.vt_data.get("reports", "N/A")
+
+        print(f"= IntelBroker Dossier For <{self.ip}> =")
+        print(
+            f"VirusTotal:\nscore = {score_vt}\n"
+            f"malicious = {malicious_vt}"
+        )
+        print(
+            f"AbuseIPDB:\nconfidence = {score_abuse}\n"
+            f"reports={reports_abuse}"
+        )
+        print(f"Nmap open ports: {self.nmap_ports}")
 
 
 def query_virustotal(ip: str) -> dict["str", any]:
@@ -126,3 +161,14 @@ def parse_nmap_xml(xml_data: str) -> list:
         print(f"[ERROR] Failed to parse Nmap XML: {ex}")
 
     return sorted(open_ports)
+
+
+if __name__ == '__main__':
+    """CLI Entry point
+    """
+    parser = argparse.ArgumentParser()
+    parser.add_argument("ip", help="Target IP address for investigation")
+    args = parser.parse_args()
+
+    dossier = TargetDossier(args.ip)
+    dossier.print_summary()
