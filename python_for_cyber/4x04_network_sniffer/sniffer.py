@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import scapy.all as scapy
+import signal
 
 
 def packet_handler(packet: scapy.Packet) -> None:
@@ -35,4 +36,8 @@ def packet_handler(packet: scapy.Packet) -> None:
 
 if __name__ == '__main__':
     print("[INFO] PySniffer initialized.")
-    scapy.sniff(filter='tcp', count=5, prn=packet_handler)
+
+    try:
+        scapy.sniff(prn=packet_handler, store=False)
+    except KeyboardInterrupt:
+        print("\n[INFO] Stopping capture...")
