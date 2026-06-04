@@ -3,7 +3,7 @@
 import scapy.all as scapy
 
 
-def packet_hander(packet):
+def packet_handler(packet):
     """Get packet summary
     """
     print(packet.summary())
@@ -11,4 +11,4 @@ def packet_hander(packet):
 
 if __name__ == '__main__':
     print("[INFO] PySniffer initialized.")
-    scapy.sniff(count=5, prn=packet_hander)
+    scapy.sniff(count=5, prn=packet_handler)
