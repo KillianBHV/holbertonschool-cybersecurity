@@ -1,10 +1,7 @@
 #!/usr/bin/env python3
 
 import argparse
-import sys
-
 import scapy.all as scapy
-raise Exception(", ".join(sorted(dir(scapy))))
 
 
 parser = argparse.ArgumentParser(
@@ -31,6 +28,7 @@ if args.filter:
 def packet_handler(packet) -> None:
     """Get packet details
     """
+    raise Exception(", ".join(sorted(dir(packet))))
     print(packet.__class__.__module__, file=sys.stderr)
 
     if IP in packet:
