@@ -1,16 +1,15 @@
 #!/usr/bin/env python3
 
-import scapy.all as scapy
-import signal
+from scapy.all import *
 
 
-def packet_handler(packet: scapy.Packet) -> None:
+def packet_handler(packet: Packet) -> None:
     """Get packet summary
     """
-    if packet.haslayer(scapy.IP):
-        tcp_check = packet.haslayer(scapy.TCP)
-        udp_check = packet.haslayer(scapy.UDP)
-        icmp_check = packet.haslayer(scapy.ICMP)
+    if packet.haslayer(IP):
+        tcp_check = packet.haslayer(TCP)
+        udp_check = packet.haslayer(UDP)
+        icmp_check = packet.haslayer(ICMP)
 
         if tcp_check:
             print("[TCP] ", end='')
@@ -20,16 +19,16 @@ def packet_handler(packet: scapy.Packet) -> None:
             print("[ICMP] ", end='')
 
         if tcp_check or udp_check or icmp_check:
-            ip_src = packet[scapy.IP].src
-            ip_dest = packet[scapy.IP].dst
+            ip_src = packet[IP].src
+            ip_dest = packet[IP].dst
 
             result = f"{ip_src}"
             if tcp_check:
-                result += f":{packet[scapy.TCP].sport}"
+                result += f":{packet[TCP].sport}"
             result += f" -> {ip_dest}"
             if tcp_check:
-                result += f":{packet[scapy.TCP].dport}"
-                result += f" | Flags: {packet[scapy.TCP].flags}"
+                result += f":{packet[TCP].dport}"
+                result += f" | Flags: {packet[TCP].flags}"
 
             print(result)
 
@@ -38,6 +37,6 @@ if __name__ == '__main__':
     print("[INFO] PySniffer initialized.")
 
     try:
-        scapy.sniff(prn=packet_handler, store=False)
+        sniff(prn=packet_handler, store=False)
     except KeyboardInterrupt:
         print("\n[INFO] Stopping capture...")
