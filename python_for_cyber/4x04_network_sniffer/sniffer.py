@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 
 import argparse
+from scapy.all import *
 from scapy.sendrecv import sniff
-from scapy.layers.inet import IP, TCP, UDP, ICMP
 
 
 def packet_handler(packet) -> None:
