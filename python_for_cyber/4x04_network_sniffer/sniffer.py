@@ -24,6 +24,11 @@ if args.filter:
     sniff_args["filter"] = args.filter
 
 
+def hdlr(pkt):
+    print(type(pkt))
+    print(dir(pkt))
+
+
 def packet_handler(packet):
     """Get packet details
     """
@@ -62,10 +67,7 @@ def main() -> None:
     """
     print("[INFO] PySniffer initialized.")
 
-    try:
-        sniff(prn=packet_handler, **sniff_args)
-    except KeyboardInterrupt:
-        print("\n[INFO] Stopping capture...")
+    sniff(prn=hdlr, count=1)
 
 
 if __name__ == '__main__':
