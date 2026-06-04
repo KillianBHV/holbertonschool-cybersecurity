@@ -2,7 +2,6 @@
 
 import argparse
 from scapy.all import *
-from scapy.packet import Packet
 
 parser = argparse.ArgumentParser(
     prog="PySniffer",
