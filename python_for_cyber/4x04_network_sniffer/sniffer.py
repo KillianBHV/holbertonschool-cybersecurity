@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import argparse
+import sys
 from scapy.all import IP, TCP, UDP, ICMP, hexdump, sniff
 
 parser = argparse.ArgumentParser(
@@ -27,6 +28,8 @@ if args.filter:
 def packet_handler(packet) -> None:
     """Get packet details
     """
+    print(packet.__class__.__module__, file=sys.stderr)
+
     if IP in packet:
         tcp_check = False
         udp_check = False
