@@ -2,6 +2,8 @@
 
 import argparse
 from scapy.all import *
+from scapy.sendrecv import sniff
+
 
 parser = argparse.ArgumentParser(
     prog="PySniffer",
@@ -24,18 +26,20 @@ if args.filter:
     sniff_args["filter"] = args.filter
 
 
-def hdlr(pkt):
-    print(type(pkt))
-    print(dir(pkt))
-
-
-def packet_handler(packet):
+def packet_handler(packet) -> None:
     """Get packet details
     """
-    if packet.haslayer(IP):
-        tcp_check = packet.haslayer(TCP)
-        udp_check = packet.haslayer(UDP)
-        icmp_check = packet.haslayer(ICMP)
+    if IP in packet:
+        tcp_check = False
+        udp_check = False
+        icmp_check = False
+
+        if TCP in packet:
+            tcp_check = True
+        elif UDP in packet:
+            udp_check = True
+        elif ICMP in packet:
+            icmp_check = True
 
         if tcp_check:
             print("[TCP] ", end='')
@@ -57,7 +61,7 @@ def packet_handler(packet):
                 result += f" | Flags: {packet[TCP].flags}"
 
             print(result)
-
+        
         if args.verbose:
             hexdump(packet)
 
@@ -67,7 +71,10 @@ def main() -> None:
     """
     print("[INFO] PySniffer initialized.")
 
-    sniff(prn=hdlr, count=1)
+    try:
+        sniff(prn=packet_handler, **sniff_args)
+    except KeyboardInterrupt:
+        print("\n[INFO] Stopping capture...")
 
 
 if __name__ == '__main__':
