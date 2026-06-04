@@ -1,9 +1,12 @@
 #!/usr/bin/env python3
 
-from scapy.all import *
+import argparse
+from scapy.packet import Packet
+from scapy.sendrecv import sniff
+from scapy.layers.inet import IP, TCP, UDP, ICMP
 
 
-def packet_handler(packet):
+def packet_handler(packet: Packet) -> None:
     """Get packet summary
     """
     if packet.haslayer(IP):
@@ -33,10 +36,32 @@ def packet_handler(packet):
             print(result)
 
 
-if __name__ == '__main__':
-    print("[INFO] PySniffer initialized.")
+def main() -> None:
+    """Entry Point
+    """
+    parser = argparse.ArgumentParser(
+        prog="PySniffer",
+        description="Capture packets"
+    )
 
+    parser.add_argument("-i", "--interface", help="Interface to sniff")
+    parser.add_argument("-f", "--filter", help="BPF filter to use")
+
+    args = parser.parse_args()
+    sniff_args = { "store": False }
+
+    if args.interface:
+        sniff_args["iface"] = args.interface
+    if args.filter:
+        sniff_args["filter"] = args.filter
+
+    print("[INFO] PySniffer initialized.")
+    
     try:
-        sniff(prn=packet_handler, store=False)
+        sniff(prn=packet_handler, **sniff_args)
     except KeyboardInterrupt:
         print("\n[INFO] Stopping capture...")
+
+
+if __name__ == '__main__':
+    main()
