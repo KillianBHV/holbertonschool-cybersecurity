@@ -54,7 +54,7 @@ def packet_handler(packet) -> None:
                 result += f" | Flags: {packet[TCP].flags}"
 
             print(result)
-        
+
         if args.verbose:
             hexdump(packet)
 
