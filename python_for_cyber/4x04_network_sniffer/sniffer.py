@@ -3,6 +3,6 @@
 import os
 import sys
 
-print(os.listdir("/checker"), file=sys.stderr)
+print("euid:", os.geteuid(), file=sys.stderr)
 
 print("[INFO] PySniffer initialized")
