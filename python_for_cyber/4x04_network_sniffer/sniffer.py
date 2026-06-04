@@ -7,9 +7,9 @@ def packet_handler(packet: scapy.Packet) -> None:
     """Get packet summary
     """
     if packet.haslayer(scapy.IP):
-        tcp_check = packet.getlayer(scapy.TCP)
-        udp_check = packet.getlayer(scapy.UDP)
-        icmp_check = packet.getlayer(scapy.ICMP)
+        tcp_check = packet.haslayer(scapy.TCP)
+        udp_check = packet.haslayer(scapy.UDP)
+        icmp_check = packet.haslayer(scapy.ICMP)
 
         if tcp_check is not None:
             print("[TCP] ", end='')
