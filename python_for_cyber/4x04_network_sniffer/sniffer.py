@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 
 import argparse
-from scapy.all import *
-
+from scapy.all import IP, TCP, UDP, ICMP, hexdump, sniff
 
 parser = argparse.ArgumentParser(
     prog="PySniffer",
