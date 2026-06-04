@@ -17,7 +17,7 @@ def packet_handler(packet: scapy.Packet) -> None:
             print("[UDP] ", end='')
         elif icmp_check:
             print("[ICMP] ", end='')
-        
+
         if tcp_check or udp_check or icmp_check:
             print(f"{packet[scapy.IP].src} -> {packet[scapy.IP].dst}")
 
