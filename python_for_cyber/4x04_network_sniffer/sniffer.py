@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 
 import argparse
-import scapy.all as scapy
+from scapy.sendrecv import sniff
+from scapy.all import hexdump
 
 
 parser = argparse.ArgumentParser(
@@ -28,42 +29,26 @@ if args.filter:
 def packet_handler(packet) -> None:
     """Get packet details
     """
-    raise Exception(", ".join(sorted(dir(packet))))
-    print(packet.__class__.__module__, file=sys.stderr)
+    if "IP" in packet:
+        pkt = packet.summary()
 
-    if IP in packet:
-        tcp_check = False
-        udp_check = False
-        icmp_check = False
+        centre_idx = pkt.find('>')
+        ip_idx = pkt.find('IP')+5
 
-        if TCP in packet:
-            tcp_check = True
-        elif UDP in packet:
-            udp_check = True
-        elif ICMP in packet:
-            icmp_check = True
+        left_side = pkt[ip_idx:centre_idx-1]
+        ip_idx += left_side.find(' ')+1
+        left_side = pkt[ip_idx:centre_idx-1]
 
-        if tcp_check:
-            print("[TCP] ", end='')
-        elif udp_check:
-            print("[UDP] ", end='')
-        elif icmp_check:
-            print("[ICMP] ", end='')
+        right_side = pkt[centre_idx+2:]
+        right_side = right_side[:right_side.find(' ')]
 
-        if tcp_check or udp_check or icmp_check:
-            ip_src = packet[IP].src
-            ip_dest = packet[IP].dst
+        total_state = left_side + ' > ' + right_side
 
-            result = f"{ip_src}"
-            if tcp_check:
-                result += f":{packet[TCP].sport}"
-            result += f" -> {ip_dest}"
-            if tcp_check:
-                result += f":{packet[TCP].dport}"
-                result += f" | Flags: {packet[TCP].flags}"
+        total_state = total_state.replace("https", "443")
+        total_state = total_state.replace("http", "80")
+        total_state = total_state.replace("ssh", "22")
 
-            print(result)
-
+        print(total_state)
         if args.verbose:
             hexdump(packet)
 
@@ -74,7 +59,7 @@ def main() -> None:
     print("[INFO] PySniffer initialized.")
 
     try:
-        scapy.sniff(prn=packet_handler, **sniff_args)
+        sniff(prn=packet_handler, **sniff_args)
     except KeyboardInterrupt:
         print("\n[INFO] Stopping capture...")
 
