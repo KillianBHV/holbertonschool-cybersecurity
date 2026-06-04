@@ -1,12 +1,11 @@
 #!/usr/bin/env python3
 
 import argparse
-from scapy.packet import Packet
 from scapy.sendrecv import sniff
 from scapy.layers.inet import IP, TCP, UDP, ICMP
 
 
-def packet_handler(packet: Packet) -> None:
+def packet_handler(packet) -> None:
     """Get packet summary
     """
     if packet.haslayer(IP):
