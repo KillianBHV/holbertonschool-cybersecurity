@@ -74,7 +74,7 @@ def main() -> None:
     print("[INFO] PySniffer initialized.")
 
     try:
-        sniff(prn=packet_handler, **sniff_args)
+        scapy.sniff(prn=packet_handler, **sniff_args)
     except KeyboardInterrupt:
         print("\n[INFO] Stopping capture...")
 
