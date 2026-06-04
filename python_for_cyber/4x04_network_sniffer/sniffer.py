@@ -29,9 +29,8 @@ if args.filter:
 def packet_handler(packet) -> None:
     """Get packet details
     """
-    if "IP" in packet:
-        pkt = packet.summary()
-
+    pkt = packet.summary()
+    if "IP" in pkt:
         centre_idx = pkt.find('>')
         ip_idx = pkt.find('IP')+5
 
