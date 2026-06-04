@@ -19,9 +19,20 @@ def packet_handler(packet: scapy.Packet) -> None:
             print("[ICMP] ", end='')
 
         if tcp_check or udp_check or icmp_check:
-            print(f"{packet[scapy.IP].src} -> {packet[scapy.IP].dst}")
+            ip_src = packet[scapy.IP].src
+            ip_dest = packet[scapy.IP].dst
+
+            result = f"{ip_src}"
+            if tcp_check:
+                result += f":{packet[scapy.TCP].sport}"
+            result += f" -> {ip_dest}"
+            if tcp_check:
+                result += f":{packet[scapy.TCP].dport}"
+                result += f" | Flags: {packet[scapy.TCP].flags}"
+
+            print(result)
 
 
 if __name__ == '__main__':
     print("[INFO] PySniffer initialized.")
-    scapy.sniff(filter='udp or icmp', count=6, prn=packet_handler)
+    scapy.sniff(filter='tcp', count=5, prn=packet_handler)
