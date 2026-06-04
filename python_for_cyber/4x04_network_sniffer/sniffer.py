@@ -5,8 +5,29 @@ from scapy.all import *
 from scapy.sendrecv import sniff
 
 
+parser = argparse.ArgumentParser(
+    prog="PySniffer",
+    description="Capture packets"
+)
+
+parser.add_argument("-i", "--interface", help="Interface to sniff")
+parser.add_argument("-f", "--filter", help="BPF filter to use")
+parser.add_argument("-v",
+                    "--verbose",
+                    help="Verbose mode",
+                    action="store_true")
+
+args = parser.parse_args()
+sniff_args = {"store": False}
+
+if args.interface:
+    sniff_args["iface"] = args.interface
+if args.filter:
+    sniff_args["filter"] = args.filter
+
+
 def packet_handler(packet) -> None:
-    """Get packet summary
+    """Get packet details
     """
     if packet.haslayer(IP):
         tcp_check = packet.haslayer(TCP)
@@ -33,27 +54,14 @@ def packet_handler(packet) -> None:
                 result += f" | Flags: {packet[TCP].flags}"
 
             print(result)
+        
+        if args.verbose:
+            hexdump(packet)
 
 
 def main() -> None:
     """Entry Point
     """
-    parser = argparse.ArgumentParser(
-        prog="PySniffer",
-        description="Capture packets"
-    )
-
-    parser.add_argument("-i", "--interface", help="Interface to sniff")
-    parser.add_argument("-f", "--filter", help="BPF filter to use")
-
-    args = parser.parse_args()
-    sniff_args = {"store": False}
-
-    if args.interface:
-        sniff_args["iface"] = args.interface
-    if args.filter:
-        sniff_args["filter"] = args.filter
-
     print("[INFO] PySniffer initialized.")
 
     try:
