@@ -4,7 +4,7 @@ import argparse
 import sys
 
 import scapy
-raise Exception(scapy.__file__)
+raise Exception(", ".join(sorted(dir(scapy))[:50]))
 
 
 parser = argparse.ArgumentParser(
