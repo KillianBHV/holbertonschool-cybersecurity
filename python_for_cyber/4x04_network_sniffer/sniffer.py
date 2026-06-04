@@ -11,17 +11,17 @@ def packet_handler(packet: scapy.Packet) -> None:
         udp_check = packet.haslayer(scapy.UDP)
         icmp_check = packet.haslayer(scapy.ICMP)
 
-        if tcp_check is not None:
+        if tcp_check:
             print("[TCP] ", end='')
-        elif udp_check is not None:
+        elif udp_check:
             print("[UDP] ", end='')
-        elif icmp_check is not None:
+        elif icmp_check:
             print("[ICMP] ", end='')
-
+        
         if tcp_check or udp_check or icmp_check:
             print(f"{packet[scapy.IP].src} -> {packet[scapy.IP].dst}")
 
 
 if __name__ == '__main__':
     print("[INFO] PySniffer initialized.")
-    scapy.sniff(count=5, prn=packet_handler)
+    scapy.sniff(filter='udp or icmp', count=6, prn=packet_handler)
