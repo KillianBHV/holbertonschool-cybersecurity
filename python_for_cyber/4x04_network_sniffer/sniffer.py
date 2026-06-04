@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 
 import argparse
-from scapy.all import *
+from scapy.all import hexdump
 from scapy.sendrecv import sniff
+from scapy.layers.inet import IP, TCP, UDP, ICMP
 
 
 parser = argparse.ArgumentParser(
