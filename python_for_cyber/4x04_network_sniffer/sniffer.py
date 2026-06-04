@@ -3,8 +3,8 @@
 import argparse
 import sys
 
-import scapy
-raise Exception(", ".join(sorted(dir(scapy))[:50]))
+import scapy.all as scapy
+raise Exception(", ".join(sorted(dir(scapy))))
 
 
 parser = argparse.ArgumentParser(
