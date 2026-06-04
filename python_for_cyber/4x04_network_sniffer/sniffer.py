@@ -3,7 +3,7 @@
 from scapy.all import *
 
 
-def packet_handler(packet: Packet) -> None:
+def packet_handler(packet):
     """Get packet summary
     """
     if packet.haslayer(IP):
