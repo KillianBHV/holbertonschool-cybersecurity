@@ -48,7 +48,7 @@ def main() -> None:
     parser.add_argument("-f", "--filter", help="BPF filter to use")
 
     args = parser.parse_args()
-    sniff_args = { "store": False }
+    sniff_args = {"store": False}
 
     if args.interface:
         sniff_args["iface"] = args.interface
@@ -56,7 +56,7 @@ def main() -> None:
         sniff_args["filter"] = args.filter
 
     print("[INFO] PySniffer initialized.")
-    
+
     try:
         sniff(prn=packet_handler, **sniff_args)
     except KeyboardInterrupt:
