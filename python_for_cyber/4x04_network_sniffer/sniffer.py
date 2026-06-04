@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 
 import argparse
-import scapy.all as scapy
+from scapy.all import *
+from scapy.packet import Packet
 
 parser = argparse.ArgumentParser(
     prog="PySniffer",
@@ -24,13 +25,13 @@ if args.filter:
     sniff_args["filter"] = args.filter
 
 
-def packet_handler(packet: scapy.Packet) -> None:
+def packet_handler(packet):
     """Get packet details
     """
-    if packet.haslayer(scapy.IP):
-        tcp_check = packet.haslayer(scapy.TCP)
-        udp_check = packet.haslayer(scapy.UDP)
-        icmp_check = packet.haslayer(scapy.ICMP)
+    if packet.haslayer(IP):
+        tcp_check = packet.haslayer(TCP)
+        udp_check = packet.haslayer(UDP)
+        icmp_check = packet.haslayer(ICMP)
 
         if tcp_check:
             print("[TCP] ", end='')
@@ -40,21 +41,21 @@ def packet_handler(packet: scapy.Packet) -> None:
             print("[ICMP] ", end='')
 
         if tcp_check or udp_check or icmp_check:
-            ip_src = packet[scapy.IP].src
-            ip_dest = packet[scapy.IP].dst
+            ip_src = packet[IP].src
+            ip_dest = packet[IP].dst
 
             result = f"{ip_src}"
             if tcp_check:
-                result += f":{packet[scapy.TCP].sport}"
+                result += f":{packet[TCP].sport}"
             result += f" -> {ip_dest}"
             if tcp_check:
-                result += f":{packet[scapy.TCP].dport}"
-                result += f" | Flags: {packet[scapy.TCP].flags}"
+                result += f":{packet[TCP].dport}"
+                result += f" | Flags: {packet[TCP].flags}"
 
             print(result)
 
         if args.verbose:
-            scapy.hexdump(packet)
+            hexdump(packet)
 
 
 def main() -> None:
