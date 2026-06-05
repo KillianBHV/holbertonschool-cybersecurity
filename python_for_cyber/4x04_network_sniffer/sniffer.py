@@ -1,14 +1,15 @@
 #!/usr/bin/env python3
 
 import argparse
-from scapy.all import wrpcap, sniff, Packet, IP, TCP, ICMP, UDP
+from scapy.all import wrpcap, sniff, Packet, IP, TCP, ICMP, UDP, Raw
 
 
 class Sniffer:
-    def __init__(self, interface, filter_str, output_file):
+    def __init__(self, interface, filter_str, output_file, search_string):
         self.interface = interface
         self.filter_str = filter_str
         self.output_file = output_file
+        self.search_string = search_string
         self.processors = {
             "TCP": TCPProcessor(),
             "UDP": UDPProcessor(),
@@ -47,11 +48,11 @@ class Sniffer:
         """
         if packet.haslayer(IP):
             if packet.haslayer(TCP):
-                self.processors["TCP"].process(packet)
+                self.processors["TCP"].process(packet, self.search_string)
             elif packet.haslayer(UDP):
-                self.processors["UDP"].process(packet)
+                self.processors["UDP"].process(packet, self.search_string)
             elif packet.haslayer(ICMP):
-                self.processors["ICMP"].process(packet)
+                self.processors["ICMP"].process(packet, self.search_string)
             else:
                 print("UNKNOWN:", packet)
 
@@ -62,25 +63,49 @@ class PacketProcessor:
 
 
 class TCPProcessor(PacketProcessor):
-    def process(self, packet):
+    def process(self, packet, search_string):
         print("[TCP]")
+        if packet.haslayer(Raw):
+            try:
+                payload = packet[Raw].load.decode(errors='ignore')
+                if search_string in payload:
+                    print("[ALERT] Payload Match Found!")
+            except Exception:
+                pass
 
 
 class UDPProcessor(PacketProcessor):
-    def process(self, packet):
+    def process(self, packet, search_string):
         print("[UDP]")
+        if packet.haslayer(Raw):
+            try:
+                payload = packet[Raw].load.decode(errors='ignore')
+                if search_string in payload:
+                    print("[ALERT] Payload Match Found!")
+            except Exception:
+                pass
 
 
 class ICMPProcessor(PacketProcessor):
-    def process(self, packet):
+    def process(self, packet, search_string):
         print("[ICMP]")
+        if packet.haslayer(Raw):
+            try:
+                payload = packet[Raw].load.decode(errors='ignore')
+                if search_string in payload:
+                    print("[ALERT] Payload Match Found!")
+            except Exception:
+                pass
 
 
 def main() -> None:
     """Entry Point
     """
     print("[INFO] PySniffer initialized.")
-    sniffer = Sniffer("eth0", "tcp or udp or icmp", "capture.pcap")
+    sniffer = Sniffer("eth0",
+                      "tcp or udp or icmp",
+                      "capture.pcap",
+                      "password")
     sniffer.start()
 
 
