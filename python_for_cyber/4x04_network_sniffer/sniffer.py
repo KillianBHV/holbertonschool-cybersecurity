@@ -2,7 +2,6 @@
 
 import argparse
 from scapy.all import wrpcap, sniff, Packet, IP, TCP, ICMP, UDP
-print(dir(TCP))
 
 
 class Sniffer:
