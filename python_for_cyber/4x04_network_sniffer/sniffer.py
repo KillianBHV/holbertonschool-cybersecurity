@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import argparse
-from scapy.all import wrpcap, sniff, Packet, IP, TCP, ICMP, UDP, Raw
+from scapy.all import sniff, Packet, IP, TCP, ICMP, UDP, Raw
 
 
 class Sniffer:
