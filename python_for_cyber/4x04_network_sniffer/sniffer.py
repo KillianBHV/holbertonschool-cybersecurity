@@ -23,6 +23,9 @@ class Sniffer:
         args = self.get_cli_parser()
         sniff_args = {"store": False}
 
+        if args.search:
+            self.search_string = args.search
+
         try:
             sniff(prn=self._process_packet, **sniff_args)
         except KeyboardInterrupt:
@@ -41,6 +44,7 @@ class Sniffer:
                             help="Verbose mode",
                             action="store_true")
         parser.add_argument("--write", help="Write result on file")
+        parser.add_argument("-s", "--search", help="Search for pattern")
         return parser.parse_args()
 
     def _process_packet(self, packet):
