@@ -18,17 +18,6 @@ class Sniffer:
         args = self.get_cli_parser()
         sniff_args = {"store": False}
 
-        if args.interface:
-            self.interface = args.interface
-            sniff_args["iface"] = self.interface
-
-        if args.filter:
-            self.filter_str = args.filter
-            sniff_args["filter"] = self.filter_str
-
-        if args.write:
-            self.output_file = args.write
-
         try:
             sniff(prn=self._process_packet, **sniff_args)
         except KeyboardInterrupt:
