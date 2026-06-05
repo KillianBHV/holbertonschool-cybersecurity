@@ -5,7 +5,10 @@ from scapy.all import wrpcap, sniff, Packet, IP, TCP, ICMP, UDP
 
 
 class Sniffer:
-    def __init__(self):
+    def __init__(self, interface, filter_str, output_file):
+        self.interface = interface
+        self.filter_str = filter_str
+        self.output_file = output_file
         self.processors = {
             "TCP": TCPProcessor(),
             "UDP": UDPProcessor(),
@@ -15,6 +18,7 @@ class Sniffer:
     def start(self):
         """sniffer start
         """
+        print(dir(self.__init__))
         args = self.get_cli_parser()
         sniff_args = {"store": False}
 
@@ -76,7 +80,7 @@ def main() -> None:
     """Entry Point
     """
     print("[INFO] PySniffer initialized.")
-    sniffer = Sniffer()
+    sniffer = Sniffer("eth0", "tcp or udp or icmp", "capture.pcap")
     sniffer.start()
 
 
