@@ -2,8 +2,7 @@
 
 import argparse
 from scapy.all import wrpcap, sniff, Packet, IP, TCP, ICMP, UDP
-
-print(dir(Packet))
+print(dir(TCP))
 
 
 class Sniffer:
@@ -73,16 +72,15 @@ class Sniffer:
 
                 result = f"{ip_src}"
                 if tcp_check:
-                    result += f":{packet[TCP].sport}"
+                    result += f":{00}"
                 result += f" -> {ip_dest}"
                 if tcp_check:
-                    result += f":{packet[TCP].dport}"
-                    result += f" | Flags: {packet[TCP].flags}"
+                    result += f":{00}"
 
-                if self.output_file:
+                '''if self.output_file:
                     wrpcap(self.output_file, packet)
-                else:
-                    print(result)
+                else:'''
+                print(result)
 
 
 def main() -> None:
