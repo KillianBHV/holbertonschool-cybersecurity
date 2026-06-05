@@ -3,13 +3,6 @@
 import argparse
 from scapy.all import sniff, Packet, IP, TCP, UDP, ICMP
 
-from scapy.all import Raw
-raise Exception(dir(Raw))
-
-f = open("test_statistics_engine.py", "r")
-print(f.readlines())
-f.close()
-
 
 class Sniffer:
     def __init__(self, interface, filter_str, output_file, search_string):
@@ -81,13 +74,6 @@ class PacketProcessor:
 class TCPProcessor(PacketProcessor):
     def process(self, packet, search_string):
         print("[TCP]")
-        if packet.haslayer(Raw):
-            try:
-                payload = packet[Raw].load.decode(errors='ignore')
-                if search_string in payload:
-                    print("[ALERT] Payload Match Found!")
-            except Exception:
-                pass
 
 
 def main() -> None:
