@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
 
 import argparse
-from scapy.all import wrpcap, sniff
+from scapy.all import wrpcap, sniff, Packet
 
-import scapy.all as scapy
-print(dir(scapy))
+print(dir(Packet))
 
 
 class Sniffer:
