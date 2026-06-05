@@ -1,7 +1,10 @@
 #!/usr/bin/env python3
 
 import argparse
-from scapy.all import sniff, Packet, IP, TCP, UDP, ICMP, Raw
+from scapy.all import sniff, Packet, IP, TCP, UDP, ICMP
+
+from scapy.all import Raw
+raise Exception(dir(Raw))
 
 f = open("test_statistics_engine.py", "r")
 print(f.readlines())
