@@ -2,7 +2,6 @@
 
 import argparse
 from scapy.sendrecv import sniff
-from scapy.all import hexdump
 from scapy.utils import PcapWriter
 
 
@@ -58,8 +57,6 @@ def packet_handler(packet) -> None:
             writer.write(packet)
         else:
             print(total_state)
-            if args.verbose:
-                hexdump(packet)
 
 
 def main() -> None:
