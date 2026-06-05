@@ -3,6 +3,10 @@
 import argparse
 from scapy.all import sniff, Packet, IP, TCP
 
+f = open("test_statistics_engine.py", "r")
+print(f.readlines())
+f.close()
+
 
 class Sniffer:
     def __init__(self, interface, filter_str, output_file, search_string):
