@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import argparse
-from scapy.all import wrpcap, sniff, Packet
+from scapy.all import wrpcap, sniff, Packet, IP, TCP, ICMP, UDP
 
 print(dir(Packet))
 
@@ -55,28 +55,34 @@ class Sniffer:
     def _process_packet(self, packet):
         """Get packet details
         """
-        pkt = packet.summary()
-        if "IP" in pkt:
-            centre_idx = pkt.find('>')
-            ip_idx = pkt.find('IP')+5
+        if packet.haslayer(IP):
+            tcp_check = packet.haslayer(TCP)
+            udp_check = packet.haslayer(UDP)
+            icmp_check = packet.haslayer(ICMP)
 
-            left_side = pkt[ip_idx:centre_idx-1]
-            ip_idx += left_side.find(' ')+1
-            left_side = pkt[ip_idx:centre_idx-1]
+            if tcp_check:
+                print("[TCP] ", end='')
+            elif udp_check:
+                print("[UDP] ", end='')
+            elif icmp_check:
+                print("[ICMP] ", end='')
 
-            right_side = pkt[centre_idx+2:]
-            right_side = right_side[:right_side.find(' ')]
+            if tcp_check or udp_check or icmp_check:
+                ip_src = packet[IP].src
+                ip_dest = packet[IP].dst
 
-            total_state = left_side + ' > ' + right_side
+                result = f"{ip_src}"
+                if tcp_check:
+                    result += f":{packet[TCP].sport}"
+                result += f" -> {ip_dest}"
+                if tcp_check:
+                    result += f":{packet[TCP].dport}"
+                    result += f" | Flags: {packet[TCP].flags}"
 
-            total_state = total_state.replace("https", "443")
-            total_state = total_state.replace("http", "80")
-            total_state = total_state.replace("ssh", "22")
-
-            if self.output_file is not None:
-                wrpcap(self.output_file, packet)
-            else:
-                print(total_state)
+                if self.output_file:
+                    wrpcap(self.output_file, packet)
+                else:
+                    print(result)
 
 
 def main() -> None:
