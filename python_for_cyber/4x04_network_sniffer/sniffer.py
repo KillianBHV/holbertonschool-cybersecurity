@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 
 import argparse
-from scapy.sendrecv import sniff
-from scapy.all import PcapWriter, wrpcap
+from scapy.all import PcapWriter, wrpcap, sniff
 
 
 parser = argparse.ArgumentParser(
@@ -35,28 +34,8 @@ else:
 def packet_handler(packet) -> None:
     """Get packet details
     """
-    pkt = packet.summary()
-    if "IP" in pkt:
-        centre_idx = pkt.find('>')
-        ip_idx = pkt.find('IP')+5
-
-        left_side = pkt[ip_idx:centre_idx-1]
-        ip_idx += left_side.find(' ')+1
-        left_side = pkt[ip_idx:centre_idx-1]
-
-        right_side = pkt[centre_idx+2:]
-        right_side = right_side[:right_side.find(' ')]
-
-        total_state = left_side + ' > ' + right_side
-
-        total_state = total_state.replace("https", "443")
-        total_state = total_state.replace("http", "80")
-        total_state = total_state.replace("ssh", "22")
-
-        if writer is not None:
-            wrpcap(writer, packet)
-        else:
-            print(total_state)
+    if writer is not None:
+        wrpcap(writer, packet)
 
 
 def main() -> None:
@@ -68,9 +47,6 @@ def main() -> None:
         sniff(prn=packet_handler, **sniff_args)
     except KeyboardInterrupt:
         print("\n[INFO] Stopping capture...")
-    finally:
-        if writer:
-            writer.close()
 
 
 if __name__ == '__main__':
