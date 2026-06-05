@@ -34,8 +34,7 @@ else:
 def packet_handler(packet) -> None:
     """Get packet details
     """
-    if writer is not None:
-        wrpcap(writer, packet)
+    wrpcap("capture.pcap", packet)
 
 
 def main() -> None:
