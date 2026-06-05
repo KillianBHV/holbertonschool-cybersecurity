@@ -5,13 +5,12 @@ from scapy.all import wrpcap, sniff, Packet, IP, TCP, ICMP, UDP
 
 
 class Sniffer:
-    def __init__(self,
-                 interface="",
-                 filter_str="",
-                 output_file=None):
-        self.interface = interface
-        self.filter_str = filter_str
-        self.output_file = output_file
+    def __init__(self):
+        self.processors = {
+            "TCP": TCPProcessor(),
+            "UDP": UDPProcessor(),
+            "ICMP": ICMPProcessor()
+        }
 
     def start(self):
         """sniffer start
@@ -54,32 +53,34 @@ class Sniffer:
         """Get packet details
         """
         if packet.haslayer(IP):
-            tcp_check = packet.haslayer(TCP)
-            udp_check = packet.haslayer(UDP)
-            icmp_check = packet.haslayer(ICMP)
+            if packet.haslayer(TCP):
+                self.processors["TCP"].process(packet)
+            elif packet.haslayer(UDP):
+                self.processors["UDP"].process(packet)
+            elif packet.haslayer(ICMP):
+                self.processors["ICMP"].process(packet)
+            else:
+                print("UNKNOWN:", packet)
 
-            if tcp_check:
-                print("[TCP] ", end='')
-            elif udp_check:
-                print("[UDP] ", end='')
-            elif icmp_check:
-                print("[ICMP] ", end='')
 
-            if tcp_check or udp_check or icmp_check:
-                ip_src = packet[IP].src
-                ip_dest = packet[IP].dst
+class PacketProcessor:
+    def process(self, packet):
+        raise NotImplementedError
 
-                result = f"{ip_src}"
-                if tcp_check:
-                    result += f":{00}"
-                result += f" -> {ip_dest}"
-                if tcp_check:
-                    result += f":{00}"
 
-                '''if self.output_file:
-                    wrpcap(self.output_file, packet)
-                else:'''
-                print(result)
+class TCPProcessor(PacketProcessor):
+    def process(self, packet):
+        print("[TCP]")
+
+
+class UDPProcessor(PacketProcessor):
+    def process(self, packet):
+        print("[UDP]")
+
+
+class ICMPProcessor(PacketProcessor):
+    def process(self, packet):
+        print("[ICMP]")
 
 
 def main() -> None:
