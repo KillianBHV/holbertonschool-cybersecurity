@@ -3,6 +3,9 @@
 import argparse
 from scapy.all import wrpcap, sniff
 
+import scapy.all as scapy
+print(dir(scapy))
+
 
 class Sniffer:
     def __init__(self,
