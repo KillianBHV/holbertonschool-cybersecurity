@@ -2,8 +2,9 @@
 
 import argparse
 from scapy.sendrecv import sniff
-from scapy.utils import PcapWriter
 
+import scapy.all as scapy
+raise Exception(", ".join(sorted(dir(scapy))))
 
 parser = argparse.ArgumentParser(
     prog="PySniffer",
