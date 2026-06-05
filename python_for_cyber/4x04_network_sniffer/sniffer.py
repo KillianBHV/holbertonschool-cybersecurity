@@ -10,6 +10,11 @@ class Sniffer:
         self.filter_str = filter_str
         self.output_file = output_file
         self.search_string = search_string
+        self.stats = {
+            'TCP': 0,
+            'UDP': 0,
+            'ICMP': 0,
+        }
         self.processors = {
             "TCP": TCPProcessor(),
         }
@@ -27,6 +32,7 @@ class Sniffer:
         try:
             sniff(prn=self._process_packet, **sniff_args)
         except KeyboardInterrupt:
+            print(self.stats)
             print("\n[INFO] Stopping capture...")
 
     def get_cli_parser(self):
@@ -50,7 +56,12 @@ class Sniffer:
         """
         if packet.haslayer(IP):
             if packet.haslayer(TCP):
+                self.stats['TCP'] += 1
                 self.processors["TCP"].process(packet, self.search_string)
+            elif packet.haslayer("UDP"):
+                self.stats['UDP'] += 1
+            elif packet.haslayer("ICMP"):
+                self.stats['ICMP'] += 1
             else:
                 print("UNKNOWN:", packet)
 
