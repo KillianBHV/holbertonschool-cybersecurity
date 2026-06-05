@@ -26,7 +26,7 @@ if args.filter:
     sniff_args["filter"] = args.filter
 
 if args.write:
-    writer = PcapWriter(args.write, append=True)
+    writer = PcapWriter("capture.pcap", append=True)
 else:
     writer = None
 
