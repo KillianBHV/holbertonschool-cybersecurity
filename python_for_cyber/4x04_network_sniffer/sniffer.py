@@ -12,8 +12,6 @@ class Sniffer:
         self.search_string = search_string
         self.processors = {
             "TCP": TCPProcessor(),
-            "UDP": UDPProcessor(),
-            "ICMP": ICMPProcessor()
         }
 
     def start(self):
