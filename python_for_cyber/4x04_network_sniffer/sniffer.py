@@ -2,9 +2,8 @@
 
 import argparse
 from scapy.sendrecv import sniff
+from scapy.all import PcapWriter, wrpcap
 
-import scapy.all as scapy
-raise Exception(", ".join(sorted(dir(scapy))))
 
 parser = argparse.ArgumentParser(
     prog="PySniffer",
@@ -55,7 +54,7 @@ def packet_handler(packet) -> None:
         total_state = total_state.replace("ssh", "22")
 
         if writer is not None:
-            writer.write(packet)
+            wrpcap(writer, packet)
         else:
             print(total_state)
 
