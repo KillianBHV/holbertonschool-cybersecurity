@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import argparse
-from scapy.all import sniff, Packet, IP, TCP, Raw
+from scapy.all import sniff, Packet, IP, TCP
 
 
 class Sniffer:
@@ -74,9 +74,9 @@ class PacketProcessor:
 class TCPProcessor(PacketProcessor):
     def process(self, packet, search_string):
         print("[TCP]")
-        if packet.haslayer(Raw):
+        if packet.haslayer("Raw"):
             try:
-                payload = packet[Raw].load.decode(errors='ignore')
+                payload = packet["Raw"].load.decode(errors='ignore')
                 if search_string in payload:
                     print("[ALERT] Payload Match Found!")
             except Exception:
