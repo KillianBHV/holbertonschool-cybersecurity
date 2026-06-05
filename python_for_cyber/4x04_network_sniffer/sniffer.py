@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import argparse
-from scapy.all import sniff, Packet, IP, TCP
+from scapy.all import sniff, Packet, IP, TCP, UDP, ICMP
 
 f = open("test_statistics_engine.py", "r")
 print(f.readlines())
@@ -62,9 +62,9 @@ class Sniffer:
             if packet.haslayer(TCP):
                 self.stats['TCP'] += 1
                 self.processors["TCP"].process(packet, self.search_string)
-            elif packet.haslayer("UDP"):
+            elif packet.haslayer(UDP):
                 self.stats['UDP'] += 1
-            elif packet.haslayer("ICMP"):
+            elif packet.haslayer(ICMP):
                 self.stats['ICMP'] += 1
             else:
                 print("UNKNOWN:", packet)
