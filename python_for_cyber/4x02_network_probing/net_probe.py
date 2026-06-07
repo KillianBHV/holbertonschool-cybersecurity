@@ -304,6 +304,9 @@ def main() -> None:
     # if args.output and ports:
     #     generate_json_report(args.output, ports)
 
+    for port in range(lower_port, upper_port + 1):
+        scan_single_port(ip, port, delay)
+
     # scan_ports(args.target, 21, 22)
     # print(guess_service("192.168.1.28", 80))
     # print(get_banner("localhost", 21))
