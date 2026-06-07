@@ -287,8 +287,7 @@ def main() -> None:
     if args.delay:
         delay = float(args.delay)
 
-    print(inspect.getsource(net_probe.scan_ports))
-    print(inspect.getsource(net_probe.scan_single_ports))
+    raise Exception(dir())
     # scan_ports(ip, lower_port, upper_port)
 
 
