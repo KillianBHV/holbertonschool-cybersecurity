@@ -126,7 +126,6 @@ def __scan_single_port(ip: str, port: int) -> dict:
     """
     global delay
     print(f"[DEBUG] Sleeping {delay} before next packet...")
-    raise Exception(tuple(repr(delay), type(delay)))
     time.sleep(delay)
 
     is_open_port = check_port(ip, port)
@@ -163,6 +162,7 @@ def scan_ports(ip: str,
     """
     ports_report = []
     global delay
+    raise Exception(tuple(repr(delay), type(delay)))
 
     with crtf.ThreadPoolExecutor(max_workers=1) as executor:
         future_to_port = {
