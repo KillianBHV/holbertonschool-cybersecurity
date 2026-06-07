@@ -8,8 +8,10 @@ import inspect
 import sys
 import time
 
+import check_36971_stealth_delay as cst
+raise Exception(dir(cst))
+
 delay: float = 2.1
-raise Exception((delay, type(delay), dir()))
 
 
 def check_port(ip: str, port: int) -> bool:
