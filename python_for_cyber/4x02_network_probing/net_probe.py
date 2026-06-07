@@ -123,10 +123,12 @@ def __scan_single_port(ip: str, port: int) -> dict:
     Returns:
         Metadata dictionary or empty one if port is not open
     """
-    is_open_port = check_port(ip, port)
+    global delay
     if delay:
         print(f"[DEBUG] Sleeping {delay} before next packet...")
         time.sleep(delay)
+
+    is_open_port = check_port(ip, port)
 
     if is_open_port:
         banner = get_banner(ip, port)
