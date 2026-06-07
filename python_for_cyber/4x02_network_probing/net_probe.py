@@ -6,19 +6,6 @@ import socket as skt
 import concurrent.futures as crtf
 
 
-parser = argparse.ArgumentParser()
-parser.add_argument("-t", "--target",
-                    help="Target IP",
-                    required=True)
-parser.add_argument("-p", "--ports",
-                    required=True,
-                    help="Port range to scan")
-parser.add_argument("-o", "--output",
-                    help="Generate report to file")
-
-args = parser.parse_args()
-
-
 def check_port(ip: str, port: int) -> bool:
     """Checks the availability of a target
 
@@ -151,7 +138,10 @@ def __scan_single_port(ip: str, port: int) -> dict:
     return {}
 
 
-def scan_ports(ip: str, start_port: int, end_port: int) -> list[dict]:
+def scan_ports(ip: str,
+               start_port: int,
+               end_port: int,
+               output=None) -> list[dict]:
     """Scan a range of ports
 
     Args:
@@ -188,8 +178,8 @@ def scan_ports(ip: str, start_port: int, end_port: int) -> list[dict]:
                 f"{check_vulnerability(port['service'])}"
             )
 
-    if args.output:
-        generate_json_report(args.output, ports_report)
+    if output:
+        generate_json_report(output, ports_report)
 
     return ports_report
 
@@ -265,11 +255,28 @@ def main() -> None:
 
     # print(ping_sweep("192.168.1"))
     # print(get_banner("scanme.nmap.org", 80))
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-t", "--target",
+                        help="Target IP",
+                        required=True)
+    parser.add_argument("-p", "--ports",
+                        required=True,
+                        help="Port range to scan")
+    parser.add_argument("-o", "--output",
+                        help="Generate report to file")
 
+    args = parser.parse_args()
     sep_port = args.ports.find('-')
+
+    if args.output:
+        writing_required = args.output
+    else:
+        writing_required = None
+
     scan_ports(args.target,
                int(args.ports[:sep_port]),
-               int(args.ports[sep_port + 1:]))
+               int(args.ports[sep_port + 1:]),
+               writing_required)
 
     # scan_ports(args.target, 21, 22)
     # print(guess_service("192.168.1.28", 80))
