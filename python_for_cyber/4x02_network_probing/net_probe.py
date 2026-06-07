@@ -294,9 +294,10 @@ def main() -> None:
     lower_port = int(args.ports[:sep_port])
     upper_port = int(args.ports[sep_port + 1:])
 
-    delay = float(args.delay) or None
+    if args.delay:
+        delay = float(args.delay)
 
-    print(repr(delay), type(delay))
+    raise Exception(repr(delay), type(delay))
 
     ports = scan_ports(ip, lower_port, upper_port)
     # print_infos(ip, lower_port, upper_port, ports)
