@@ -160,7 +160,6 @@ def scan_ports(ip: str,
     Returns:
         Open ports report with banner grabbing
     """
-    pass
     ports_report = []
     global delay
 
@@ -298,14 +297,11 @@ def main() -> None:
     else:
         delay = 2.1
 
-    # scan_ports(ip, lower_port, upper_port)
+    scan_ports(ip, lower_port, upper_port)
     # print_infos(ip, lower_port, upper_port, ports)
 
     # if args.output and ports:
     #     generate_json_report(args.output, ports)
-
-    for port in range(lower_port, upper_port + 1):
-        scan_single_port(ip, port, delay)
 
     # scan_ports(args.target, 21, 22)
     # print(guess_service("192.168.1.28", 80))
