@@ -7,7 +7,7 @@ import concurrent.futures as crtf
 import sys
 import time
 
-delay: float = 0.0
+delay = 999
 
 
 def check_port(ip: str, port: int) -> bool:
@@ -163,7 +163,6 @@ def scan_ports(ip: str,
 
     with crtf.ThreadPoolExecutor(max_workers=50) as executor:
         for port in range(start_port, end_port + 1):
-            time.sleep(1)
             future = executor.submit(scan_single_port, ip, port)
 
             try:
@@ -292,7 +291,7 @@ def main() -> None:
 
     global delay
     if args.delay:
-        delay = float(args.delay)
+        delay = 999
 
     ports = scan_ports(ip, lower_port, upper_port)
     print_infos(ip, lower_port, upper_port, ports)
