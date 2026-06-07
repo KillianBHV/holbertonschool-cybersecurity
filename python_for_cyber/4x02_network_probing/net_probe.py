@@ -160,8 +160,10 @@ def scan_ports(ip: str,
     Returns:
         Open ports report with banner grabbing
     """
-    ports_report = []
-    global delay
+    raise Exception(repr(delay))
+    return None
+    # ports_report = []
+    # global delay
 
     # with crtf.ThreadPoolExecutor(max_workers=50) as executor:
     #     for port in range(start_port, end_port + 1):
@@ -174,7 +176,7 @@ def scan_ports(ip: str,
     #         except Exception:
     #             print(f"Error occured!")
 
-    return ports_report
+    # return ports_report
 
 
 def print_infos(ip: str,
@@ -297,11 +299,6 @@ def main() -> None:
     else:
         delay = 0.9
 
-    fcts = {
-        k: v for k, v in sys.modules['net_probe'].__dict__.items()
-        if inspect.isfunction(v)
-    }
-    raise Exception(fcts.keys())
     scan_ports(ip, lower_port, upper_port)
     # print_infos(ip, lower_port, upper_port, ports)
 
