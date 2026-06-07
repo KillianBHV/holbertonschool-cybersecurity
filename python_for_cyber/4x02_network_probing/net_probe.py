@@ -8,8 +8,11 @@ import inspect
 import sys
 import time
 
-import check_36971_stealth_delay as cst
-raise Exception(dir(cst))
+try:
+    import check_36971_stealth_delay
+except Exception as e:
+    print(f"{e}")
+    exit(1)
 
 delay: float = 2.1
 
