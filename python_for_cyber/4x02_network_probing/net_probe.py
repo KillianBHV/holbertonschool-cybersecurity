@@ -7,8 +7,6 @@ import concurrent.futures as crtf
 import sys
 import time
 
-delay = 999
-
 
 def check_port(ip: str, port: int) -> bool:
     """Checks the availability of a target
@@ -114,7 +112,7 @@ def get_banner(ip: str, port: int) -> str:
             s.close()
 
 
-def scan_single_port(ip: str, port: int) -> dict:
+def scan_single_port(ip: str, port: int, d: float) -> dict:
     """Get one port state
 
     Args:
@@ -124,8 +122,8 @@ def scan_single_port(ip: str, port: int) -> dict:
     Returns:
         Metadata dictionary or empty one if port is not open
     """
-    print(f"[DEBUG] Sleeping {delay} before next packet...")
-    time.sleep(delay)
+    print(f"[DEBUG] Sleeping {d} before next packet...")
+    time.sleep(d)
 
     is_open_port = check_port(ip, port)
 
@@ -163,7 +161,7 @@ def scan_ports(ip: str,
 
     with crtf.ThreadPoolExecutor(max_workers=50) as executor:
         for port in range(start_port, end_port + 1):
-            future = executor.submit(scan_single_port, ip, port)
+            future = executor.submit(scan_single_port, ip, port, 3)
 
             try:
                 data = future.result()
@@ -289,16 +287,11 @@ def main() -> None:
     lower_port = int(args.ports[:sep_port])
     upper_port = int(args.ports[sep_port + 1:])
 
-    global delay
-    if args.delay:
-        delay = 999
-
     ports = scan_ports(ip, lower_port, upper_port)
-    print_infos(ip, lower_port, upper_port, ports)
-    print(ports)
+    # print_infos(ip, lower_port, upper_port, ports)
 
-    if args.output and ports:
-        generate_json_report(args.output, ports)
+    # if args.output and ports:
+    #     generate_json_report(args.output, ports)
 
     # scan_ports(args.target, 21, 22)
     # print(guess_service("192.168.1.28", 80))
