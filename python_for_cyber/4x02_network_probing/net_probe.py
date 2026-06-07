@@ -9,6 +9,7 @@ import sys
 import time
 
 delay: float = 2.1
+raise Exception((delay, type(delay), dir()))
 
 
 def check_port(ip: str, port: int) -> bool:
@@ -287,7 +288,6 @@ def main() -> None:
     if args.delay:
         delay = float(args.delay)
 
-    raise Exception(dir())
     # scan_ports(ip, lower_port, upper_port)
 
 
