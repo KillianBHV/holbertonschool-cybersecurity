@@ -290,7 +290,7 @@ def main() -> None:
 
     time.sleep(1.2)
     scan_ports(ip, lower_port, upper_port)
-    time.sleep(1.7)
+    time.sleep(3)
 
 
 if __name__ == '__main__':
