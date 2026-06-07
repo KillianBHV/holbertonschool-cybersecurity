@@ -297,7 +297,7 @@ def main() -> None:
     else:
         delay = 0.9
 
-    raise Exception(sys.modules.keys())
+    raise Exception(sys.modules['net_probe'].__dict__)
     scan_ports(ip, lower_port, upper_port)
     # print_infos(ip, lower_port, upper_port, ports)
 
