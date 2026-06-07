@@ -163,7 +163,7 @@ def scan_ports(ip: str,
     ports_report = []
     global delay
 
-    with crtf.ThreadPoolExecutor(max_workers=50) as executor:
+    with crtf.ThreadPoolExecutor(max_workers=1) as executor:
         future_to_port = {
             executor.submit(__scan_single_port, ip, port):
                 port for port in range(start_port, end_port + 1)
