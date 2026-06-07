@@ -4,6 +4,9 @@ import argparse
 import json
 import socket as skt
 import concurrent.futures as crtf
+import time
+
+IS_DELAY_SET = None
 
 
 def check_port(ip: str, port: int) -> bool:
@@ -121,6 +124,9 @@ def __scan_single_port(ip: str, port: int) -> dict:
         Metadata dictionary or empty one if port is not open
     """
     is_open_port = check_port(ip, port)
+    if IS_DELAY_SET is not None:
+        time.sleep(IS_DELAY_SET)
+
     if is_open_port:
         banner = get_banner(ip, port)
         if check_vulnerability(banner):
@@ -276,6 +282,8 @@ def main() -> None:
                         help="Port range to scan")
     parser.add_argument("-o", "--output",
                         help="Generate report to file")
+    parser.add_argument("-d", "--delay",
+                        help="Set a delay between ports analysis")
 
     args = parser.parse_args()
     sep_port = args.ports.find('-')
@@ -283,6 +291,9 @@ def main() -> None:
     ip = args.target
     lower_port = int(args.ports[:sep_port])
     upper_port = int(args.ports[sep_port + 1:])
+
+    if args.delay:
+        IS_DELAY_SET = float(args.delay)
 
     ports = scan_ports(ip, lower_port, upper_port)
     print_infos(ip, lower_port, upper_port, ports)
