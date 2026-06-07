@@ -1,0 +1,8 @@
+[
+  {
+    "port": 21,
+    "state": "open",
+    "service": "vsftpd 3.0.5",
+    "vulnerability": "YES"
+  }
+]
