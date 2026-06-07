@@ -297,7 +297,7 @@ def main() -> None:
         delay = float(args.delay)
     else:
         delay = 3.8
-    
+
     time.sleep(delay)
 
     # scan_ports(ip, lower_port, upper_port)
