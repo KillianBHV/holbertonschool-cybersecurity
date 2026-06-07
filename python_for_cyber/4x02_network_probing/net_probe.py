@@ -126,6 +126,7 @@ def scan_single_port(ip: str, port: int, d: float) -> dict:
         Metadata dictionary or empty one if port is not open
     """
     print(f"[DEBUG] Sleeping {delay} before next packet...")
+    time.sleep(delay)
 
     is_open_port = check_port(ip, port)
 
@@ -287,7 +288,9 @@ def main() -> None:
     if args.delay:
         delay = float(args.delay)
 
+    time.sleep(1)
     scan_ports(ip, lower_port, upper_port)
+    time.sleep(1)
 
 
 if __name__ == '__main__':
