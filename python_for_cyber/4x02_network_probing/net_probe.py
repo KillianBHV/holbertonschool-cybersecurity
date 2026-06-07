@@ -126,17 +126,21 @@ def scan_single_port(ip: str, port: int, d: float) -> dict:
         Metadata dictionary or empty one if port is not open
     """
     print(f"[DEBUG] Sleeping {delay} before next packet...")
-    time.sleep(7)
+    time.sleep(delay)
 
     is_open_port = check_port(ip, port)
+    time.sleep(delay)
 
     if is_open_port:
+        time.sleep(delay)
         banner = get_banner(ip, port)
+        time.sleep(delay)
         if check_vulnerability(banner):
             is_vulnerable_banner = 'YES'
         else:
             is_vulnerable_banner = 'NO'
 
+        time.sleep(delay)
         return {
             'port': port,
             'state': 'open',
