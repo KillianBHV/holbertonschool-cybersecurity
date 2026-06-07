@@ -7,6 +7,8 @@ import concurrent.futures as crtf
 import sys
 import time
 
+delay: float = 0.0
+
 
 def check_port(ip: str, port: int) -> bool:
     """Checks the availability of a target
@@ -267,7 +269,6 @@ def main() -> None:
 
     # print(ping_sweep("192.168.1"))
     # print(get_banner("scanme.nmap.org", 80))
-    raise Exception((sys.argv))
 
     parser = argparse.ArgumentParser()
     parser.add_argument("-t", "--target",
@@ -287,6 +288,12 @@ def main() -> None:
     ip = args.target
     lower_port = int(args.ports[:sep_port])
     upper_port = int(args.ports[sep_port + 1:])
+
+    global delay
+    if args.delay:
+        delay = float(args.delay)
+
+    raise Exception((sys.argv, delay, type(delay)))
 
     ports = scan_ports(ip, lower_port, upper_port)
     # print_infos(ip, lower_port, upper_port, ports)
