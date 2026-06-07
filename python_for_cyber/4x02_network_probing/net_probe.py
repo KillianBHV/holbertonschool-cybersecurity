@@ -114,7 +114,7 @@ def get_banner(ip: str, port: int) -> str:
             s.close()
 
 
-def __scan_single_port(ip: str, port: int) -> dict:
+def scan_single_port(ip: str, port: int) -> dict:
     """Get one port state
 
     Args:
@@ -124,7 +124,6 @@ def __scan_single_port(ip: str, port: int) -> dict:
     Returns:
         Metadata dictionary or empty one if port is not open
     """
-    raise Exception(f"delay={delay!r}")
     print(f"[DEBUG] Sleeping {delay} before next packet...")
     time.sleep(delay)
 
@@ -162,21 +161,17 @@ def scan_ports(ip: str,
     """
     ports_report = []
 
-    with crtf.ThreadPoolExecutor(max_workers=1) as executor:
-        future_to_port = {
-            executor.submit(__scan_single_port, ip, port):
-                port for port in range(start_port, end_port + 1)
-        }
+    with crtf.ThreadPoolExecutor(max_workers=50) as executor:
+        for port in range(start_port, end_port + 1):
+            time.sleep(delay)
+            future = executor.submit(scan_single_port, ip, port)
 
-        for future in crtf.as_completed(future_to_port):
-            scanned_port = future_to_port[future]
             try:
                 data = future.result()
-            except Exception as e:
-                print(f"Error occured!\n{e}")
-
-            if scanned_port:
-                ports_report.append(data)
+                if data:
+                    ports_report.append(data)
+            except Exception:
+                print(f"Error occured!")
 
     return ports_report
 
@@ -300,10 +295,11 @@ def main() -> None:
         delay = float(args.delay)
 
     ports = scan_ports(ip, lower_port, upper_port)
-    # print_infos(ip, lower_port, upper_port, ports)
+    print_infos(ip, lower_port, upper_port, ports)
+    print(ports)
 
-    # if args.output and ports:
-    #    generate_json_report(args.output, ports)
+    if args.output and ports:
+        generate_json_report(args.output, ports)
 
     # scan_ports(args.target, 21, 22)
     # print(guess_service("192.168.1.28", 80))
