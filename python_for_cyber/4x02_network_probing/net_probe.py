@@ -8,7 +8,6 @@ import sys
 import time
 
 delay: float = 0.0
-raise Exception(repr(delay), type(delay))
 
 
 def check_port(ip: str, port: int) -> bool:
@@ -127,6 +126,7 @@ def __scan_single_port(ip: str, port: int) -> dict:
     """
     global delay
     print(f"[DEBUG] Sleeping {delay} before next packet...")
+    raise Exception(tuple(repr(delay), type(delay)))
     time.sleep(delay)
 
     is_open_port = check_port(ip, port)
@@ -300,6 +300,8 @@ def main() -> None:
     global delay
     if args.delay:
         delay = float(args.delay)
+
+    print(repr(delay), type(delay))
 
     ports = scan_ports(ip, lower_port, upper_port)
     # print_infos(ip, lower_port, upper_port, ports)
