@@ -125,8 +125,7 @@ def scan_single_port(ip: str, port: int, d: float) -> dict:
     Returns:
         Metadata dictionary or empty one if port is not open
     """
-    print(f"[DEBUG] Sleeping {d} before next packet...")
-    time.sleep(d)
+    print(f"[DEBUG] Sleeping {delay} before next packet...")
 
     is_open_port = check_port(ip, port)
 
@@ -161,15 +160,14 @@ def scan_ports(ip: str,
         Open ports report with banner grabbing
     """
     ports_report = []
-    global delay
 
     with crtf.ThreadPoolExecutor(max_workers=50) as executor:
         for port in range(start_port, end_port + 1):
-            time.sleep(3)
             future = executor.submit(scan_single_port, ip, port, delay)
 
             try:
                 data = future.result()
+                time.sleep(3)
                 if data:
                     ports_report.append(data)
             except Exception:
