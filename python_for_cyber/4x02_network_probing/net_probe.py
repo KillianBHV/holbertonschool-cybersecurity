@@ -267,6 +267,7 @@ def main() -> None:
 
     # print(ping_sweep("192.168.1"))
     # print(get_banner("scanme.nmap.org", 80))
+    raise Exception((dir(__dict__), sys.argv))
 
     parser = argparse.ArgumentParser()
     parser.add_argument("-t", "--target",
