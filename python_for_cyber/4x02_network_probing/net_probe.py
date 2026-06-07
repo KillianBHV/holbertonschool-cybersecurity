@@ -161,19 +161,18 @@ def scan_ports(ip: str,
         Open ports report with banner grabbing
     """
     ports_report = []
-    # raise Exception((sys.argv, delay, repr(delay)))
-    raise Exception(str(delay))
+    global delay
 
-    # with crtf.ThreadPoolExecutor(max_workers=50) as executor:
-    #     for port in range(start_port, end_port + 1):
-    #         future = executor.submit(scan_single_port, ip, port, 3)
+    with crtf.ThreadPoolExecutor(max_workers=50) as executor:
+        for port in range(start_port, end_port + 1):
+            future = executor.submit(scan_single_port, ip, port, delay)
 
-    #         try:
-    #             data = future.result()
-    #             if data:
-    #                 ports_report.append(data)
-    #         except Exception:
-    #             print(f"Error occured!")
+            try:
+                data = future.result()
+                if data:
+                    ports_report.append(data)
+            except Exception:
+                print(f"Error occured!")
 
     return ports_report
 
@@ -295,10 +294,10 @@ def main() -> None:
     global delay
     if args.delay:
         delay = float(args.delay)
+    else:
+        delay = 0.9
 
-    raise Exception(dir(args))
-
-    ports = scan_ports(ip, lower_port, upper_port)
+    scan_ports(ip, lower_port, upper_port)
     # print_infos(ip, lower_port, upper_port, ports)
 
     # if args.output and ports:
