@@ -8,6 +8,7 @@ import sys
 import time
 
 delay: float = 0.0
+raise Exception(repr(delay), type(delay))
 
 
 def check_port(ip: str, port: int) -> bool:
@@ -126,7 +127,6 @@ def __scan_single_port(ip: str, port: int) -> dict:
     """
     global delay
     print(f"[DEBUG] Sleeping {delay} before next packet...")
-    print(repr(delay), type(delay), file=sys.stderr)
     time.sleep(delay)
 
     is_open_port = check_port(ip, port)
@@ -302,10 +302,10 @@ def main() -> None:
         delay = float(args.delay)
 
     ports = scan_ports(ip, lower_port, upper_port)
-    print_infos(ip, lower_port, upper_port, ports)
+    # print_infos(ip, lower_port, upper_port, ports)
 
-    if args.output and ports:
-        generate_json_report(args.output, ports)
+    # if args.output and ports:
+    #    generate_json_report(args.output, ports)
 
     # scan_ports(args.target, 21, 22)
     # print(guess_service("192.168.1.28", 80))
