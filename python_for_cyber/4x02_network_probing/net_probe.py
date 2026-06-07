@@ -160,8 +160,7 @@ def scan_ports(ip: str,
     Returns:
         Open ports report with banner grabbing
     """
-    raise Exception(repr(delay))
-    return None
+    pass
     # ports_report = []
     # global delay
 
@@ -299,7 +298,7 @@ def main() -> None:
     else:
         delay = 0.9
 
-    scan_ports(ip, lower_port, upper_port)
+    # scan_ports(ip, lower_port, upper_port)
     # print_infos(ip, lower_port, upper_port, ports)
 
     # if args.output and ports:
