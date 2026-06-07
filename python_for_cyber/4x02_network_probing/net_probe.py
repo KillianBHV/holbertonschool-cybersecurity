@@ -264,13 +264,6 @@ def generate_json_report(filename: str, ports_analytics: list[dict]) -> None:
 
 def main() -> None:
     """Program Entry Point"""
-    # print("NetProbe v1.0 initialized...")
-    # print(f"Port 80 is open: {check_port('google.com', 80)}")
-    # print(f"Port 81 is open: {check_port('google.com', 81)}")
-
-    # print(ping_sweep("192.168.1"))
-    # print(get_banner("scanme.nmap.org", 80))
-
     parser = argparse.ArgumentParser()
     parser.add_argument("-t", "--target",
                         help="Target IP",
@@ -280,7 +273,7 @@ def main() -> None:
                         help="Port range to scan")
     parser.add_argument("-o", "--output",
                         help="Generate report to file")
-    parser.add_argument("-d", "--delay",
+    parser.add_argument("-d", "--delay", type=float,
                         help="Set a delay between ports analysis")
 
     args = parser.parse_args()
@@ -294,15 +287,9 @@ def main() -> None:
     if args.delay:
         delay = float(args.delay)
 
-    scan_ports(ip, lower_port, upper_port)
-    # print_infos(ip, lower_port, upper_port, ports)
-
-    # if args.output and ports:
-    #     generate_json_report(args.output, ports)
-
-    # scan_ports(args.target, 21, 22)
-    # print(guess_service("192.168.1.28", 80))
-    # print(get_banner("localhost", 21))
+    print(inspect.getsource(net_probe.scan_ports))
+    print(inspect.getsource(net_probe.scan_single_ports))
+    # scan_ports(ip, lower_port, upper_port)
 
 
 if __name__ == '__main__':
