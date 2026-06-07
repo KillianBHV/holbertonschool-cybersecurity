@@ -294,6 +294,7 @@ def main() -> None:
     lower_port = int(args.ports[:sep_port])
     upper_port = int(args.ports[sep_port + 1:])
 
+    global delay
     if args.delay:
         delay = float(args.delay)
 
