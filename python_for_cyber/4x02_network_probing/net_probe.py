@@ -165,6 +165,7 @@ def scan_ports(ip: str,
 
     with crtf.ThreadPoolExecutor(max_workers=50) as executor:
         for port in range(start_port, end_port + 1):
+            time.sleep(3)
             future = executor.submit(scan_single_port, ip, port, delay)
 
             try:
