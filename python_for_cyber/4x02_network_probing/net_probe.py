@@ -296,7 +296,7 @@ def main() -> None:
     if args.delay:
         delay = float(args.delay)
 
-    raise Exception(dir())
+    raise Exception(dir(args))
 
     ports = scan_ports(ip, lower_port, upper_port)
     # print_infos(ip, lower_port, upper_port, ports)
