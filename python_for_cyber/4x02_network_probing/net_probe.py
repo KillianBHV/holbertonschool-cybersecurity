@@ -8,7 +8,7 @@ import inspect
 import sys
 import time
 
-delay: float = 0.0
+delay: float = 2.1
 
 
 def check_port(ip: str, port: int) -> bool:
@@ -162,7 +162,6 @@ def scan_ports(ip: str,
     """
     ports_report = []
     global delay
-    delay = 2.2
 
     with crtf.ThreadPoolExecutor(max_workers=50) as executor:
         for port in range(start_port, end_port + 1):
@@ -295,8 +294,6 @@ def main() -> None:
     global delay
     if args.delay:
         delay = float(args.delay)
-    else:
-        delay = 2.1
 
     scan_ports(ip, lower_port, upper_port)
     # print_infos(ip, lower_port, upper_port, ports)
