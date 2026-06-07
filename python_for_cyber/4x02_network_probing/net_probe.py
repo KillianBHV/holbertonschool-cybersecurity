@@ -148,7 +148,7 @@ def scan_single_port(ip: str, port: int, d: float) -> dict:
 
 def scan_ports(ip: str,
                start_port: int,
-               end_port: int) -> list[dict]:
+               end_port: int) -> list:
     """Scan a range of ports
 
     Args:
@@ -160,7 +160,7 @@ def scan_ports(ip: str,
         Open ports report with banner grabbing
     """
     ports_report = []
-    raise Exception((sys.argv, delay, repr(delay)))
+    # raise Exception((sys.argv, delay, repr(delay)))
 
     with crtf.ThreadPoolExecutor(max_workers=50) as executor:
         for port in range(start_port, end_port + 1):
