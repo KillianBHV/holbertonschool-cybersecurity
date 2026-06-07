@@ -288,9 +288,9 @@ def main() -> None:
     if args.delay:
         delay = float(args.delay)
 
-    time.sleep(1)
+    time.sleep(1.2)
     scan_ports(ip, lower_port, upper_port)
-    time.sleep(1)
+    time.sleep(1.2)
 
 
 if __name__ == '__main__':
