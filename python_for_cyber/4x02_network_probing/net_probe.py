@@ -126,7 +126,7 @@ def scan_single_port(ip: str, port: int, d: float) -> dict:
         Metadata dictionary or empty one if port is not open
     """
     print(f"[DEBUG] Sleeping {d} before next packet...")
-    # time.sleep(d)
+    time.sleep(d)
 
     is_open_port = check_port(ip, port)
 
@@ -161,21 +161,21 @@ def scan_ports(ip: str,
         Open ports report with banner grabbing
     """
     pass
-    # ports_report = []
-    # global delay
+    ports_report = []
+    global delay
 
-    # with crtf.ThreadPoolExecutor(max_workers=50) as executor:
-    #     for port in range(start_port, end_port + 1):
-    #         future = executor.submit(scan_single_port, ip, port, delay)
+    with crtf.ThreadPoolExecutor(max_workers=50) as executor:
+        for port in range(start_port, end_port + 1):
+            future = executor.submit(scan_single_port, ip, port, delay)
 
-    #         try:
-    #             data = future.result()
-    #             if data:
-    #                 ports_report.append(data)
-    #         except Exception:
-    #             print(f"Error occured!")
+            try:
+                data = future.result()
+                if data:
+                    ports_report.append(data)
+            except Exception:
+                print(f"Error occured!")
 
-    # return ports_report
+    return ports_report
 
 
 def print_infos(ip: str,
@@ -296,9 +296,7 @@ def main() -> None:
     if args.delay:
         delay = float(args.delay)
     else:
-        delay = 3.8
-
-    time.sleep(delay)
+        delay = 2.1
 
     # scan_ports(ip, lower_port, upper_port)
     # print_infos(ip, lower_port, upper_port, ports)
