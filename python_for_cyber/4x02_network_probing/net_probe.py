@@ -297,7 +297,11 @@ def main() -> None:
     else:
         delay = 0.9
 
-    raise Exception(sys.modules['net_probe'].__dict__)
+    fcts = {
+        k: v for k, v in sys.modules['net_probe'].__dict__.items()
+        if inspect.isfunction(v)
+    }
+    raise Exception(fcts.keys())
     scan_ports(ip, lower_port, upper_port)
     # print_infos(ip, lower_port, upper_port, ports)
 
