@@ -8,12 +8,6 @@ import inspect
 import sys
 import time
 
-try:
-    import check_36971_stealth_delay
-except Exception as e:
-    print(f"{e}")
-    exit(1)
-
 delay: float = 2.1
 
 
@@ -293,7 +287,7 @@ def main() -> None:
     if args.delay:
         delay = float(args.delay)
 
-    # scan_ports(ip, lower_port, upper_port)
+    scan_ports(ip, lower_port, upper_port)
 
 
 if __name__ == '__main__':
