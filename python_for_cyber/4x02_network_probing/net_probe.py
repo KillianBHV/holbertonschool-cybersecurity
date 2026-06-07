@@ -8,7 +8,7 @@ import inspect
 import sys
 import time
 
-delay: float = 2.1
+delay: float = 2.5
 
 
 def check_port(ip: str, port: int) -> bool:
