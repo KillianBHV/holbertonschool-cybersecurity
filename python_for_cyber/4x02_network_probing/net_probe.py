@@ -159,6 +159,7 @@ def scan_ports(ip: str,
     Returns:
         Open ports report with banner grabbing
     """
+    raise Exception(repr(delay), type(delay))
     ports_report = []
 
     with crtf.ThreadPoolExecutor(max_workers=1) as executor:
@@ -297,8 +298,6 @@ def main() -> None:
     global delay
     if args.delay:
         delay = float(args.delay)
-
-    raise Exception(repr(delay), type(delay))
 
     ports = scan_ports(ip, lower_port, upper_port)
     # print_infos(ip, lower_port, upper_port, ports)
