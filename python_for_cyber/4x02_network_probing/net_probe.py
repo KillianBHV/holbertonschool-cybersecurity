@@ -140,8 +140,7 @@ def __scan_single_port(ip: str, port: int) -> dict:
 
 def scan_ports(ip: str,
                start_port: int,
-               end_port: int,
-               output=None) -> list[dict]:
+               end_port: int) -> list[dict]:
     """Scan a range of ports
 
     Args:
@@ -170,18 +169,30 @@ def scan_ports(ip: str,
             if scanned_port and data:
                 ports_report.append(data)
 
-    print(f"Scanning {ip} from {start_port} to {end_port}...")
-    for port in ports_report:
-        if port:
-            print(
-                f"[+] Port {port['port']} Open: {port['service']} "
-                f"{check_vulnerability(port['service'])}"
-            )
-
-    if output:
-        generate_json_report(output, ports_report)
-
     return ports_report
+
+
+def print_infos(ip: str,
+                sport: int, dport: int,
+                ports_analysis: list[dict]) -> None:
+    """Print informations after analysis
+
+    Args:
+        IP: Target Ip
+        sport: Lower Band Port to scan
+        dport: Upper Band Port to scan
+        ports_analysis: extracted ports
+    """
+    print(f"Scanning {ip} from {sport} to {dport}...")
+    if ports_analysis:
+        for port in ports_analysis:
+            if port:
+                print(
+                    f"[+] Port {port['port']} Open: {port['service']} "
+                    f"{check_vulnerability(port['service'])}"
+                )
+    else:
+        print("No Port Discovered")
 
 
 def guess_service(ip: str, port: int) -> str:
@@ -255,6 +266,7 @@ def main() -> None:
 
     # print(ping_sweep("192.168.1"))
     # print(get_banner("scanme.nmap.org", 80))
+
     parser = argparse.ArgumentParser()
     parser.add_argument("-t", "--target",
                         help="Target IP",
@@ -268,15 +280,15 @@ def main() -> None:
     args = parser.parse_args()
     sep_port = args.ports.find('-')
 
-    if args.output:
-        writing_required = args.output
-    else:
-        writing_required = None
+    ip = args.target
+    lower_port = int(args.ports[:sep_port])
+    upper_port = int(args.ports[sep_port + 1:])
 
-    scan_ports(args.target,
-               int(args.ports[:sep_port]),
-               int(args.ports[sep_port + 1:]),
-               writing_required)
+    ports = scan_ports(ip, lower_port, upper_port)
+    print_infos(ip, lower_port, upper_port, ports)
+
+    if args.output and ports:
+        generate_json_report(args.output, ports)
 
     # scan_ports(args.target, 21, 22)
     # print(guess_service("192.168.1.28", 80))
