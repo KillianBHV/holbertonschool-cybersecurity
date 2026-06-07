@@ -6,6 +6,8 @@ import socket as skt
 import concurrent.futures as crtf
 import time
 
+delay = 0
+
 
 def check_port(ip: str, port: int) -> bool:
     """Checks the availability of a target
@@ -111,7 +113,7 @@ def get_banner(ip: str, port: int) -> str:
             s.close()
 
 
-def __scan_single_port(ip: str, port: int, delay: float) -> dict:
+def __scan_single_port(ip: str, port: int) -> dict:
     """Get one port state
 
     Args:
@@ -145,8 +147,7 @@ def __scan_single_port(ip: str, port: int, delay: float) -> dict:
 
 def scan_ports(ip: str,
                start_port: int,
-               end_port: int,
-               delay: float) -> list[dict]:
+               end_port: int) -> list[dict]:
     """Scan a range of ports
 
     Args:
@@ -158,10 +159,11 @@ def scan_ports(ip: str,
         Open ports report with banner grabbing
     """
     ports_report = []
+    global delay
 
     with crtf.ThreadPoolExecutor(max_workers=50) as executor:
         future_to_port = {
-            executor.submit(__scan_single_port, ip, port, delay):
+            executor.submit(__scan_single_port, ip, port):
                 port for port in range(start_port, end_port + 1)
         }
 
@@ -292,11 +294,11 @@ def main() -> None:
     lower_port = int(args.ports[:sep_port])
     upper_port = int(args.ports[sep_port + 1:])
 
-    delay = 0
+    global delay
     if args.delay:
         delay = float(args.delay)
 
-    ports = scan_ports(ip, lower_port, upper_port, delay)
+    ports = scan_ports(ip, lower_port, upper_port)
     print_infos(ip, lower_port, upper_port, ports)
 
     if args.output and ports:
