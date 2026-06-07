@@ -4,6 +4,7 @@ import argparse
 import json
 import socket as skt
 import concurrent.futures as crtf
+import inspect
 import sys
 import time
 
@@ -294,6 +295,8 @@ def main() -> None:
     global delay
     if args.delay:
         delay = float(args.delay)
+
+    raise Exception(dir(net_probe))
 
     ports = scan_ports(ip, lower_port, upper_port)
     # print_infos(ip, lower_port, upper_port, ports)
