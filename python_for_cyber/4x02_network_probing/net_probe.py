@@ -162,6 +162,7 @@ def scan_ports(ip: str,
     """
     ports_report = []
     global delay
+    delay = 2.2
 
     with crtf.ThreadPoolExecutor(max_workers=50) as executor:
         for port in range(start_port, end_port + 1):
