@@ -4,9 +4,10 @@ import argparse
 import json
 import socket as skt
 import concurrent.futures as crtf
+import sys
 import time
 
-delay = 0
+delay: float = 0.0
 
 
 def check_port(ip: str, port: int) -> bool:
@@ -125,6 +126,7 @@ def __scan_single_port(ip: str, port: int) -> dict:
     """
     global delay
     print(f"[DEBUG] Sleeping {delay} before next packet...")
+    print(repr(delay), type(delay), file=sys.stderr)
     time.sleep(delay)
 
     is_open_port = check_port(ip, port)
