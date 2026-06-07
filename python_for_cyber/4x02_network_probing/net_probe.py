@@ -6,8 +6,6 @@ import socket as skt
 import concurrent.futures as crtf
 import time
 
-IS_DELAY_SET = None
-
 
 def check_port(ip: str, port: int) -> bool:
     """Checks the availability of a target
@@ -113,7 +111,7 @@ def get_banner(ip: str, port: int) -> str:
             s.close()
 
 
-def __scan_single_port(ip: str, port: int) -> dict:
+def __scan_single_port(ip: str, port: int, delay: float) -> dict:
     """Get one port state
 
     Args:
@@ -124,8 +122,9 @@ def __scan_single_port(ip: str, port: int) -> dict:
         Metadata dictionary or empty one if port is not open
     """
     is_open_port = check_port(ip, port)
-    if IS_DELAY_SET is not None:
-        time.sleep(IS_DELAY_SET)
+    if delay:
+        print(f"[DEBUG] Sleeping {delay} before next packet...")
+        time.sleep(delay)
 
     if is_open_port:
         banner = get_banner(ip, port)
@@ -146,7 +145,8 @@ def __scan_single_port(ip: str, port: int) -> dict:
 
 def scan_ports(ip: str,
                start_port: int,
-               end_port: int) -> list[dict]:
+               end_port: int,
+               delay: float) -> list[dict]:
     """Scan a range of ports
 
     Args:
@@ -161,7 +161,7 @@ def scan_ports(ip: str,
 
     with crtf.ThreadPoolExecutor(max_workers=50) as executor:
         future_to_port = {
-            executor.submit(__scan_single_port, ip, port):
+            executor.submit(__scan_single_port, ip, port, delay):
                 port for port in range(start_port, end_port + 1)
         }
 
@@ -169,10 +169,10 @@ def scan_ports(ip: str,
             scanned_port = future_to_port[future]
             try:
                 data = future.result()
-            except Exception:
-                print("Error occured!")
+            except Exception as e:
+                print(f"Error occured!\n{e}")
 
-            if scanned_port and data:
+            if scanned_port:
                 ports_report.append(data)
 
     return ports_report
@@ -292,10 +292,11 @@ def main() -> None:
     lower_port = int(args.ports[:sep_port])
     upper_port = int(args.ports[sep_port + 1:])
 
+    delay = 0
     if args.delay:
-        IS_DELAY_SET = float(args.delay)
+        delay = float(args.delay)
 
-    ports = scan_ports(ip, lower_port, upper_port)
+    ports = scan_ports(ip, lower_port, upper_port, delay)
     print_infos(ip, lower_port, upper_port, ports)
 
     if args.output and ports:
