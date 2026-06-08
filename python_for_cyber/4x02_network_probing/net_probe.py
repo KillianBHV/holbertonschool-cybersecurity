@@ -280,6 +280,7 @@ def ip_to_hostname(ip: str) -> str:
 
 
 def generate_json_report(ip: str,
+                         domain: str,
                          filename: str,
                          ports_analytics: list[dict]) -> None:
     """Generate human-readable report with JSON format
@@ -288,7 +289,7 @@ def generate_json_report(ip: str,
         filename: path or direct filename to write
         ports_analytics: data to write
     """
-    infos = f"{ip} ({ip_to_hostname(ip)[0]})"
+    infos = f"{ip} ({domain})"
     ports_analytics.insert(0, {'target': infos})
     to_json_str_data = json.dumps(ports_analytics, indent=2)
 
@@ -374,7 +375,10 @@ def main() -> None:
                        shuffle=shuffle_set)
 
     if args.output:
-        generate_json_report(ip, args.output, ports)
+        generate_json_report(ip,
+                             skt.gethostbyaddr(ip)[0],
+                             args.output,
+                             ports)
 
 
 if __name__ == '__main__':
