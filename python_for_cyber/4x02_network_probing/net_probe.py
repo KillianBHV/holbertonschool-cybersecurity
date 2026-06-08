@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
 
 import argparse
-import json
-import socket as skt
 import concurrent.futures as crtf
-import inspect
-import sys
+import json
+import random
+import socket as skt
 import time
 
 
@@ -123,7 +122,7 @@ def scan_single_port(ip: str, port: int, delay: float) -> dict:
     Returns:
         Metadata dictionary or empty one if port is not open
     """
-    print(f"[DEBUG] Sleeping {delay} before next packet...")
+    print(f"[DEBUG] {port} - Sleeping {delay} before next packet...")
     if delay > 0.0:
         time.sleep(delay)
 
@@ -149,7 +148,8 @@ def scan_single_port(ip: str, port: int, delay: float) -> dict:
 def scan_ports(ip: str,
                start_port: int,
                end_port: int,
-               delay: float) -> list:
+               delay: float,
+               shuffle: bool = False) -> list:
     """Scan a range of ports
 
     Args:
@@ -163,7 +163,11 @@ def scan_ports(ip: str,
     ports_report = []
 
     with crtf.ThreadPoolExecutor(max_workers=50) as executor:
-        for port in range(start_port, end_port + 1):
+        ports_list = list(range(start_port, end_port + 1))
+        if shuffle:
+            random.shuffle(ports_list)
+
+        for port in ports_list:
             future = executor.submit(scan_single_port, ip, port, delay)
 
             try:
@@ -275,6 +279,8 @@ def main() -> None:
                         help="Generate report to file")
     parser.add_argument("-d", "--delay", type=float,
                         help="Set a delay between ports analysis")
+    parser.add_argument("-r", "--random",
+                        help="Shuffle the list of ports")
 
     args = parser.parse_args()
     sep_port = args.ports.find('-')
@@ -287,7 +293,7 @@ def main() -> None:
     if args.delay:
         delay = float(args.delay)
 
-    scan_ports(ip, lower_port, upper_port, delay=delay)
+    scan_ports(ip, lower_port, upper_port, delay=delay, shuffle=True)
 
 
 if __name__ == '__main__':
