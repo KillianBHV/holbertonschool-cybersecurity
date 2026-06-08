@@ -115,7 +115,7 @@ def get_banner(ip: str, port: int) -> str:
             s.close()
 
 
-def scan_single_port(ip: str, port: int) -> dict:
+def scan_single_port(ip: str, port: int, delay: float) -> dict:
     """Get one port state
 
     Args:
@@ -150,7 +150,8 @@ def scan_single_port(ip: str, port: int) -> dict:
 
 def scan_ports(ip: str,
                start_port: int,
-               end_port: int) -> list:
+               end_port: int,
+               delay: float) -> list:
     """Scan a range of ports
 
     Args:
@@ -165,7 +166,7 @@ def scan_ports(ip: str,
 
     with crtf.ThreadPoolExecutor(max_workers=50) as executor:
         for port in range(start_port, end_port + 1):
-            future = executor.submit(scan_single_port, ip, port)
+            future = executor.submit(scan_single_port, ip, port, delay)
 
             try:
                 data = future.result()
