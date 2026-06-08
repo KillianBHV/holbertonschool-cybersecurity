@@ -160,7 +160,7 @@ def scan_ports(ip: str,
     Returns:
         Open ports report with banner grabbing
     """
-    print(f"Scanning {ip} from {start_port} to {end_port}...")
+    # print(f"Scanning {ip} from {start_port} to {end_port}...")
     ports_report = []
 
     with crtf.ThreadPoolExecutor(max_workers=50) as executor:
