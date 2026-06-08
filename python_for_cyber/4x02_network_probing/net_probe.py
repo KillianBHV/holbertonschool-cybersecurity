@@ -276,6 +276,7 @@ def scan_udp(ip: str, port: int):
     Returns:
         True if port is open else False
     """
+    s = None
     try:
         s = skt.socket(skt.AF_INET, skt.SOCK_DGRAM)
         s.settimeout(3)
@@ -286,8 +287,9 @@ def scan_udp(ip: str, port: int):
         if not data:
             return False
         return True
+    except skt.gaierror:
+        return False
     except TimeoutError:
-        print("Connection timeout")
         return False
     finally:
         if s is not None:
