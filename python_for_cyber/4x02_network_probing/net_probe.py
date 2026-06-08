@@ -288,6 +288,8 @@ def scan_udp(ip: str, port: int):
         return True
     except OSError as e:
         print(f"Socket error occured\n{e}")
+        print(type(e))
+        print(repr(e))
         return False
     except TimeoutError:
         print("Connection timeout")
