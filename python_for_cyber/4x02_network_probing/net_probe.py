@@ -122,8 +122,8 @@ def scan_single_port(ip: str, port: int, delay: float) -> dict:
     Returns:
         Metadata dictionary or empty one if port is not open
     """
-    print(f"[DEBUG] {port} - Sleeping {delay} before next packet...")
     if delay > 0.0:
+        print(f"[DEBUG] {port} - Sleeping {delay} before next packet...")
         time.sleep(delay)
 
     is_open_port = check_port(ip, port)
@@ -266,6 +266,37 @@ def generate_json_report(filename: str, ports_analytics: list[dict]) -> None:
         file.write('\n')
 
 
+def scan_udp(ip: str, port: int):
+    """Checks the availability of a target
+
+    Args:
+        ip: IP Host to test (or hostname)
+        port: Target port
+
+    Returns:
+        True if port is open else False
+    """
+    try:
+        s = skt.socket(skt.AF_INET, skt.SOCK_DGRAM)
+        s.settimeout(3)
+
+        s.sendto(b'', (ip, port))
+        data, addr = s.recvfrom(1024)
+
+        if not data:
+            return False
+        return True
+    except OSError as e:
+        print(f"Socket error occured\n{e}")
+        return False
+    except TimeoutError:
+        print("Connection timeout")
+        return False
+    finally:
+        if s:
+            s.close()
+
+
 def main() -> None:
     """Program Entry Point"""
     parser = argparse.ArgumentParser()
@@ -298,7 +329,8 @@ def main() -> None:
     else:
         shuffle_set = False
 
-    scan_ports(ip, lower_port, upper_port, delay=delay, shuffle=shuffle_set)
+    # scan_ports(ip, lower_port, upper_port, delay=delay, shuffle=shuffle_set)
+    print(scan_udp("8.8.8.8", 53))
 
 
 if __name__ == '__main__':
