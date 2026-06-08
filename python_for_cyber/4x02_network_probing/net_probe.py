@@ -8,7 +8,7 @@ import socket as skt
 import time
 
 
-def check_port(ip: str, port: int, local_ip: str) -> bool:
+def check_port(ip: str, port: int, local_ip: str = None) -> bool:
     """Checks the availability of a target
 
     Args:
@@ -181,7 +181,7 @@ def scan_ports(ip: str,
 
         for port in ports_list:
             future = executor.submit(scan_single_port,
-                                     ip, port, delay, interface)
+                                     ip, port, delay)
 
             try:
                 data = future.result()
@@ -190,7 +190,7 @@ def scan_ports(ip: str,
             except Exception as e:
                 print(f"Error occured!\n{e}")
 
-    print_infos(ip, ports_report)
+    # print_infos(ip, ports_report)
     return ports_report
 
 
@@ -264,14 +264,35 @@ def check_vulnerability(banner: str) -> str:
     return ""
 
 
-def generate_json_report(filename: str, ports_analytics: list[dict]) -> None:
+def ip_to_hostname(ip: str) -> str:
+    """Convert IP to domain name
+
+    Args:
+        ip: IP to convert with DNS
+
+    Returns:
+        Domain name or failed resolution state
+    """
+    try:
+        return skt.gethostbyaddr(ip)
+    except skt.herror:
+        return "Resolution failed"
+
+
+def generate_json_report(ip: str,
+                         filename: str,
+                         ports_analytics: list[dict]) -> None:
     """Generate human-readable report with JSON format
 
     Args:
         filename: path or direct filename to write
         ports_analytics: data to write
     """
+    infos = f"{ip} ({ip_to_hostname(ip)[0]})"
+    ports_analytics.insert(0, {'target': infos})
     to_json_str_data = json.dumps(ports_analytics, indent=2)
+
+    print(f"Target: {infos}")
     with open(filename, "w") as file:
         file.write(to_json_str_data)
         file.write('\n')
@@ -346,14 +367,14 @@ def main() -> None:
     else:
         interface = None
 
-    for i in range(lower_port, upper_port + 1):
-        check_port(ip, i, interface)
-    # scan_ports(ip,
-    #            lower_port,
-    #            upper_port,
-    #            delay=delay,
-    #            shuffle=shuffle_set)
-    # print(scan_udp("8.8.8.8", 53))
+    ports = scan_ports(ip,
+                       lower_port,
+                       upper_port,
+                       delay=delay,
+                       shuffle=shuffle_set)
+
+    if args.output:
+        generate_json_report(ip, args.output, ports)
 
 
 if __name__ == '__main__':
