@@ -279,7 +279,7 @@ def main() -> None:
                         help="Generate report to file")
     parser.add_argument("-d", "--delay", type=float,
                         help="Set a delay between ports analysis")
-    parser.add_argument("-r", "--random",
+    parser.add_argument("-r", "--random", action="store_true",
                         help="Shuffle the list of ports")
 
     args = parser.parse_args()
@@ -293,7 +293,12 @@ def main() -> None:
     if args.delay:
         delay = float(args.delay)
 
-    scan_ports(ip, lower_port, upper_port, delay=delay, shuffle=True)
+    if args.random:
+        shuffle_set = True
+    else:
+        shuffle_set = False
+
+    scan_ports(ip, lower_port, upper_port, delay=delay, shuffle=shuffle_set)
 
 
 if __name__ == '__main__':
