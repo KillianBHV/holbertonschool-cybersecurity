@@ -8,7 +8,7 @@ import socket as skt
 import time
 
 
-def check_port(ip: str, port: int) -> bool:
+def check_port(ip: str, port: int, local_ip: str) -> bool:
     """Checks the availability of a target
 
     Args:
@@ -21,6 +21,10 @@ def check_port(ip: str, port: int) -> bool:
     try:
         s = skt.socket(skt.AF_INET, skt.SOCK_STREAM)
         s.settimeout(1)
+
+        if local_ip is not None:
+            s.bind((local_ip, 0))
+            print("[INFO] Scanning from source:", ip)
         s.connect((ip, port))
 
         return True
@@ -155,7 +159,8 @@ def scan_ports(ip: str,
                start_port: int,
                end_port: int,
                delay: float,
-               shuffle: bool = False) -> list:
+               shuffle: bool = False,
+               interface: bool = False) -> list:
     """Scan a range of ports
 
     Args:
@@ -175,7 +180,8 @@ def scan_ports(ip: str,
             random.shuffle(ports_list)
 
         for port in ports_list:
-            future = executor.submit(scan_single_port, ip, port, delay)
+            future = executor.submit(scan_single_port,
+                                     ip, port, delay, interface)
 
             try:
                 data = future.result()
@@ -316,6 +322,8 @@ def main() -> None:
                         help="Set a delay between ports analysis")
     parser.add_argument("-r", "--random", action="store_true",
                         help="Shuffle the list of ports")
+    parser.add_argument("-i", "--interface",
+                        help="Interface to use (for binding)")
 
     args = parser.parse_args()
     sep_port = args.ports.find('-')
@@ -333,7 +341,18 @@ def main() -> None:
     else:
         shuffle_set = False
 
-    scan_ports(ip, lower_port, upper_port, delay=delay, shuffle=shuffle_set)
+    if args.interface:
+        interface = args.interface
+    else:
+        interface = None
+
+    for i in range(lower_port, upper_port + 1):
+        check_port(ip, i, interface)
+    # scan_ports(ip,
+    #            lower_port,
+    #            upper_port,
+    #            delay=delay,
+    #            shuffle=shuffle_set)
     # print(scan_udp("8.8.8.8", 53))
 
 
