@@ -293,7 +293,6 @@ def generate_json_report(ip: str,
     ports_analytics.insert(0, {'target': infos})
     to_json_str_data = json.dumps(ports_analytics, indent=2)
 
-    print(f"Target: {infos}")
     with open(filename, "w") as file:
         file.write(to_json_str_data)
         file.write('\n')
@@ -375,6 +374,8 @@ def main() -> None:
                        shuffle=shuffle_set)
 
     domain = skt.gethostbyaddr(ip)[0]
+    print(f"Target: {ip} ({domain})")
+
     if args.output:
         generate_json_report(ip,
                              domain,
