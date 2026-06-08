@@ -66,7 +66,13 @@ def get_banner(ip: str, port: int) -> str:
         s.connect((ip, port))
 
         if port == 80:
-            s.send(b'GET / HTTP/1.1\r\n\r\n')
+            req = (
+                "GET / HTTP/1.1\r\n"
+                f"Host: {ip}\r\n"
+                "\r\n"
+            ).encode()
+            s.send(req)
+
             data = s.recv(1024)
             if not data:
                 return "Unknown"
