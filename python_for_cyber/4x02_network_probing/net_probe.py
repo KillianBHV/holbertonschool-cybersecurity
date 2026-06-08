@@ -8,8 +8,6 @@ import inspect
 import sys
 import time
 
-delay: float = 0.0
-
 
 def check_port(ip: str, port: int) -> bool:
     """Checks the availability of a target
@@ -126,7 +124,7 @@ def scan_single_port(ip: str, port: int, delay: float) -> dict:
         Metadata dictionary or empty one if port is not open
     """
     print(f"[DEBUG] Sleeping {delay} before next packet...")
-    if delay:
+    if delay > 0.0:
         time.sleep(delay)
 
     is_open_port = check_port(ip, port)
@@ -285,22 +283,11 @@ def main() -> None:
     lower_port = int(args.ports[:sep_port])
     upper_port = int(args.ports[sep_port + 1:])
 
-    global delay
+    delay = 0.0
     if args.delay:
         delay = float(args.delay)
 
-    ports_report = []
-
-    with crtf.ThreadPoolExecutor(max_workers=50) as executor:
-        for port in range(lower_port, upper_port + 1):
-            future = executor.submit(scan_single_port, ip, port)
-
-            try:
-                data = future.result()
-                if data:
-                    ports_report.append(data)
-            except Exception as e:
-                print(f"Error occured!\n{e}")
+    scan_ports(ip, lower_port, upper_port, delay)
 
 
 if __name__ == '__main__':
