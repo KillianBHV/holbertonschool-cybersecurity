@@ -374,9 +374,10 @@ def main() -> None:
                        delay=delay,
                        shuffle=shuffle_set)
 
+    domain = skt.gethostbyaddr(ip)[0]
     if args.output:
         generate_json_report(ip,
-                             skt.gethostbyaddr(ip)[0],
+                             domain,
                              args.output,
                              ports)
 
