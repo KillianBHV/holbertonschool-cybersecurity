@@ -24,7 +24,7 @@ def check_port(ip: str, port: int, local_ip: str) -> bool:
 
         if local_ip is not None:
             s.bind((local_ip, 0))
-            print("[INFO] Scanning from source:", ip)
+            print("[INFO] Scanning from source:", local_ip)
         s.connect((ip, port))
 
         return True
