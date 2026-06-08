@@ -66,7 +66,7 @@ def get_banner(ip: str, port: int) -> str:
         s.connect((ip, port))
 
         if port == 80:
-            s.send(b'HEAD / HTTP/1.0\r\n\r\n')
+            s.send(b'HEAD / HTTP/1.1\r\n\r\n')
             data = s.recv(1024)
             if not data:
                 return "Unknown"
@@ -160,6 +160,7 @@ def scan_ports(ip: str,
     Returns:
         Open ports report with banner grabbing
     """
+    print(f"Scanning {ip} from {start_port} to {end_port}...")
     ports_report = []
 
     with crtf.ThreadPoolExecutor(max_workers=50) as executor:
@@ -177,26 +178,24 @@ def scan_ports(ip: str,
             except Exception as e:
                 print(f"Error occured!\n{e}")
 
+    print_infos(ip, ports_report)
     return ports_report
 
 
-def print_infos(ip: str,
-                sport: int, dport: int,
-                ports_analysis: list[dict]) -> None:
+def print_infos(ip, ports_analysis: list[dict]) -> None:
     """Print informations after analysis
 
     Args:
-        IP: Target Ip
-        sport: Lower Band Port to scan
-        dport: Upper Band Port to scan
+        ip: Target IP
         ports_analysis: extracted ports
     """
-    print(f"Scanning {ip} from {sport} to {dport}...")
     if ports_analysis:
         for port in ports_analysis:
             if port:
                 print(
-                    f"[+] Port {port['port']} Open: {port['service']} "
+                    f"[+] Port {port['port']}: "
+                    f"{guess_service(ip, port['port'])} "
+                    f"({port['service']})"
                     f"{check_vulnerability(port['service'])}"
                 )
     else:
@@ -221,14 +220,14 @@ def guess_service(ip: str, port: int) -> str:
         3306: "MySQL"
     }
 
-    banner = get_banner(ip, port)
-    if banner == "Unknown":
-        if port in COMMON_PORTS.keys():
-            return f"{COMMON_PORTS.get(port)} (Guessed)"
-        else:
-            return "No Service Guessed"
+    # banner = get_banner(ip, port)
+    # if banner == "Unknown":
+    if port in COMMON_PORTS.keys():
+        return f"{COMMON_PORTS.get(port)}"
+    else:
+        return "No Service Guessed"
 
-    return ""
+    # return ""
 
 
 def check_vulnerability(banner: str) -> str:
@@ -328,8 +327,8 @@ def main() -> None:
     else:
         shuffle_set = False
 
-    # scan_ports(ip, lower_port, upper_port, delay=delay, shuffle=shuffle_set)
-    print(scan_udp("8.8.8.8", 53))
+    scan_ports(ip, lower_port, upper_port, delay=delay, shuffle=shuffle_set)
+    # print(scan_udp("8.8.8.8", 53))
 
 
 if __name__ == '__main__':
