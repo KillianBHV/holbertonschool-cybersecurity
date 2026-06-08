@@ -8,8 +8,6 @@ import inspect
 import sys
 import time
 
-delay: float = 2.5
-
 
 def check_port(ip: str, port: int) -> bool:
     """Checks the availability of a target
@@ -115,7 +113,7 @@ def get_banner(ip: str, port: int) -> str:
             s.close()
 
 
-def scan_single_port(ip: str, port: int, d: float) -> dict:
+def scan_single_port(ip: str, port: int) -> dict:
     """Get one port state
 
     Args:
@@ -164,14 +162,14 @@ def scan_ports(ip: str,
 
     with crtf.ThreadPoolExecutor(max_workers=50) as executor:
         for port in range(start_port, end_port + 1):
-            future = executor.submit(scan_single_port, ip, port, delay)
+            future = executor.submit(scan_single_port, ip, port)
 
             try:
                 data = future.result()
                 if data:
                     ports_report.append(data)
-            except Exception:
-                print(f"Error occured!")
+            except Exception as e:
+                print(f"Error occured!\n{e}")
 
     return ports_report
 
@@ -286,8 +284,8 @@ def main() -> None:
     global delay
     if args.delay:
         delay = float(args.delay)
-
-    delay = 4
+    else:
+        delay = 0.0
 
     scan_ports(ip, lower_port, upper_port)
 
