@@ -1,6 +1,7 @@
 #!/bin/bash
 
 echo -e "=== Package Security Audit ===\n"
+# dpkg -l
 PACKAGES=$(dpkg-query -W -f='${binary:Package}\t${binary:Summary}\n')
 
 echo "Checking for development tools..."
