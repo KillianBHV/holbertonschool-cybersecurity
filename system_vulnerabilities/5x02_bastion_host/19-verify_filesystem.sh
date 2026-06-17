@@ -6,8 +6,8 @@ check_exec() {
     DIR=$1
     NAME=$2
 
-    echo -e "\nTesting $NAME restrictions:"
-    echo "  Creating test script... Done"
+    echo -e "\nTesting $NAME restrictions:" | tee -a /etc/fstab
+    echo "  Creating test script... Done" | tee -a /etc/fstab
     FILE="$DIR/test_exec.sh"
 
 	cat > "$FILE" << 'EOF'
@@ -16,12 +16,12 @@ echo test
 EOF
 	chmod +x "$FILE"
 
-    echo "  Attempting execution..."
+    echo "  Attempting execution..." | tee -a /etc/fstab
 
     if "$FILE" >/dev/null 2>&1; then
-        echo "  Execute test: ALLOWED (FAIL)"
+        echo "  Execute test: ALLOWED (FAIL)" | tee -a /etc/fstab
     else
-        echo "  Execute test: BLOCKED - OK"
+        echo "  Execute test: BLOCKED - OK" | tee -a /etc/fstab
     fi
 
     rm -f "$FILE"
