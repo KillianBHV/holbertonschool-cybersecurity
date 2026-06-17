@@ -1,26 +1,25 @@
 #!/bin/bash
 
-echo "=== Hardening /var/tmp and /dev/shm ==="
+echo "=== Hardening /var/tmp and /dev/shm ===" | tee -a /etc/fstab
 
-echo
-echo "Hardening /var/tmp..."
+echo -e "Hardening /var/tmp..." | tee -a /etc/fstab
 
-mount --bind /tmp /var/tmp 2>/dev/null
-mount -o remount,bind,noexec,nosuid,nodev /var/tmp 2>/dev/null
+mount --bind /tmp /var/tmp 2>/dev/null | tee -a /etc/fstab
+mount -o remount,bind,noexec,nosuid,nodev /var/tmp 2>/dev/null | tee -a /etc/fstab
 
-echo "  /var/tmp hardened"
-echo -e "\nHardening /dev/shm..."
+echo "  /var/tmp hardened" | tee -a /etc/fstab
+echo -e "\nHardening /dev/shm..." | tee -a /etc/fstab
 
-mount -o remount,noexec,nosuid,nodev /dev/shm 2>/dev/null
+mount -o remount,noexec,nosuid,nodev /dev/shm 2>/dev/null | tee -a /etc/fstab
 
-echo "  /dev/shm hardened"
-echo -e "\nVerification:"
+echo "  /dev/shm hardened" | tee -a /etc/fstab
+echo -e "\nVerification:" | tee -a /etc/fstab
 
-echo -n "  /var/tmp: "
-findmnt -n -o OPTIONS /var/tmp
+echo -n "  /var/tmp: " | tee -a /etc/fstab
+findmnt -n -o OPTIONS /var/tmp | tee -a /etc/fstab
 
-echo -n "  /dev/shm: "
-findmnt -n -o OPTIONS /dev/shm
+echo -n "  /dev/shm: " | tee -a /etc/fstab
+findmnt -n -o OPTIONS /dev/shm | tee -a /etc/fstab
 
-echo -e "\nAll temporary directories hardened."
+echo -e "\nAll temporary directories hardened." | tee -a /etc/fstab
 
