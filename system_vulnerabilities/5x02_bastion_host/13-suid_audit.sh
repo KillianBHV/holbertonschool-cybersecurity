@@ -5,7 +5,7 @@ unknown_custom=0
 echo -e "=== SUID/SGID Binary Audit ===\n" | tee -a "$REPORT_FILE"
 
 echo "SUID Binaries (run as owner):" | tee -a "$REPORT_FILE"
-list=$(find /usr/bin /usr/local/bin -type f -perm -u=s 2>/dev/null)
+list=$(find /usr/bin /usr/local/bin -type f -perm -u+s 2>/dev/null)
 total_suid=$(echo "$list" | wc -l)
 known_safes=("sudo" "su" "chsh" "chfn" "passwd")
 review_needed=("umount" "at" "pkexec" "newgrp" "gpasswd" "mount")
@@ -41,7 +41,7 @@ for p in $list; do
 done
 
 echo -e "\nSGID Binaries (run as group):" | tee -a "$REPORT_FILE"
-list=$(find /usr/bin /usr/local/bin -type f -perm -g=s 2>/dev/null)
+list=$(find /usr/bin /usr/local/bin -type f -perm -g+s 2>/dev/null)
 total_sgid=$(echo "$list" | wc -l)
 known_safes=("ssh-agent")
 review_needed=("wall" "crontab")
