@@ -27,7 +27,9 @@ echo -e "  logpath = /var/log/auth.log\n  maxretry = 5"
 echo -e "  findtime = 600 (10 minutes)\n  bantime = 3600 (1 hour)"
 
 echo -e "\nStarting fail2ban..."
-service fail2ban start
+# service fail2ban start
+systemctl start fail2ban >/dev/null 2>&1
+systemctl enable --now fail2ban >/dev/null 2>&1
 echo -n "  fail2ban.service: " 
 service fail2ban status | grep "Active" | awk -F' ' '{print $2}' | sed 's/active/Active/'
 
