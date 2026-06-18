@@ -1,7 +1,7 @@
 #!/bin/bash
 USER_NAME="$(whoami)"
-SSH_DIR="/home/$USER_NAME/.ssh"
-KEY_FILE="$SSH_DIR/id_ed25519"
+SSH_DIR="$HOME/.ssh"
+KEY_FILE="$HOME/.ssh/id_ed25519"
 
 echo -e "=== SSH Key Generation ===\n"
 
@@ -21,10 +21,10 @@ chmod 644 "$KEY_FILE.pub"
 echo "  Private key: $(stat -c '%a' "$SSH_DIR/id_ed25519") (owner read/write only)"
 echo "  Public key: $(stat -c '%a' "$SSH_DIR/id_ed25519.pub")"
 
-echo -e "\nPublic key fingerprint:\n  $(ssh-keygen -lf "$SSH_DIR/id_ed25519.pub")"
+echo -e "\nPublic key fingerprint:\n  $(ssh-keygen -lf "$HOME/.ssh/id_ed25519.pub")"
 
 echo -e "\nYour public key:"
-cat "$SSH_DIR/id_ed25519.pub"
+cat "$HOME/.ssh/id_ed25519.pub"
 
 echo -e "\nNext step: Add this public key to target servers' authorized_keys" 
 
