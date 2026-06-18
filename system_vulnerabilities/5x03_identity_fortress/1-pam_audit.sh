@@ -1,4 +1,8 @@
 #!/bin/bash
+
+# dpkg
+# /var/lib/dpkg/lock
+
 echo -e "=== PAM Configuration Audit ===\n"
 
 echo -e "/etc/pam.d/common-auth:"
