@@ -15,8 +15,8 @@ echo -e "\nKey pair generated:"
 echo -e "  Private key: $KEY_FILE\n  Public key: $KEY_FILE.pub"
 
 echo -e "\nSetting permissions:"
-chmod 600 "$KEY_FILE"
-chmod 644 "$KEY_FILE.pub"
+chmod 600 $HOME/.ssh/id_ed25519
+chmod 644 $HOME/.ssh/id_ed25519.pub
 
 echo "  Private key: $(stat -c '%a' "$SSH_DIR/id_ed25519") (owner read/write only)"
 echo "  Public key: $(stat -c '%a' "$SSH_DIR/id_ed25519.pub")"
