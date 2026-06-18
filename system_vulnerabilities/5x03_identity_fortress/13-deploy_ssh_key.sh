@@ -1,4 +1,9 @@
 #!/bin/bash
+if [ $# -eq 0 ]; then
+    echo "usage: You must specify a valid .pub content"
+    exit 1
+fi
+
 echo -e "=== SSH Key Deployment ===\n"
 
 echo "Target user: $(whoami)"
