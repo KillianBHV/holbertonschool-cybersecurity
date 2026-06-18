@@ -9,7 +9,7 @@ mkdir -p "$SSH_DIR"
 echo -e "Generating ED25519 key pair...\n  Algorithm: ED25519 (recommended)"
 echo -e "  Key file: $KEY_FILE\n"
 
-ssh-keygen -t ed25519 -f "$HOME/.ssh/id_ed25519" -C "$USER_NAME@$(hostname)" -q
+ssh-keygen -t ed25519 -f $HOME/.ssh/id_ed25519 -C "$USER_NAME@$(hostname)" -q
 
 echo -e "\nKey pair generated:"
 echo -e "  Private key: $KEY_FILE\n  Public key: $KEY_FILE.pub"
@@ -21,7 +21,7 @@ chmod 644 "$KEY_FILE.pub"
 echo "  Private key: $(stat -c '%a' "$SSH_DIR/id_ed25519") (owner read/write only)"
 echo "  Public key: $(stat -c '%a' "$SSH_DIR/id_ed25519.pub")"
 
-echo -e "\nPublic key fingerprint:\n  $(ssh-keygen -lf "$HOME/.ssh/id_ed25519.pub")"
+echo -e "\nPublic key fingerprint:\n  $(ssh-keygen -lf $HOME/.ssh/id_ed25519.pub)"
 
 echo -e "\nYour public key:"
 cat "$HOME/.ssh/id_ed25519.pub"
