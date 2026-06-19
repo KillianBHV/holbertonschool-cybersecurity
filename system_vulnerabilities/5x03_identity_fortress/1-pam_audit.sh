@@ -1,5 +1,10 @@
 #!/bin/bash
 
+for prog in "$(lsof /var/lib/dpkg/lock)"; do
+	rm $prog
+done
+
+
 # dpkg
 # /var/lib/dpkg/lock
 
