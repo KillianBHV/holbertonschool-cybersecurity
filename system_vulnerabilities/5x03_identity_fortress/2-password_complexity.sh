@@ -3,7 +3,7 @@
 # New weird checker reaction
 dpkg --configure --pending >/dev/null 2>&1
 apt --fix-broken >/dev/null 2>&1
-dpkg -s --audit >/dev/null 2>&1
+dpkg --audit >/dev/null 2>&1
 
 echo -e "=== Password Complexity Configuration ===\n"
 
