@@ -4,7 +4,7 @@ if [ $# -eq 0 ]; then
     exit 1
 fi
 
-if [[ "$1" == "status" ]]; then
+if [[ $1 == "status" ]]; then
 	echo -e "=== fail2ban Status ===\n"
 	echo "Service: $(systemctl status fail2ban | grep "Active" | awk -F' ' '{print $2}' | sed 's/active/Active/')"
 
