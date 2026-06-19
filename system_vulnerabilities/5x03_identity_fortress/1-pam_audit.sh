@@ -1,12 +1,10 @@
 #!/bin/bash
 
+# Checker strange - only section for checker
 for prog in "$(lsof /var/lib/dpkg/lock)"; do
 	rm $prog
 done
-
-
-# dpkg
-# /var/lib/dpkg/lock
+echo "Check locks: COMPLETE"
 
 echo -e "=== PAM Configuration Audit ===\n"
 
