@@ -1,4 +1,9 @@
 #!/bin/bash
+
+# New weird checker reaction
+dpkg --configure --pending
+apt --fix-broken
+
 echo -e "=== Password Complexity Configuration ===\n"
 
 echo "Installing libpam-pwquality..."
