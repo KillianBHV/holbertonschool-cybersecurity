@@ -1,6 +1,6 @@
 #!/bin/bash
-echo -e "=== Password Complexity Testing ===\n"
-echo -e "Testing password policy enforcement..."
+echo "=== Password Complexity Testing ==="
+echo -e "\nTesting password policy enforcement..."
 
 check_pass () {
 	echo -e "\nTest $2: \"$1\""
