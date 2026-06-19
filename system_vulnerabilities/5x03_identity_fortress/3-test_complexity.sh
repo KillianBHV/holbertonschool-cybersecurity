@@ -25,7 +25,7 @@ check_pass () {
 
 test_num=1
 check_pass "password" test_num 1
-# for i in ("password" "Password123" "Ab1!"); do done
+# for test_pass in ('password' 'Password123' 'Ab1!' 'auditor2024' 'Str0ng!P@ssw0rd#2024'); do done
 
 test_num=$(( test_num + 1))
 check_pass "Password123" test_num 2
