@@ -5,7 +5,7 @@ echo -e "\nTesting password policy enforcement..."
 check_pass () {
 	echo -e "\nTest $2: \"$1\""
 
-	if [[ ! -z $(echo "$(echo "$1" | passwd jsmith 2>&1)" | grep "BAD PASSWORD" -o) ]]; then
+	if [[ ! -z $(echo "$(echo "$1" | passwd jsmith 2>&1)" | grep -E "BAD PASSWORD" -o) ]]; then
     	echo -ne "Result: REJECTED\n  Reason: "
 		if [[ $3 -eq 1 ]]; then
 			echo "Dictionary word"
