@@ -17,7 +17,8 @@ check_pass () {
 			echo "Contains username"
 		fi
 	else
-		echo "$1" | passwd jsmith
+		local test_pass=$1
+		echo '$test_pass' | passwd auditor
     	echo "  Result: ACCEPTED"
 		echo "  Reason: Meets all requirements"
 	fi
