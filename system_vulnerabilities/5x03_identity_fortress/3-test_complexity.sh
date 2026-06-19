@@ -5,7 +5,7 @@ echo -e "Testing password policy enforcement..."
 check_pass () {
 	echo -e "\nTest $2: \"$1\""
 
-	if [[ ! -z $(echo "$(echo "$1" | passwd jsmith 2>&1)" | grep -o "BAD PASSWORD") ]]; then
+	if [[ ! -z $(echo "$(echo "$1" | passwd jsmith 2>&1)" | grep "BAD PASSWORD" -o) ]]; then
     	echo -ne "Result: REJECTED\n  Reason: "
 		if [[ $3 -eq 1 ]]; then
 			echo "Dictionary word"
@@ -17,6 +17,7 @@ check_pass () {
 			echo "Contains username"
 		fi
 	else
+		echo "$1" | passwd jsmith
     	echo "  Result: ACCEPTED"
 		echo "  Reason: Meets all requirements"
 	fi
@@ -24,6 +25,7 @@ check_pass () {
 
 test_num=1
 check_pass "password" test_num 1
+# for i in ("password" "Password123" "Ab1!"); do done
 
 test_num=$(( test_num + 1))
 check_pass "Password123" test_num 2
