@@ -1,4 +1,9 @@
 #!/bin/bash
+if [ $# -eq 0]; then
+	echo 'Usage: you must specify users'
+	exit
+fi
+
 echo ''
 echo '=== Force Password Change ==='
 
@@ -8,16 +13,21 @@ echo ''
 echo 'Processing users with compromised passwords...'
 echo ''
 
-echo 'jsmith:'
-passwd -e jsmith >/dev/null 2>&1
-echo '  Password expired: FORCED'
-echo '  Must change at next login: YES'
-nb_users_change=$(( nb_users_change + 1 ))
+for usr in "$@"; do
+	echo '$usr:'
+	chage -d 0 $usr
+	echo '  Password expired: FORCED'
+	echo '  Must change at next login: YES'
+	nb_users_change=$(( nb_users_change + 1 ))
+done
+
 
 echo 'Verification:'
-chage -l jsmith | grep "Password expires"
-echo '  chage -l jsmith | grep "Password expires"'
-echo '  Password expires: password must be changed'
+for usr in "$@"; do
+	chage -l $usr | grep 'Password expires'
+	echo "  chage -l $usr | grep \"Password expires\""
+	echo '  Password expires: password must be changed'
+done
 
 echo -n "$nb_users_change "
 echo "users must change password at next login."
