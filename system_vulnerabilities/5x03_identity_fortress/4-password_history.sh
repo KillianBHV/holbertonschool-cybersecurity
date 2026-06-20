@@ -1,12 +1,15 @@
 #!/bin/bash
 echo '=== Password History Configuration ==='
 
+cp /etc/pam.d/common-password /etc/pam.d/common-password.bak
+
 echo ''
 echo 'Configuring pam_pwhistory...'
 
 echo ''
 echo 'Creating password history file...'
 touch /etc/security/opasswd 2>/dev/null
+chmod 600 /etc/security/opasswd
 echo '  /etc/security/opasswd: Created'
 
 echo 'Updating /etc/pam.d/common-password...'
