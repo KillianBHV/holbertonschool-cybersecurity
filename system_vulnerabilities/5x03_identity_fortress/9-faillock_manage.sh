@@ -19,14 +19,14 @@ if [[ "$1" == 'show' ]]; then
 	echo "=== Faillock Details: $1 ==="
 	echo ''
 	echo "Recent failures:"
-	faillock --user $2 | grep -Ev "($2|When)" | awk -F' ' '{print $1 " " $2 " - Failed"}'
+	faillock --user "$2" | grep -Ev "($2|When)" | awk -F' ' '{print $1 " " $2 " - Failed"}'
 
 	echo ''
 	echo 'Status: LOCKED'
 fi
 
 if [[ "$1" == 'reset' ]]; then
-	faillock --user $2 --reset
+	faillock --user "$2" --reset
 	echo "Account $2: Lock cleared"
 fi
 
