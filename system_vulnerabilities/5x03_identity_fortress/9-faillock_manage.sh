@@ -6,7 +6,7 @@ if [ $# -eq 0 ]; then
 	echo "Please indicate an option (status|show <user>|reset <user>)"
 fi
 
-if [[ $1 == 'status' ]]; then
+if [[ "$1" == 'status' ]]; then
 	echo -e "=== Faillock Status ===\n"
 	echo "Locked accounts:"
 
@@ -15,7 +15,7 @@ if [[ $1 == 'status' ]]; then
 	done
 fi
 
-if [[ $1 == 'show' ]]; then
+if [[ "$1" == 'show' ]]; then
 	echo "=== Faillock Details: $1 ==="
 	echo ''
 	echo "Recent failures:"
@@ -25,7 +25,7 @@ if [[ $1 == 'show' ]]; then
 	echo 'Status: LOCKED'
 fi
 
-if [[ $1 == 'reset' ]]; then
+if [[ "$1" == 'reset' ]]; then
 	faillock --user $2 --reset
 	echo "Account $2: Lock cleared"
 fi
