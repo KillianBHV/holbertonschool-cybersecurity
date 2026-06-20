@@ -23,9 +23,9 @@ echo '  pam_faillock.so: Added'
 echo ''
 echo 'Configuration:'
 cat > /etc/security/faillock.conf << 'EOF'
-  deny=5 # (lock after 5 failures)
-  unlock_time=900 # (15 minutes)
-  fail_interval=900 # (count failures within 15 min)
+deny = 5 # (lock after 5 failures)
+unlock_time = 900 # (15 minutes)
+fail_interval = 900 # (count failures within 15 min)
 EOF
 
 cat /etc/security/faillock.conf
