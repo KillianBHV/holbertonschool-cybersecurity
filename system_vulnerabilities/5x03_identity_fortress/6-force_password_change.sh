@@ -13,9 +13,9 @@ echo ''
 echo 'Processing users with compromised passwords...'
 echo ''
 
-for usr in "$@"; do
+for user in "$@"; do
 	echo '$usr:'
-	chage -d 0 $usr
+	chage -d 0 $user
 	echo '  Password expired: FORCED'
 	echo '  Must change at next login: YES'
 	nb_users_change=$(( nb_users_change + 1 ))
@@ -23,9 +23,9 @@ done
 
 
 echo 'Verification:'
-for usr in "$@"; do
-	chage -l $usr | grep 'Password expires'
-	echo "  chage -l $usr | grep \"Password expires\""
+for user in "$@"; do
+	chage -l $user | grep 'Password expires'
+	echo "  chage -l $user | grep \"Password expires\""
 	echo '  Password expires: password must be changed'
 done
 
