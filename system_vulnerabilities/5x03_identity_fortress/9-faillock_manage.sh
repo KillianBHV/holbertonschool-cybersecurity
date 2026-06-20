@@ -6,7 +6,8 @@ if [ $# -eq 0 ]; then
 	echo "Please indicate an option (status|show <user>|reset <user>)"
 fi
 
-if [ $1 == "status" ]; then
+# $1 == "status"
+if [ "$1" == "status" ]; then
 	echo -e "=== Faillock Status ===\n"
 	echo "Locked accounts:"
 
