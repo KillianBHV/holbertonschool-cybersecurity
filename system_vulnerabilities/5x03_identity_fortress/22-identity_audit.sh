@@ -102,6 +102,7 @@ else
     echo "DISABLED"
 fi
 
+# grep -q "AuthenticationMethods publickey,keyboard-interactive" /etc/ssh/sshd_config 2>/dev/null
 echo "User Compliance:"
 
 echo "  Users with weak passwords: 0"
