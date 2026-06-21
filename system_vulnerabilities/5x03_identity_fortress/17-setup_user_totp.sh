@@ -2,7 +2,7 @@
 echo -e "=== TOTP Setup for Current User\n"
 
 echo -e "Running google-authenticator with secure defaults..."
-google-authenticator
+google-authenticator -t -w 3 -S 30 -d 
 
 echo -e "\nConfiguration saved to ~/.google_authenticator\n"
 
