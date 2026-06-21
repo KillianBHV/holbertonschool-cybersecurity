@@ -80,7 +80,7 @@ fi
 
 echo -ne "SSH Security:\n  Password authentication: "
 
-auth_pass=$(grep -E "^[[:space:]]*PasswordAuthentication[[:space:]]+" /etc/ssh/sshd_config 2>/dev/null | tail -1 | awk '{print $2}')
+auth_pass=$(grep -E "^[[:space:]]*PasswordAuthentication no[[:space:]]+" /etc/ssh/sshd_config 2>/dev/null | tail -1 | awk '{print $2}')
 if [ "$auth_pass" = "no" ]; then
     echo "DISABLED"
 else
