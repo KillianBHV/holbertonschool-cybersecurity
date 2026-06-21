@@ -2,6 +2,7 @@
 
 echo "Test 1: SSH with key only (no TOTP)"
 echo "  Expected: Prompt for verification code"
+ssh -i $HOME/.ssh/id_ed25519 auditor@192.168.1.28 -o BatchMode=yes -o ConnectTimeout=2 2>&1 || true
 
 if grep -q "ChallengeResponseAuthentication" /etc/pam.d/sshd; then
 	echo "  Result: CORRECT"
@@ -28,6 +29,11 @@ else
     echo "  Result: INCORRECT"
 fi
 
+if grep -q "AuthenticationMethods" /etc/ssh/sshd_config; then
+    echo "  Result: CORRECT"
+else
+    echo "  Result: INCORRECT"
+fi
 
 echo ""
 echo "Test 4: SSH configuration check"
@@ -40,5 +46,4 @@ if [[ "$(stat -c %a ~/.google_authenticator)" == "600" ]]; then
 fi
 echo "  ~/.google_authenticator: Exists"
 echo "  Permissions (600): Correct"
-
 
