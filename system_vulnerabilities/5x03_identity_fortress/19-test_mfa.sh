@@ -29,7 +29,7 @@ else
     echo "  Result: INCORRECT"
 fi
 
-if grep -q "AuthenticationMethods" /etc/ssh/sshd_config; then
+if grep -q "AuthenticationMethods publickey,keyboard-interactive" /etc/ssh/sshd_config; then
     echo "  Result: CORRECT"
 else
     echo "  Result: INCORRECT"
