@@ -3,7 +3,7 @@
 SSH_CONFIG_FILE="/etc/ssh/sshd_config"
 
 stop_service() {
-  if [[ "${ROOT_MODE}" -eq 0 ]]; then
+  if [[ "$(id -u)" -eq 0 ]]; then
     echo "Desired disabling service: ${svc}"
     service "$1" stop 2>/dev/null
   fi
