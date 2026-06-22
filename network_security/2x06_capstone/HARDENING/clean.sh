@@ -2,13 +2,10 @@
 
 SSH_CONFIG_FILE="/etc/ssh/sshd_config"
 
-# --- Disable unnecessary services ---
 stop_service() {
-  svc="$1"
   if [[ "${ROOT_MODE}" -eq 0 ]]; then
     echo "Desired disabling service: ${svc}"
-    service "${svc}" stop 2>/dev/null
-    service "${mask}" stop 2>/dev/null
+    service "$1" stop 2>/dev/null
   fi
 }
 stop_service "telnet"
@@ -24,16 +21,14 @@ sed -i 's/.*PasswordAuthentication.*/PasswordAuthentication no/' $SSH_CONFIG_FIL
 # Enable public-key authentication
 sed -i 's/^.*PubkeyAuthentication.*/PubkeyAuthentication yes/' $SSH_CONFIG_FILE || echo 'PubkeyAuthentication no' >> $SSH_CONFIG_FILE
 
-test_sshd() {
-  key="$1"
-  value="$2"
-  if grep -qE "^[#[:space:]]*${key}[[:space:]]+" "${SSH_CONFIG_FILE}"; then
-    sed -i -E "s/^[#[:space:]]*${key}[[:space:]].*/${key} ${value}/g" "${SSH_CONFIG_FILE}"
+test_ssh() {
+  if grep -qE "^[#[:space:]]*$1[[:space:]]+" "$SSH_CONFIG_FILE"; then
+    sed -i -E "s/^[#[:space:]]*$1[[:space:]].*/$1 $2/g" "$SSH_CONFIG_FILE"
   else
-    echo "${key} ${value}" >> "${SSH_CONFIG_FILE}"
+    echo "$1 $2" >> "$SSH_CONFIG_FILE"
   fi
 }
-test_sshd "PermitRootLogin" "no"
-test_sshd "PasswordAuthentication" "no"
-test_sshd "PubkeyAuthentication" "yes"
-test_sshd "AllowUsers" "student"
+test_ssh "PermitRootLogin" "no"
+test_ssh "PasswordAuthentication" "no"
+test_ssh "PubkeyAuthentication" "yes"
+test_ssh "AllowUsers" "student"
