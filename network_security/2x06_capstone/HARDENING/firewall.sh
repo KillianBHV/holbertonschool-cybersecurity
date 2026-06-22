@@ -1,9 +1,7 @@
 #!/usr/bin/env bash
-# run panic button first to verify emergency workflow:
-# sudo ./panic_button.sh
 
 _ROOT=1
-if [[ "${EUID}" -ne 0 ]]; then
+if [[ "$(id -u)" -ne 0 ]]; then
   _ROOT=0
   echo "Non-root: generating nft policy and rollback commands."
 fi
@@ -123,5 +121,4 @@ else
   sudo ./${RBACK_SH}.sh
 fi
 
-echo "Validate access (SSH over VPN, FTP for finance, DB flow)."
-echo "firewall.sh applied with rollback successfully."
+echo "Validate access (SSH over VPN, FTP for finance, database flow)."
