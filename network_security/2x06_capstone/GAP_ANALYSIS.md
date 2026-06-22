@@ -1,7 +1,7 @@
 # GAP ANALYSIS
 
 ## Executive Summary
-The current network environment relies on a flat architecture with limited security controls, exposing critical business assets. The assessment identified several security gaps, including no network segmentation, no firewall protection or no logging process. To improve the organization's security, priority should be given first to network segmentation, access control enforcement, asset isolation (e.g. database) and centralized monitoring capabilities.
+The review of the available documentation identified several security weaknesses that could expose critical business systems and data to unauthorized access and/or disruption. It mostly remains on network separation traffic, limited security controls and uncentralized monitoring capabilities. Addressing these issues should be a priority in terms of the company's credibility, as well as in terms of raising awareness and implementing security measures.
 
 ## GAPS Identified
 + ### Flat Network
