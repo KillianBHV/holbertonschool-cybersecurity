@@ -2,7 +2,7 @@
 echo "Image: devstream-vulnerable:latest"
 echo "Layer History:"
 
-docker_history=$(docker image history --format "{{.CreatedBy}}" devstream-vulnerable:latest)
+docker_history=$(docker history --format "{{.CreatedBy}}" devstream-vulnerable:latest)
 layer=1
 
 while read -r line; do
