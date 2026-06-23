@@ -15,6 +15,7 @@ FROM ubuntu:latest
 RUN apt-get update && apt-get install -y \
     python3 \
     python3-pip \
+    python3.14-venv \
     curl \
     wget \
     vim \
@@ -29,9 +30,10 @@ WORKDIR /app
 COPY . /app
 
 # Install Python dependencies
-RUN pip3 install -r requirements.txt
+RUN python3 -m venv venv
+RUN venv/bin/pip install -r requirements.txt
 
 # Run as root because it's easier
 EXPOSE 5000
 
-CMD ["python3", "app.py"]
+HEALTHCHECK --interval=30s --timeout=10s --retries=3 CMD ["python3", "app.py"]
