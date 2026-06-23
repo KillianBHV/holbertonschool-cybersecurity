@@ -1,6 +1,14 @@
 # DevStream's "production" Dockerfile
 # DO NOT USE IN PRODUCTION (but they did...)
 
+# Don't put your secrets on Dockerfiles: they are visible via layers
+# Instead, create environment variables and call them
+# directly with docker run command (-e)
+#
+# In practice, the problem is the same if you hardcode secrets
+# in cleartext in scripts. Please consider to encrypt/hashed
+# secrets before insert them inside scripts
+
 FROM ubuntu:latest
 
 # Install everything we might need
