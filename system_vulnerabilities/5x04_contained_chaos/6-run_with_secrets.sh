@@ -12,9 +12,4 @@ export DB_USER=${DB_USER:-"root"}
 export DB_PASSWORD=${DB_PASSWORD:-"Sup3rS3cr3t!Pr0d"}
 export DB_HOST=${DB_HOST:-"prod-db.devstream.internal"}
 
-docker run \
-    -e DB_HOST=$DB_HOST \
-    -e DB_USER=$DB_HOST \
-    -e DB_PASSWORD=$DB_PASSWORD \
-    devstream-nosecrets:v1
-
+docker run -e DB_HOST=$DB_HOST -e DB_USER=$DB_HOST -e DB_PASSWORD=$DB_PASSWORD devstream-nosecrets:v1
