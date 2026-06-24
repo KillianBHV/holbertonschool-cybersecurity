@@ -9,31 +9,27 @@
 # in cleartext in scripts. Please consider to encrypt/hashed
 # secrets before insert them inside scripts
 
-FROM ubuntu:latest
+FROM python:3.11 AS builder
 
-# Install everything we might need
-RUN apt-get update && apt-get install -y \
-    python3 \
-    python3-pip \
-    python3.14-venv \
-    curl \
-    wget \
-    vim \
-    net-tools \
-    iputils-ping \
-    gcc \
-    make \
-    sudo
+RUN apt-get update && apt-get install -y gcc make
 
-# Copy application
 WORKDIR /app
 COPY . /app
 
-# Install Python dependencies
 RUN python3 -m venv venv
 RUN venv/bin/pip install -r requirements.txt
+# RUN venv/bin/pip cache purge
 
-# Run as root because it's easier
-EXPOSE 5000
 
-HEALTHCHECK --interval=30s --timeout=10s --retries=3 CMD curl -f http://localhost:5000/health || exit 1
+FROM python:3.11-slim
+
+WORKDIR /app
+COPY --from=builder /app/requirements.txt requirements.txt
+
+RUN python3 -m venv venv
+RUN venv/bin/pip install -r requirements.txt
+RUN venv/bin/pip cache purge
+
+COPY --from=builder /app/app.py app.py
+
+CMD ["/venv/bin/python3", "app.py"]
