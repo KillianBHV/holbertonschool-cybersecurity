@@ -27,9 +27,12 @@
 - Yes, but report only factual observations through the designated contact and must not include accusations, personal or not by conducting your own investigation. 
 
 ### Vignette 5
-***Can you? and Should you?***
-- Yes. The activity was observed while testing in-scope system.
-- But disclose only the information required in the authorized processing process and protecting at the same time patient privacy.
+***Can you?***
+- Yes. The activity was observed during authorized testing of an in-scope EHR system and may be documented according to the Rules of Engagement and the engagement contract.
+
+***Should you?***
+- Yes, but only through the defined discovery and escalation process. Report the factual observations to your firm's leadership and the client-designated contact, while protecting patient privacy.
+- Do not conduct your own investigation or report directly to medical boards or law enforcement. If mandatory reporting obligations apply, they should be handled through the appropriate legal and contractual process.
 
 ## Cluster C: Client Communication
 ### Vignette 6
