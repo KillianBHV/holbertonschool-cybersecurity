@@ -20,11 +20,11 @@
 
 ## Cluster B: Incidental Discoveries
 ### Vignette 4
-***Can you? and Should you?***
-- Yes. The information was discovered during an authorized engagement and must be reported through the appropriate reporting channel.
+- ***Can you?***
+- Yes. The evidence was discovered incidentally during an authorized engagement and may be reported according to the Rules of Engagement and the engagement contract.
 
 ***Should you?***
-- Yes, but report only factual observations through the designated contact and must not include accusations, personal or not by conducting your own investigation. 
+- Yes, but only report the factual observations through the designated reporting channel. Do not conduct your own investigation, search for additional evidence, or make accusations against the employee.
 
 ### Vignette 5
 ***Can you?***
