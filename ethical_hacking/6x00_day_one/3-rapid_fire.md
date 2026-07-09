@@ -21,32 +21,30 @@
 ## Cluster B: Incidental Discoveries
 ### Vignette 4
 ***Can you? and Should you?***
-- Yes, you can. You have the evidences in front of you. But... don't alert directly the implied employee or member, avoiding potential immediate injuries.
-- Instead, report the evidences with capture, logs or any kind guaranteed non-repudiation, with the designated referent in charge of potential evidence cases.
-- Be sure to clearly establish who is your direct contact, but the situation could be complicated if your direct contact is directly implied or even the implied employee. In such cases, be sure to have safety contacts
+- Yes. The information was discovered during an authorized engagement and must be reported through the appropriate reporting channel.
+
+***Should you?***
+- Yes, but report only factual observations through the designated contact and must not include accusations, personal or not by conducting your own investigation. 
 
 ### Vignette 5
 ***Can you? and Should you?***
-- Yes and no.
-- As part of the defined scope, include the fact that you have obtained access to the EHR system.
-- But don't include the physician specific case, similarly to the previous vignette, acting as a PII and legal consequences. Instead, report this fact to the designed, right person.
+- Yes. The activity was observed while testing in-scope system.
+- But disclose only the information required in the authorized processing process and protecting at the same time patient privacy.
 
 ## Cluster C: Client Communication
 ### Vignette 6
 ***Can you?***
-- As you have proves of compromission in front of you, you technically can alert, but that's not as easy as that.
+- Yes, because an active compromise justifies immediate notification even if the normal reporting schedule says otherwise.
 
 ***Should you?***
-- The real problem is that by the extracted evidences, the current process changes from defined simulation to real external attack.
-- Because of that, you can't rely on the original assessment which affirms "at the end of the engagement", but this discover has to be interrupted.
-- It could be temporary of definitely, but the statement transition between controlled simulated attack and potential active external attacks requires an important process adaptation. 
+- Yes. Protecting the client from ongoing problems is priority. Follow the emergency escalation process immediately. 
 
 ### Vignette 7
-***Can you? and Should you?***
-- As is, you can directly communicate them to the CISO. But by doing that, you disgress a rule of engagement, which is the primary valid conditions.
-- So, even if the CISO absolutely wants to you to give, don't do it anymore. It is absolutely better to wait for the end of vacation weeks of the project manager.
-- Especially since the active phase, that is the concrete attacking testing phase itself, has not yet started.
-- Even if the CISO has a higher-level role, it is not the reference designed by Rules of Engagement.
+***Can you?***
+- No. The Rules of Engagement specify that communications must go through the project manager previously defined. 
+
+***Should you?***
+- No. Follow the agreed communication process and seek an authorized alternative rather than bypassing the protocol.
 
 ## Cluster D: Engagement Qualification
 ### Vignette 8
