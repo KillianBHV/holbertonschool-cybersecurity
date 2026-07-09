@@ -1,29 +1,22 @@
 ## Cluster A: Scope Boundaries
 ### Vignette 1
 ***Can you?***
-- Yes. With the actual discovery, it is technically possible to use spoofing methods
+- Problably yes, because the scope explicitly includes direct dependencies. However, if the API was not clearly identified, confirm with the client before testing.
 
 ***Should you?***
-- No. Even if you consider it as a necessity, the discovered is Out-Of-Scope at the current state of the test.
-- As a consequence, doing anything with the API without prealable authorization rescoping and gives you the right to be potentially arrested. 
-- By default, you have to stop the test immediately and start an extra assessment or even a new one.
+- Only after confirming that the API is actually part of the defined authorized scope.
 
 ### Vignette 2
 ***Can you?***
-- Yes. As a ping responds to an address which is not part of the subnet range, it seems that this specific IP address is link to this network by any kind of method.
-- But it does not automatically means that this IP could absolutely respond to any kind of request associated to it.
+- No. Even if a development environment is mentioned, this one is not in the established signed scope document.
+- Without prealable written authorization, accessing that server would exceed the agreed scope.
 
 ***Should you?***
-- No. Development environment is mentioned but it does not rely on a signed contract rule or any document allow us to test this environment through this IP, or any way.
+- No. The scope should be updated before any testing performance. And the discovery should be reported to the client.
 
 ### Vignette 3
-***Can you?***
-- Yes. It is an established part of the test, and approved by any contractual document.
-- Contrary to the two previous one, by performing IDOR vulnerability itself, you are in scope and attend to perform the discovery because of it relies on the application itself.
-
-***Should you?***
-- But be sure there is at least one recovery method in place. A dev environment similar to the prod one is also preferred for the purpose of this test.
-- If there's no recovery method, prefer to avoid testing without communicate ways to apply the test in practice, potentially review the offensive level for this test.  
+***Can you? and Should you?***
+- Yes, but only to the minimum data necessary to demonstrate the vulnerability, in accordance with data handling procedures.
 
 ## Cluster B: Incidental Discoveries
 ### Vignette 4
