@@ -7,7 +7,7 @@
 - URL: http://helix-maritime.example/press/interviews/cto-vision-2025
 
 ## Finding 2: Minor IT incident in communiqué
-- Value: a small number of staff mailboxes were briefly locked following a targeted phishing incident
+- Value: covering the second quarter of 2024 [...] a small number of staff mailboxes were briefly locked following a targeted phishing incident
 - Publication: Office of the Chief Executive
 - Date: 2024-07-15
 - URL: http://helix-maritime.example/press/communiques/q2-2024
