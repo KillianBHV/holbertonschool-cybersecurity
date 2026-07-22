@@ -15,9 +15,10 @@
 - Posting Date: 2025-05-29
 - Retrieval Date: 2026-07-22
 
-## Finding 3: Inadvertently exposed information
-- Observation: "target host: hlx-app-03" (internal host), "hlx-mail01" (internal mailbox), "Deploy Tidewater V2" (internal tool)
-- Inference: Declaration of in-house software and devices
+## Finding 3: Corporate Photo Information Disclosure
+- Evidence: The publicly accessible photo of a chart displays a workstation with the hostname ***"hlx-app-03"***, an Outlook mailbox labelled ***hlx-mail01***, and a deployment interface titled ***Deploy Tidewater V2***
+- Observation: Internal system names and deployment information are visible to any visitor.
+- Inference: An attacker can learn internal naming conventions and identify infrastructure components that may support reconnaissance.
 - Platform: Helix corporate gallery
 - Post URL: http://helix-maritime.example/social/gallery/3
 - Posting Date: 2025-06-03
