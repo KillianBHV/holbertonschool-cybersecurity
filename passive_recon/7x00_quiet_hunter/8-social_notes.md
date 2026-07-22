@@ -16,7 +16,8 @@
 - Retrieval Date: 2026-07-22
 
 ## Finding 3: Inadvertently exposed information
-- Value: chart showing "Deploy Tidewater V2" (In progress), "" and "Veridian CMS 5.2.1" (Done)
+- Observation: "target host: hlx-app-03" (internal host), "hlx-mail01" (internal mailbox), "Deploy Tidewater V2" (internal tool)
+- Inference: Declaration of in-house software and devices
 - Platform: Helix corporate gallery
 - Post URL: http://helix-maritime.example/social/gallery/3
 - Posting Date: 2025-06-03
