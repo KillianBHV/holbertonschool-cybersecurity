@@ -12,11 +12,21 @@ for child in root.findall('scandetails'):
     for item in child:
         item_id = f"F-NIK-{item.get('id')}"
 
+        osvdb_id = int(item.get('osvdbid'))
+        if osvdb_id:
+            severity = 'high'
+            confidence = 0.85
+        else:
+            severity = 'info'
+            confidence = 0.15
+
         f = {
             'id': item_id,
             'asset': asset,
             'source': 'nikto',
-            'desc': f"{item.find('description').text}"
+            'desc': f"{item.find('description').text}",
+            'severity': severity,
+            'confidence': confidence
         }
         findings.append(f)
 
