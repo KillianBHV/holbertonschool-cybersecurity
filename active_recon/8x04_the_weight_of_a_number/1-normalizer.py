@@ -35,4 +35,3 @@ for child in root.findall('scandetails'):
         findings.append(f)
 
 print(findings)
-
