@@ -20,14 +20,19 @@ for child in root.findall('scandetails'):
             severity = 'info'
             confidence = 0.15
 
+        desc = f"{item.find('description').text}"
+        if confidence < 0.20:
+            desc += " [noisy / low_confidence]"
+
         f = {
             'id': item_id,
             'asset': asset,
             'source': 'nikto',
-            'desc': f"{item.find('description').text}",
+            'desc': desc,
             'severity': severity,
             'confidence': confidence
         }
         findings.append(f)
 
 print(findings)
+
