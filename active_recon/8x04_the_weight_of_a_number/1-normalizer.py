@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 
+import json
 import sys
 import xml.etree.ElementTree as ET
 
@@ -34,4 +35,5 @@ for child in root.findall('scandetails'):
         }
         findings.append(f)
 
-print(findings)
+result = json.dumps(findings)
+print(result)
