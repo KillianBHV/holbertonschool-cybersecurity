@@ -39,7 +39,7 @@ if sys.argv[1].find("nikto") != -1:
 
     result = json.dumps(findings)
     print(result)
-# OpenVAS
+# OpenVAS (map_severity)
 elif sys.argv[1].find("openvas") != -1:
     for r in root.findall('results'):
         for result in r:
