@@ -26,7 +26,8 @@ Based strictly on impending deadlines and financial or regulatory exposure, the 
     *   Processing medical-note metadata without an executed BAA creates immediate statutory liability under the historical HIPAA Security Rule text, which remains fully in force as the active enforceable standard while the technical overhaul continues to be delayed.
 3.  **Priority 3: EU Launch & Self-Serve Tier (GDPR & PCI DSS)**
     *   *Justification:* Tied to the broader **Q4 deadline**.
-    *   It introduces massive statutory risk (GDPR carries an active enforcement fine volume of €1.2 billion) and technical requirements (PCI DSS Version 4.0 is fully mandatory and the sole active version since March 31, 2025), but possesses the longest timeline buffer.
+    *   Non-compliance with GDPR carries immediate statutory risk with potential statutory fines up to €20 million or 4% of global annual turnover, while PCI DSS Version 4.0 is fully mandatory and the sole active version since March 31, 2025.
+    *   However, it possesses the longest timeline buffer.
 
 ## 4. Immediate Next Actions *(Monday Morning)*
 To meet these targets, the following concrete actions must be executed immediately on Monday morning:
