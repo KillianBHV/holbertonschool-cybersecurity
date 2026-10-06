@@ -7,7 +7,7 @@
 | **SOC 2** | Market and contract pressure | Service organizations storing or processing client data in the cloud | Customer data based on Trust Services Criteria *(Processing integrity, confidentality, availability, privacy)* | No regulatory fine; honest answer is lost revenue, blocked procurement deals, and customer churn | The SOC 2 report itself | 
 
 ## Status as of 2026
-* **PCI DSS Version 4.0** is the only active version, and all of its requirements became fully mandatory on **March 31, 2025**.
-* The proposed HIPAA Security Rule remains **unfinalized**, with the OMB *(Office of Management and Budget)* currently targeting **July 2027** for final action.
-* The current **annual volume** of GDPR enforcement fines is approximately **€1.2 billion**.
-* A SOC 2 report is issued against the **Trust Services Criteria**.
+* **GDPR:** The core regulation remains **fully active and unchanged since 2018**, with a current enforcement reality reflected by an annual fine volume of **approximately €1.2 billion**.
+* **HIPAA:** The proposed Security Rule update remains **unfinalized with the OMB targeting July 2027 for final action**, meaning the historical Security Rule text remains **fully in effect**.
+* **PCI DSS:** Version **4.0 is the only active version**, and all of its requirements became **fully mandatory on March 31, 2025**.
+* **SOC 2:** **All Type I and Type II** compliance audits conducted throughout 2026 continue to be strictly issued against the **established Trust Services Criteria**.
