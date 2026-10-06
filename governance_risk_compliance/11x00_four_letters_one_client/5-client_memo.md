@@ -10,7 +10,7 @@ Our upcoming expansion and client commitments trigger four distinct compliance f
 
 *   **Hartwell Insurance ($1.2M ARR Deal):** Triggers **SOC 2**. This is driven by **market and contract pressure** to clear an active procurement blocker.
 *   **Brightpath Health Network Contract:** Triggers **HIPAA** because we will process occupational-health and wellness metadata. This is driven by **federal law** via the HHS Office for Civil Rights, with the required Business Associate Agreement (BAA) acting as the contractual mechanism.
-*   **Q4 EU Launch with Card Payments:** Simultaneously triggers **GDPR** (driven by **statutory law** through EU supervisory authorities due to processing EU employee personal data) and **PCI DSS** (driven by **market / industry contract pressure** from card brands via acquiring banks due to processing in-app card payments).
+*   **Q4 EU launch with card payments:** Triggers GDPR (law) + PCI DSS (market/contract pressure) for the same event.
 
 ## 2. CPO Assumption Correction
 The CPO's assumption that using an external payment provider completely exempts Nordwell from PCI DSS scope is incorrect. While utilizing an embedded checkout limits our technical footprint, Nordwell remains legally responsible for the security of the integration and must maintain baseline compliance, specifically by completing a Self-Assessment Questionnaire (SAQ-A) and an Attestation of Compliance (AOC).
@@ -30,4 +30,4 @@ To meet these targets, the following concrete actions must be executed immediate
 
 *   **Hartwell Insurance ($1.2M ARR Deal):** Engage our external auditor to establish a formal compliance roadmap and finalize the system description to present a SOC 2 Type I report as an interim bridge within 6 weeks.
 *   **Brightpath Health Network Contract:** Route the formal Brightpath commercial contract and accompanying Business Associate Agreement (BAA) to our legal team for final review and countersignature execution to secure the account within 8 weeks.
-*   **Q4 EU Launch with Card Payments:** Initiate the creation of our formal Record of Processing Activities (ROPA) covering the France and Germany pilot customers to kickstart the EU compliance track.
+*   **Q4 EU launch with card payments:** Initiate the creation of our formal Record of Processing Activities (ROPA) covering the France and Germany pilot customers to kickstart the EU compliance track.
