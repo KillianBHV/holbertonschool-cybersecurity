@@ -10,4 +10,9 @@
 * **GDPR:** The core regulation remains **fully active and unchanged since 2018**, with a current enforcement reality reflected by an annual fine volume of **approximately €1.2 billion**.
 * **HIPAA:** The proposed Security Rule update remains **unfinalized with the OMB targeting July 2027 for final action**, meaning the historical Security Rule text remains **fully in effect**.
 * **PCI DSS:** Version **4.0 is the only active version**, and all of its requirements became **fully mandatory on March 31, 2025**.
-* **SOC 2:** **All Type I and Type II** compliance audits conducted throughout 2026 continue to be strictly issued against the **established Trust Services Criteria**.
+* **SOC 2:** **All Type I and Type II** compliance audits conducted throughout 2026 continue to be strictly issued against the .
+## Status as of 2026
+* **GDPR:** fully active and unchanged **since 2018**
+* **HIPAA:** Proposed Security Rule update remains **unfinalized**, the historical remains **in effect**, targeting **July 2027** for final action.
+* **PCI DSS:** **Version 4.0** is fully mandatory and the sole active version since **March 31, 2025**.
+* **SOC 2:** Audits are strictly issued against the active **Trust Services Criteria**.
