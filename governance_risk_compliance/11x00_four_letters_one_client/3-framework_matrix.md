@@ -6,9 +6,8 @@
 | **PCI DSS** | The card brands via acquiring banks | Any entity that stores, processes, or transmits cardholder data and/or sensitive authentication data | Cardholder data and payment card transactions | Monthly penalties ranging from $5,000 to $100,000 plus the risk of processing termination | A Report of Compliance (`ROC`) or Self-Assessment Questionnaire (`SAQ`) plus an Attestation of Compliance (`AOC`) | 
 | **SOC 2** | Market and contract pressure | Service organizations storing or processing client data in the cloud | Customer data based on Trust Services Criteria *(Processing integrity, confidentiality, availability, privacy)* | Adverse audit opinion, loss of customer trust, failed procurement blockers, and contract termination | SOC 2 Type I/II report containing the system description and the auditor attestation/opinion |
 
-
 ## Status as of 2026
-* **GDPR:** fully active and unchanged **since 2018**.
-* **HIPAA:** Proposed Security Rule update remains **unfinalized**, the historical remains **in effect**, targeting **July 2027** for final action.
+* **GDPR:** Fully active and unchanged **since 2018**.
+* **HIPAA:** Historical Security Rule text **fully in force as the active standard**, while the proposed technical overhaul update **continues to be delayed**.
 * **PCI DSS:** **Version 4.0** is fully mandatory and the sole active version since **March 31, 2025**.
 * **SOC 2:** Audits are strictly issued against the active **Trust Services Criteria**.
