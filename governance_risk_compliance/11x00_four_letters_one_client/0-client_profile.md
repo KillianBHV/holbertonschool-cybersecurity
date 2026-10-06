@@ -28,11 +28,11 @@
 * TODAY: **Annual invoincing by wire**, and no supplementary material
 * UPCOMING / Q4: Added the option **to pay by card**
 
-## Health Data Exposure
+## Health data exposure
 * TODAY: **absence records are handled**
 * UPCOMING: as mentioned previously, **medical-note metadata** will be added for their staff
 
-## Client demands & Deadlines
+## Client demands & deadlines
 |Mail n°|Demand|Who|Dealine|
 |:---:|:---:|:---:|:---:|
 |1|SOC 2 Type II report|Hartwell Insurance|**6 weeks**|
