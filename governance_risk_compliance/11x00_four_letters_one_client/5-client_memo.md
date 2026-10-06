@@ -29,6 +29,6 @@ Based strictly on impending deadlines and financial or regulatory exposure, the 
 ## 4. Immediate Next Actions (Monday Morning)
 To meet these targets, the following concrete actions must be executed immediately on Monday morning:
 
-*   **SOC 2 (Hartwell):** Engage our external auditor to establish a formal compliance roadmap and finalize the system description to present a SOC 2 Type I report as an interim bridge to clear the procurement blocker within 6 weeks.
-*   **HIPAA (Brightpath):** Instruct the legal team to countersign the Business Associate Agreement (BAA) and simultaneously launch our internal technical team on a formal Security Risk Analysis to validate the metadata handling before the 8-week go-live.
-*   **GDPR & PCI DSS (EU/Self-Serve):** Initiate the creation of our formal Record of Processing Activities (ROPA) for the France and Germany pilot customers, and schedule a technical review of the embedded checkout architecture to prepare the PCI DSS SAQ-A documentation.
+*   **Hartwell Insurance Deal / SOC 2:** Engage our external auditor to establish a formal compliance roadmap and finalize the system description to present a SOC 2 Type I report as an interim bridge within 6 weeks.
+*   **Brightpath Contract / HIPAA:** Route the formal Brightpath commercial contract and accompanying Business Associate Agreement (BAA) to our legal team for final review and countersignature execution to secure the account within 8 weeks.
+*   **Q4 EU Launch / GDPR:** Initiate the creation of our formal Record of Processing Activities (ROPA) specifically covering the employee data categories for the France and Germany pilot customers.
