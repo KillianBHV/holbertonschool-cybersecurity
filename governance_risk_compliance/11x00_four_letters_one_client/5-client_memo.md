@@ -8,9 +8,9 @@
 ## 1. Regulatory and Contractual Mapping
 Our upcoming expansion and client commitments trigger four distinct compliance frameworks, driven by three operational events:
 
-*   **Hartwell Insurance ($1.2M ARR Deal):** Triggers **SOC 2** and is entirely **contract-driven**.
-*   **Brightpath Health Network Contract:** Triggers **HIPAA** and is entirely **contract-driven**, with the required Business Associate Agreement (BAA) acting as the contractual mechanism.
-*   **Q4 EU launch with card payments:** Triggers **PCI DSS** and is driven by **market / industry contract pressure**.
+*   **Hartwell Insurance ($1.2M ARR Deal):** Triggers SOC 2 and is entirely contract-driven.
+*   **Brightpath Health Network Contract:** Triggers HIPAA and is entirely contract-driven, with the required BAA acting as the contractual mechanism.
+*   **Q4 EU launch with card payments:** Triggers GDPR (law-driven) and PCI DSS (market/industry contract pressure).
 
 ## 2. CPO Assumption Correction
 The CPO's assumption that using an external payment provider completely exempts Nordwell from PCI DSS scope is incorrect. While utilizing an embedded checkout limits our technical footprint, Nordwell remains legally responsible for the security of the integration and must maintain baseline compliance, specifically by completing a Self-Assessment Questionnaire (SAQ-A) and an Attestation of Compliance (AOC).
