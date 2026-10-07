@@ -10,3 +10,5 @@
 | R6 | 3 | 3 | 9 | SaaS vendor outages are possible every couple of years, causing multi-team commercial disruption between 50k and 250k euros. |
 | R7 | 5 | 1 | 5 | DDoS attacks on unprotected on-premise websites are frequent, but a marketing-only site outage has under 10k euros operational effect. |
 | R8 | 4 | 4 | 16 | Unmanaged retention of decades of sensitive health data faces likely compliance failure and major regulatory notification or crisis. |
+
+* TOP3: R2, R8, R5
