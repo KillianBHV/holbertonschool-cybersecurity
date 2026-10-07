@@ -2,7 +2,7 @@
 
 | ID | Likelihood (1-5) | Impact (1-5) | Score (L x I) | One-line justification |
 |:---|:---:|:---:|:---:|:---|
-| R1 | 5 | 1 | 5 | A near-miss scenario with basic email filtering, resulting in under 10k euros loss and no operational effect. |
+| R1 | 4 | 1 | 4 | Likelihood 4 because a recent phishing attempt occurred; Impact 1 because the near-miss resulted in under 10k euros financial loss and no operational effect |
 | R2 | 4 | 4 | 16 | Aging servers face likely annual attacks, and a multi-day outage causes company-wide disruption up to 1M euros. |
 | R3 | 4 | 2 | 8 | Laptops on the field are likely to be lost or stolen annually, causing single-team disruption and low hardware loss. |
 | R4 | 3 | 4 | 12 | Departing employees copy unmonitored CRM lists, causing company-wide commercial loss between 250k and 1M euros. |
