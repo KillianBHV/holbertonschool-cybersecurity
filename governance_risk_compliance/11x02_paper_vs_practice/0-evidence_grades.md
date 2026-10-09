@@ -11,4 +11,4 @@
 * E09 — category: GV.RM · status: ABSENT  
 * E10 — category: PR.AT · status: ABSENT  
 * E11 — category: PR.DS · status: PARTIAL  
-* E12 — category: GV.OC · status: ABSENT
+* E12 — category: GV.RR · status: ABSENT
