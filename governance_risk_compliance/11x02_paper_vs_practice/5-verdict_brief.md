@@ -6,10 +6,10 @@ Tessara’s current security posture is fundamentally informal [E01, E04, E07, E
 ## Top Security Gaps and Business Consequences
 1. **Governance & Risk Strategy (GV.RM / GV.RR):** The deferral of risk oversight [E09] and the complete absence of a Chief Information Security Officer (CISO) or defined security roles [E12] prevent proactive security planning.  
    **Business Consequence:** This governance failure directly led to a procurement rejection by a major prospect, costing Tessara a €900,000 contract due to unverified security practices.
-2. **Identity & Access Lifecycles (PR.AA / PR.IR):** Administrative interfaces lack uniform access control, exemplified by external contractors using unmanaged, shared SSH keys [E02]. Furthermore, there is no formal offboarding process, allowing departed engineers to retain access to internal environments for 11 days after termination [E04].  
-   **Business Consequence:** This creates a severe window of opportunity for data exfiltration, intellectual property theft, and unauthorized environment modification.
+2. **Identity & Access Lifecycles (PR.AA):** Administrative interfaces lack uniform access control, exemplified by external contractors using unmanaged, shared SSH keys [E02], and the lack of a formal offboarding process leaving access active for 11 days post-termination [E04].  
+   **Business Consequence:** Delayed access revocation poses a direct risk of intellectual property theft and unauthorized system modifications, threatening catastrophic operational downtime.
 3. **Data Security Countermeasures (PR.DS):** While technical backups are correctly executed and tested [E05], cloud configurations are unmonitored, which previously resulted in two object storage buckets being left exposed to the public internet [E11].  
-   **Business Consequence:** This exposes sensitive client data and proprietary source code, threatening immediate regulatory penalties, GDPR fines, and catastrophic loss of market trust.
+   **Business Consequence:** Publicly exposed data buckets expose the firm to mandatory regulatory penalties, severe GDPR fines, and a direct loss of enterprise customer trust.
 
 ## The Twelve-Month Path to Certification
 Tessara will utilize the NIST CSF 2.0 framework as its operational guide to build a robust Information Security Management System (ISMS) capable of achieving ISO/IEC 27001:2022 certification within twelve months.
@@ -20,7 +20,7 @@ Tessara will utilize the NIST CSF 2.0 framework as its operational guide to buil
 
 ## Immediate First 90 Days Actions
 1. **Action 1 (Fixes GV.RM / GV.RR):** Formally establish the internal audit program framework, appoint a dedicated risk owner, and lock in an immutable quarterly schedule for Board risk reviews.
-2. **Action 2 (Fixes PR.IR):** Implement a strict, automated HR-to-IT offboarding ticket workflow ensuring all logical accesses are revoked within 24 hours of an employee's departure.
+2. **Action 2 (Fixes PR.AA):** Implement a strict, automated HR-to-IT offboarding ticket workflow ensuring all logical accesses are revoked within 24 hours of an employee's departure.
 3. **Action 3 (Fixes PR.AA):** Revoke all shared SSH keys used by external contractors, migrate their authentication to the central Identity Provider (IdP), and mandate Multi-Factor Authentication (MFA).
 
 ## Resource and Cost Justification
