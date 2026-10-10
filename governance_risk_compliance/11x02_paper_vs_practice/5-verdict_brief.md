@@ -1,7 +1,7 @@
 # Verdict Brief
 
 ## Current Security Posture
-Tessara’s security posture is fundamentally informal [E01, E04, E07, E12], showing systemic governance failures [E09, E12] and operational blind spots [E03, E06]. The company operates at NIST CSF 2.0 Tier 1 (Partial) because core risk-management is neglected [E09, E12]. Lack of governance forces operations to rely on unmonitored systems and shared keys [E02, E03, E06]. Most critically, the Board deferred risk discussions for three consecutive quarters, leaving the firm without a risk strategy or registry [E09]. Consequently, critical phishing incidents are handled via improvisation without formal ticketing or post-incident review [E07].
+Tessara’s security posture is fundamentally informal [E01, E04, E07, E12], showing systemic governance failures [E09, E12] and operational blind spots [E03, E06]. The company operates at NIST CSF 2.0 Tier 1 (Partial) [E01, E09] because core risk-management is neglected [E09, E12]. Lack of governance forces operations to rely on unmonitored systems and shared keys [E02, E03, E06]. Most critically, the Board deferred risk discussions for three consecutive quarters, leaving the firm without a risk strategy or registry [E09]. Consequently, critical phishing incidents are handled via improvisation without formal ticketing or post-incident review [E07].
 
 ## Top Security Gaps and Business Consequences
 1. **Governance & Risk Strategy (GV.RM / GV.RR):** Deferral of risk oversight [E09] and total absence of a CISO or defined security roles [E12] prevent proactive planning.  
@@ -24,4 +24,4 @@ Tessara will use NIST CSF 2.0 to build an ISMS targeted for ISO/IEC 27001:2022 c
 3. **Action 3 (Fixes PR.AA):** Revoke shared contractor SSH keys, migrate accounts to the central IdP, and mandate MFA.
 
 ## Resource and Cost Justification
-Funding external certification body fees, internal staff effort, and a cloud security posture management tool is critical. The evidence screams for immediate action: paper compliance has backfired [E01, E02, E11], and the CTO spends zero formal time on security oversight [E12]. Spending €100,000 on this certification path is a direct business enabler that unlocks the blocked €900,000 enterprise pipeline and protects logistics revenue from operational disruptions.
+Funding external certification body fees, internal staff effort, and a cloud security posture management tool is critical. The evidence screams for immediate action [E01, E02, E04, E07, E09, E11, E12] because paper compliance has backfired [E01, E02, E11] and the CTO spends zero formal time on security oversight [E12]. Spending €100,000 on this certification path is a direct business enabler that unlocks the currently blocked €900,000 enterprise pipeline [E09] and protects logistics revenue from operational disruptions.
