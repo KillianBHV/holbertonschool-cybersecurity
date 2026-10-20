@@ -6,7 +6,7 @@ The first exploitation path leverages a dangerous combination of a **privileged 
 * An **automated cron job** running with `root` authority that handles unanchored wildcard expansions.
 * A **directory writable** by a lower-privileged service account (`svc-report`).
 
-Neither primitive is sufficient to compromise the system on its own. The automated cron job alone cannot be exploited because, without attacker-controlled filenames in its target directory, the `tar` utility simply archives files safely. Conversely, the writable directory alone represents a local data risk but cannot escalate privileges without a highly privileged process consuming its contents via wildcard expansion.
+Neither primitive is sufficient to compromise the system on its own. The root cron job alone cannot be exploited because, without malicious filenames present in the target directory, the `tar` utility receives normal file arguments and cannot be steered into command execution. Conversely, write access alone within the writable directory cannot elevate privileges without a privileged process later consuming the directory contents with unsafe wildcard expansion.
 
 The critical hazard emerges from their **composition**: 
 1. The script changes its working directory to the user-controlled folder `/srv/mdx/reports/outbound`.
@@ -31,7 +31,7 @@ The second exploitation path focuses on bypassing **system isolation** to extrac
 * The presence of a specialized binary (`mdx-fetch`) possessing **advanced filesystem capabilities**.
 * The storage of sensitive command-line parameters inside the system audit trails (`auditd.log`).
 
-Individually, these components do not represent a complete security failure. **Linux capabilities** are designed to enforce the *principle of least privilege* by granting specific permissions—such as `CAP_DAC_READ_SEARCH`—without requiring full `root` privileges. Furthermore, system audit logs are explicitly locked down by standard **Discretionary Access Control (DAC)** permissions so that regular users cannot inspect them. 
+Neither primitive is sufficient to compromise the system on its own. The capability-enhanced binary alone cannot achieve sensitive information disclosure because, without administrative logs containing exposed command parameters or secrets, it only reads standard files without revealing critical system tokens. Conversely, the sensitive audit logs alone do not present an exposure risk to regular accounts because they are strictly protected by standard Discretionary Access Control (DAC) permissions and remain completely inaccessible without an over-privileged reading utility.
 
 However, when these primitives interact, the **security boundary collapses**. An unprivileged user can leverage `mdx-fetch` to read files that bypass standard DAC restrictions completely, transforming a file-reading utility into a mechanism for **deep system reconnaissance**.
 
