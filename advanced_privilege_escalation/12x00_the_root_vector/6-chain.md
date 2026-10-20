@@ -31,7 +31,7 @@ The second exploitation path focuses on bypassing **system isolation** to extrac
 * The presence of a specialized binary (`mdx-fetch`) possessing **advanced filesystem capabilities**.
 * The storage of sensitive command-line parameters inside the system audit trails (`auditd.log`).
 
-Neither primitive is sufficient to produce the specific outcome of discovering the hidden token from audit logs on its own. The capability-enabled reader alone fails because, without sensitive audit content containing exposed command parameters, the utility has no operational trails to parse and cannot independently reveal the hidden token. Conversely, the sensitive audit content alone cannot be read or used because it is strictly protected by standard Discretionary Access Control (DAC) permissions, making the logs completely unreachable to an unprivileged account without the capability override to bypass those restrictions.
+Neither primitive is sufficient to produce the specific outcome on its own. The capability-enabled binary alone cannot disclose secrets because filesystem capabilities only bypass read restrictions and do not create the audit token or the relevant log content by themselves. Conversely, having the logs alone is just passive data and cannot reveal the token without a process or tool that can legitimately access and parse them.
 
 However, when these primitives interact, the **security boundary collapses**. The capability-enabled reader acts as the over-privileged **enabler** that bypasses standard DAC restrictions, targeting the sensitive audit logs as its **data source** to extract hidden operational tokens that neither could expose alone.
 
