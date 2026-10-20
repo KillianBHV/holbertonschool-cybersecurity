@@ -6,7 +6,7 @@ The first exploitation path leverages a dangerous combination of a **privileged 
 * An **automated cron job** running with `root` authority that handles unanchored wildcard expansions.
 * A **directory writable** by a lower-privileged service account (`svc-report`).
 
-Neither primitive is sufficient to compromise the system on its own. A world-writable directory represents a **local data risk** but does not inherently grant code execution capabilities outside its own context. Similarly, an automated administrative script archiving files with `tar` is safe if it operates inside restricted, `root`-owned directories or if it explicitly avoids **wildcard globbing**. 
+Neither primitive is sufficient to compromise the system on its own. The automated cron job alone cannot be exploited because, without attacker-controlled filenames in its target directory, the `tar` utility simply archives files safely. Conversely, the writable directory alone represents a local data risk but cannot escalate privileges without a highly privileged process consuming its contents via wildcard expansion.
 
 The critical hazard emerges from their **composition**: 
 1. The script changes its working directory to the user-controlled folder `/srv/mdx/reports/outbound`.
