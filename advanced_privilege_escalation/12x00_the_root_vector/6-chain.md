@@ -12,7 +12,7 @@ The critical hazard emerges from their **composition**:
 1. The script changes its working directory to the user-controlled folder `/srv/mdx/reports/outbound`.
 2. It executes `tar czf [archive] *`. 
 
-Because the shell expands the wildcard `*` before passing the resulting list to the `tar` binary, an unprivileged user can manipulate the **command-line arguments** passed to the `root`-executed process.
+Because the shell expands the wildcard `*` via **shell globbing** before passing the resulting list to the `tar` binary, this expansion mechanism serves as the direct bridge that translates local file names into arbitrary command-line options passed to the `root`-executed process.
 
 By generating files named `--checkpoint=1` and `--checkpoint-action=exec=sh payload.sh` within that directory, the low-privileged user forces the `root` shell to translate the wildcard into discrete command arguments. When the cron job executes every three minutes, `tar` parses these injected filenames as **operational switches** rather than literal files to archive. This instructs the utility to execute the accompanying `payload.sh` script with `root` privileges at the first checkpoint interval, allowing the low-privileged account to copy `/root/proof/root.token` directly into a readable location.
 
@@ -33,7 +33,7 @@ The second exploitation path focuses on bypassing **system isolation** to extrac
 
 Neither primitive is sufficient to produce the specific outcome of discovering the hidden token from audit logs on its own. The capability-enabled reader alone fails because, without sensitive audit content containing exposed command parameters, the utility has no operational trails to parse and cannot independently reveal the hidden token. Conversely, the sensitive audit content alone cannot be read or used because it is strictly protected by standard Discretionary Access Control (DAC) permissions, making the logs completely unreachable to an unprivileged account without the capability override to bypass those restrictions.
 
-However, when these primitives interact, the **security boundary collapses**. An unprivileged user can leverage `mdx-fetch` to read files that bypass standard DAC restrictions completely, transforming a file-reading utility into a mechanism for **deep system reconnaissance**.
+However, when these primitives interact, the **security boundary collapses**. The capability-enabled reader acts as the over-privileged **enabler** that bypasses standard DAC restrictions, targeting the sensitive audit logs as its **data source** to extract hidden operational tokens that neither could expose alone.
 
 By utilizing this capability-enhanced tool, the attacker:
 1. Reads `/etc/audit/auditd.conf` to map out the logging infrastructure.
@@ -46,7 +46,7 @@ Regular users are barred from viewing these logs to prevent them from discoverin
 The exploitation of this capability chain leaves explicit markers in the system's operational logs. The **process tracking subsystems** record an unprivileged user session executing a binary that asserts elevated file-system read capabilities to access protected log directories and administrative configuration maps.
 
 A behavior-based detection rule designed to catch this technique must key on the **mechanism of capability abuse** rather than specific binary names like `mdx-fetch`. The rule should monitor for:
-* Any **process lifecycle events** where a non-root user account launches an application that inherits or invokes `CAP_DAC_READ_SEARCH` or `SUID` rights.
-* Attempts to open files inside strictly protected system paths, such as `/var/log/audit/` or `/etc/audit/`.
+* Any **process lifecycle events** (`type=EXECVE` or `type=SYSCALL`) where a non-root user account launches an application that inherits or invokes `CAP_DAC_READ_SEARCH` or `SUID` rights.
+* System file-open events or directory traversals targeting strictly protected paths, such as `/var/log/audit/` or `/etc/audit/`.
 
 By alerting on low-privilege accounts using **capability overrides** to access administrative log structures, security teams can detect credential or information exposure vectors before they are leveraged for broader lateral movement.
