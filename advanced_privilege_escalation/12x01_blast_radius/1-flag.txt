@@ -1,1 +1,19 @@
 ARD{9a17addd297b99878d19159d19325846}
+
+## Merge Request (MR) Path: From created 'external' branch into 'main' branch
+* The workflow definition file (.gitea/workflows/build.yml) was protected on the main branch and could not be edited directly. However, the pipeline configuration on line 22 blindly executes an external script located in the repository source code: "cd src && sh ./build.sh".
+
+* The attack was carried out by poisoning this 'src/build.sh' script inside the unprotected 'external' branch, appending the following command execution payload:
+```bash
+id && whoami
+ls -l /root && ls -l /opt
+cat /opt/pipeline_flag
+```
+
+* Candidate Point 1: Script execution step (l.22)
+  - Code: ```cd src && ./build.sh```
+  - Source used: code review of 'build.yml' definition
+* Candidate Point 2: Argument injection via environment variables (l.17-18)
+  - Code: ```git clone ... ${GITHUB_REF_NAME}```
+  - Source used: code review of 'build.yml' definition
+
