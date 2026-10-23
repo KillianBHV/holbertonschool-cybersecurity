@@ -1,0 +1,15 @@
+ARD{9dcbb6d963d12fee383d4affb5fe5af4}
+
+* Vulnerable Endpoint: POST /promote
+* Source Vulnerability: Broken Authentication via unvalidated header comparison, combined with an arbitrary command injection vulnerability in the input processing function.
+* Deployment Flaw: The mandatory environment variable holding the reference authentication token was left unset/null on the production server host.
+
+
+* The exploitation of the release infrastructure relies on a two-stage flaw:
+1. Authentication Bypass (The "null == null" logic):
+   The 'Handler' class implements a custom validation function '_authorised(self.headers)'. It extracts a specific token header and compares it directly against a server-side environment variable. 
+   Because the deployment team failed to define this environment variable, its server-side value is 'None/null'. By forging a curl request that completely omits the authentication headers, the client-side value also evaluates to 'None/null'. The comparison check passes successfully due to this configuration oversight, granting unauthenticated access to the endpoint.
+2. Arbitrary Command Execution (RCE):
+   Once authenticated, the endpoint processes a JSON payload and extracts the value of the "artefact" key. This string is passed directly into an internal system command execution function 'rc, out = _sign(artefact)'. 
+   Since the input is not sanitized or restricted to safe characters, shell metacharacters (such as semicolons ';') can be injected into the "artefact" parameter. This breaks out of the intended binary execution context, allowing arbitrary Linux commands (e.g., 'id', 'cat') to be run with the privileges of the server process.
+
