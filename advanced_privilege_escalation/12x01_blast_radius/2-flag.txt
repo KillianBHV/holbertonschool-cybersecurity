@@ -1,4 +1,3 @@
-====================================================================
 ARD{63bbac964dd69e6cb5425d498d25a180}
 
 * Why the Docker Socket escape fails (The readable 403): The container has access to a readable Docker socket, which normally allows an attacker to interact with the host's Docker daemon to spawn privileged containers. However, an authorization plugin or API proxy is active. When attempting to abuse the socket to escape, the daemon blocks the dangerous requests and returns an HTTP 403 Forbidden error.
