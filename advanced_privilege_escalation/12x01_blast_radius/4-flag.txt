@@ -1,0 +1,9 @@
+FLAG: ARD{9dcbb6d963d12fee383d4affb5fe5af4}
+
+* Proof of real signature: 
+  The application backend processed the malicious 'artefact' string input and successfully passed it to the internal signing tool ('ardent-sign'). The server returned a valid cryptographic signature block encoded in Base64:
+  "Zb89IzLSKMuxfcv2pgZ2+XDyJL7hWvYrNz3HmcwS9aOL930fuZWqUzAskPs3Pu+D/25p4LZP9vLxStF0QTAA==" using the local release key 'release_ed25519.key'.
+
+* Confirmation that nothing was published:
+  The execution logs explicitly output the warning message confirming the network isolation: "NOTE artefact NOT published — no release channel is reachable from this host."
+
