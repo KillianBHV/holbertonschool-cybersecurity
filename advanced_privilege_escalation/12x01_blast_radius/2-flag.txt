@@ -1,0 +1,17 @@
+====================================================================
+ARD{63bbac964dd69e6cb5425d498d25a180}
+
+* Why the Docker Socket escape fails (The readable 403): The container has access to a readable Docker socket, which normally allows an attacker to interact with the host's Docker daemon to spawn privileged containers. However, an authorization plugin or API proxy is active. When attempting to abuse the socket to escape, the daemon blocks the dangerous requests and returns an HTTP 403 Forbidden error.
+
+* Which start-up property allowed the escape: The container was deployed with a shared host PID namespace (--pid=host). This architectural flaw breaks the process isolation between the container and the host machine.
+
+* Escape mechanism details: Because the PID namespace is shared, the container can view and interact with host processes. By navigating to '/proc/1/root/', the container can pivot through the root directory of the host's init process (PID 1). This effectively grants full read/write access into the host's root mount namespace, bypassing container filesystem boundaries entirely.
+
+
+* Recovered Artifact Host Credentials
+  - Artifact Host: ardent-art-01
+  - Promote URL: http://ardent-art-01:8443/promote
+  - Artifact SSH: ardent-art-01:22
+  - Username: promote
+  - Password/Credential: <hex_value>
+
