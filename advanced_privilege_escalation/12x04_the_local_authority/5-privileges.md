@@ -24,20 +24,20 @@ The `SeDebugPrivilege` privilege allowed violating the memory space of other pro
 
 ### A) Impersonation Exploitation (PrintSpoofer)
 *   **Action Performed:** Privilege escalation to `NT AUTHORITY\SYSTEM` by abusing `SeImpersonatePrivilege` through the Print Spooler named pipe using `PrintSpoofer`.
-*   **Expected Security Log Evidence:** The privilege abuse itself is not recorded because `Privilege Use` auditing is disabled. However, this action results in a successful `SYSTEM` service logon, recorded as Event ID **4624 (Logon Type 5 - Service)** in the Windows Security log.
-*   **Defensive Alerting:** Alert on unexpected Logon Type 5 service sessions originating from non-standard user accounts like `svc-web`.
+*   **Expected Security Log Evidence:** Host-observed `auditpol` outputs confirm `Privilege Use` is set to `No Auditing`, meaning no event records the physical invocation. However, the post-escalation network service mapping records a successful `SYSTEM` context entry, visible as Event ID **4624 (Logon Type 5 - Service)** in the local Security log.
+*   **Defensive Alerting:** A Logon Type 5 event is routinely logged for benign background services and will not alert on its own. Defenders must deploy custom rules to trigger alerts when an unexpected Logon Type 5 session originates from non-standard accounts like `svc-web`.
 
 ### B) Escalation via SeDebugPrivilege (Memory Dumping)
 *   **Action Performed:** Process memory access and extraction of SAM/SYSTEM registry hives from memory by abusing `SeDebugPrivilege`.
-*   **Expected Security Log Evidence:** This decisive action is completely unrecorded in the Windows Security log because both `Privilege Use` and `Object Access` categories are explicitly configured as `No Auditing` on this host.
-*   **Defensive Alerting:** Deploy EDR rules to trigger high-severity alerts when non-system service processes request `PROCESS_VM_READ` access rights to `lsass.exe`.
+*   **Expected Security Log Evidence:** Host checks via `auditpol /get /category:*` confirm `Privilege Use` and `Object Access` are set to `No Auditing`. Consequently, this action fails to log any events in the Windows Security log. The dump executes without leaving local cryptographic or audit tracking records.
+*   **Defensive Alerting:** Because the Security log remains blind, traditional logging cannot trigger alerts. Vigilance relies entirely on EDR rules configured to alert when low-privilege application processes request `PROCESS_VM_READ` handles targeting `lsass.exe`.
 
 ### C) Lateral Movement via wmiexec vs. smbexec
 *   **Action Performed:** Remote command execution attempts using Impacket tools to establish operational shells.
-*   **Expected Security Log Evidence:** Both tools are entirely unrecorded in the Windows Security log because `Detailed Tracking -> Process Creation` is set to `No Auditing`, preventing Event ID 4688 from generating. While `smbexec` populates Event ID 7045, this occurs exclusively within the System log, leaving the Security log completely empty.
-*   **Defensive Alerting:** Implement centralized ingestion rules to trigger alerts when ephemeral system services or anomalous process lineages execute raw command lines containing binary redirection strings.
+*   **Expected Security Log Evidence:** For `wmiexec`, execution is hidden; running `Get-WinEvent` for Event ID 4688 verified that `Detailed Tracking -> Process Creation` is set to `No Auditing`. Conversely, `smbexec` leaves a clear footprint. Active inspection confirmed `smbexec` generated Event ID **7045 (A service was installed in the system)** within the System log, capturing the randomized service name `SCcGQDXs` and the command string executing `%COMSPEC% /Q /c`.
+*   **Defensive Alerting:** While `wmiexec` registers no process logs, `smbexec` provides an indicator. Defenders should configure SIEM systems to ingest System logs and alert when Event ID 7045 features a `Service File Name` pattern containing `%COMSPEC% /Q /c` with redirection operators pointing to administrative shares.
 
 ### D) Escalation Attempt via Remote Administrator (RID 500 Account)
 *   **Action Performed:** Attempted administrative command execution and file system access using the remote built-in `Administrator` token.
-*   **Expected Security Log Evidence:** The initial remote network authentication attempt is successfully captured as Event ID **4624 (Logon Type 3 - Network)** in the Windows Security log. The subsequent failed file access is not recorded because `Object Access -> File System` is set to `No Auditing`.
-*   **Defensive Alerting:** Establish behavior-based detection metrics flagging recurrent network authentication sessions from local administrators that fail to touch targeted high-value objects.
+*   **Expected Security Log Evidence:** The initial remote network authentication maps to the Security log as Event ID **4624 (Logon Type 3 - Network)**. However, the subsequent file read attempt is blocked silently without generating access failure events because `Object Access -> File System` is verified as `No Auditing`.
+*   **Defensive Alerting:** The UAC restriction occurs silently at the kernel level via `LocalAccountTokenFilterPolicy`. To achieve visibility, defenders must implement behavior-based alerting targeting administrative accounts that maintain active Logon Type 3 sessions but generate subsequent operational anomalies on targeted high-value directories.
