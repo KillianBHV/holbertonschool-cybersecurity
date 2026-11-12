@@ -14,7 +14,7 @@ Red-team testing of Larkspur Assist identified four architectural vulnerabilitie
 
 **Retest Contradiction:**
 
-**Our retest contradicted the input filter's effectiveness:** while `output_filter` suppressed the literal `FLAG{...}` string in that run, `input_filter` failed to block our semantic extraction template (`"blocked": false`), proving that the residual weakness—unblocked benign framing—persists under the hardened configuration.
+**Our retest contradicted the input filter's effectiveness:** while `output_filter` suppressed the literal `FLAG{...}` string in that run, `input_filter` failed to block our semantic extraction template (`"blocked": false`), proving that the residual weakness, unblocked benign framing, persists under the hardened configuration.
 
 **What We Did:**
 
@@ -92,7 +92,7 @@ Because the Task 2 proxy places untrusted ticket text into the same context wind
 
 **Proposed Mitigation & Residual Weakness:**
 
-We tested the proxy's `input_filter` (`"mode": "blocklist"`) and `output_filter` (`"redact_secrets": true`) against this injection class. Its residual weakness is that policy overrides use ordinary business language rather than jailbreak keywords, and fabricated policy responses contain no secret tokens to redact—leaving ground-truth integrity completely unprotected.
+We tested the proxy's `input_filter` (`"mode": "blocklist"`) and `output_filter` (`"redact_secrets": true`) against this injection class. Its residual weakness is that policy overrides use ordinary business language rather than jailbreak keywords, and fabricated policy responses contain no secret tokens to redact, leaving ground-truth integrity completely unprotected.
 
 **What the Retest Actually Showed:**
 
@@ -100,4 +100,4 @@ When we retested the `6-misinformation.txt` payload with both proxy filters acti
 
 ## Conclusion
 
-These four findings are not isolated prompt-engineering bugs that can be solved with better blocklists, regexes, or system-prompt wording; they are architectural failures caused by placing untrusted user input, multi-tenant records, secrets, and business rules inside a single shared LLM context window. **Enabling perimeter filters only raises the bar slightly for naive attacks and does not close the door—true remediation requires moving secrets out of the prompt, enforcing tenant isolation at backend retrieval time, and validating business policies deterministically outside the model.**
+These four findings are not isolated prompt-engineering bugs that can be solved with better blocklists, regexes, or system-prompt wording; they are architectural failures caused by placing untrusted user input, multi-tenant records, secrets, and business rules inside a single shared LLM context window. **Enabling perimeter filters only raises the bar slightly for naive attacks and does not close the door, true remediation requires moving secrets out of the prompt, enforcing tenant isolation at backend retrieval time, and validating business policies deterministically outside the model.**
